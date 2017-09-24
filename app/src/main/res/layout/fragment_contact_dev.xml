@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.sunny.talker.push.fragments.main.ContactFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/len_16"
+        android:paddingRight="@dimen/len_16">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/textDark"
+            android:textSize="@dimen/fontNameSize"
+            tools:text="@string/label_new_friends" />
+
+        <ImageView
+            android:layout_width="@dimen/len_32"
+            android:layout_height="@dimen/len_32"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/ic_touch_bg"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/len_6"
+            android:src="@drawable/ic_direction_right"
+            android:tint="@color/colorPrimary" />
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_main_recycler"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:outlineProvider="bounds"
+        android:paddingBottom="@dimen/len_12"
+        android:paddingTop="@dimen/len_12"
+        android:visibility="gone"
+        tools:targetApi="lollipop" />
+
+    <net.sunny.talker.common.widget.EmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>

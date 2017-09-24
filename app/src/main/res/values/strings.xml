@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Talker</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_launch">LaunchActivity</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_personal">PersonalActivity</string>
+    <string name="title_activity_group_create">GroupCreateActivity</string>
+    <string name="title_activity_group_member">GroupMemberActivity</string>
+    <string name="title_activity_system_message">系统消息</string>
+    <string name="show_track_friends">好友</string>
+    <string name="show_track_school">校内</string>
+    <string name="title_activity_track_write">说点什么</string>
+    <string name="font_face">O(∩_∩)O~</string>
+    <string name="action_just_friends">仅好友可见</string>
+    <string name="title_ok_gallery">确认</string>
+</resources>

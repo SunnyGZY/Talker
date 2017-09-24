@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/back_action"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/len_16"
+        android:src="@drawable/ic_back"
+        android:tint="@color/white" />
+
+    <View
+        android:id="@+id/divide_view"
+        android:layout_width="1dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/colorPrimaryDarkDark"
+        android:visibility="gone" />
+
+    <!--默认为显示,用户点击搜索之后不显示-->
+    <RelativeLayout
+        android:id="@+id/normal_rly"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <net.sunny.talker.view.MagnifierImg
+            android:id="@+id/show_search"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <!--默认为不显示,用户点击搜索之后显示-->
+    <RelativeLayout
+        android:id="@+id/search_rly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <net.sunny.talker.view.MagnifierImg
+            android:id="@+id/search_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true" />
+
+        <EditText
+            android:id="@+id/search_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/search_img"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="4dp" />
+
+        <ImageView
+            android:id="@+id/cancel_search"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_cancel_cross" />
+
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/search_content"
+            android:layout_marginRight="4dp"
+            android:background="@color/colorPrimaryDark" />
+    </RelativeLayout>
+</LinearLayout>

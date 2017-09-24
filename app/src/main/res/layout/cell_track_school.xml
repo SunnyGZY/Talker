@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/cell_group_bg"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/len_16">
+
+    <net.sunny.talker.common.widget.PortraitView
+        android:id="@+id/im_portrait"
+        android:layout_width="@dimen/len_32"
+        android:layout_height="@dimen/len_32"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginLeft="@dimen/len_16"
+        android:src="@drawable/default_portrait" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/len_12"
+        android:layout_toRightOf="@id/im_portrait"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_14"
+        tools:text="Sunny" />
+
+    <TextView
+        android:id="@+id/tv_inf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginLeft="@dimen/len_12"
+        android:layout_marginTop="@dimen/len_2"
+        android:layout_toRightOf="@id/im_portrait"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/len_12"
+        tools:text="今天 12：44    来自 微博 wei.bo.com" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/im_portrait"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16"
+        android:layout_marginTop="@dimen/len_8"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_14"
+        tools:text="全面建成小康社会之后路该怎么走？如何跳出“历史周期率”，实现长期执政？如何实现党和国家长治久安？奉法者强则国强，奉法者弱则国弱。以习近平同志为核心的党中央为这三道重大考题给出了坚定而明晰的答案：全面推进依法治国！" />
+
+    <LinearLayout
+        android:id="@+id/ll_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_content"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_photo"
+        android:layout_marginBottom="@dimen/len_2"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginTop="@dimen/len_6"
+        android:text="来自 南京信息职业技术学院"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/font_10" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_below="@id/from"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16"
+        android:layout_marginTop="@dimen/len_2"
+        android:background="@color/windowsBackgroundDark" />
+
+    <LinearLayout
+        android:id="@+id/extra_inf"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_20"
+        android:layout_below="@id/line"
+        android:layout_marginBottom="@dimen/len_4"
+        android:layout_marginTop="@dimen/len_4"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_great"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/len_2"
+                android:src="@drawable/ic_great"
+                android:tint="@color/windowsBackgroundDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/iv_great"
+                android:text="0"
+                android:textColor="@color/windowsBackgroundDark" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_hate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/len_2"
+                android:src="@drawable/ic_hate"
+                android:tint="@color/windowsBackgroundDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/iv_hate"
+                android:text="0"
+                android:textColor="@color/windowsBackgroundDark" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/len_2"
+                android:src="@drawable/ic_collection"
+                android:tint="@color/windowsBackgroundDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/iv_collection"
+                android:text="0"
+                android:textColor="@color/windowsBackgroundDark" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/len_16"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/len_2"
+                android:src="@drawable/ic_transmit"
+                android:tint="@color/windowsBackgroundDark" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_6"
+        android:layout_below="@id/extra_inf"
+        android:background="@color/defaultWhite" />
+</RelativeLayout>
