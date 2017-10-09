@@ -14,7 +14,7 @@ import java.util.Locale;
 public class DateTimeUtil {
     private static final SimpleDateFormat SIMPLE_FORMAT = new SimpleDateFormat("yy-MM-dd", Locale.ENGLISH);
 
-    private static final SimpleDateFormat INTACT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    private static final SimpleDateFormat INTACT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
 
     private static final SimpleDateFormat WEEK_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss E", Locale.CHINA);
 

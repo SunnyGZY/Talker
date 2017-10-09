@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static android.R.attr.value;
 
 /**
  * 录制语音的工具类，该工具类可以实现录制语音的工作

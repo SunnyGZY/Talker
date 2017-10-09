@@ -39,7 +39,8 @@ public class SchoolTrackPresenter extends BaseSourcePresenter<Track, Track, Trac
 
     @Override
     public void getNewTrackCount(Context context) {
-        final String strTime = SpUtils.getString(context, "lastTime", "1995-01-11 00:00:00.807000");
+        final String strTime = SpUtils.getString(context, "lastTime", "1995-01-11 00:00:00.000");
+
         if (strTime != null) {
             Factory.runOnAsync(new Runnable() {
                 @Override
@@ -60,7 +61,8 @@ public class SchoolTrackPresenter extends BaseSourcePresenter<Track, Track, Trac
 
         int pageNo = 0;
 
-        String strTime = SpUtils.getString(context, "lastTime", "");
+        String strTime = SpUtils.getString(context, "lastTime", "1995-01-11 00:00:00.000000");
+
         dataCall = TrackHelper.getSchoolTrack(pageNo, pageSize, strTime);
     }
 

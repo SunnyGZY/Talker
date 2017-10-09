@@ -246,6 +246,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     public void onDestroy() {
         if (mAdapter.getItemCount() > 0) {
             Date date = mAdapter.getItems().get(0).getCreateAt();
+
             String str = DateTimeUtil.getIntactData(date);
             SpUtils.putString(getContext(), "lastTime", str);
         }

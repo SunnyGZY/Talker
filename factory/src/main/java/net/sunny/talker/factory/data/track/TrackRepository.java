@@ -8,7 +8,6 @@ import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransacti
 import net.sunny.talker.factory.data.BaseDbRepository;
 import net.sunny.talker.factory.model.db.track.Track;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

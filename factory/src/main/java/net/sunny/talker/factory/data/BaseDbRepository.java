@@ -1,7 +1,6 @@
 package net.sunny.talker.factory.data;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
@@ -106,6 +105,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
 
     /**
      * 插入或者更新
+     *
      * @param data
      */
     private void insertOrUpdate(Data data) {
@@ -119,6 +119,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
 
     /**
      * 更新某个坐标下的数据
+     *
      * @param index
      * @param data
      */

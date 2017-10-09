@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.data.helper;
 
-import android.util.Log;
-
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
@@ -14,6 +12,7 @@ import net.sunny.talker.factory.net.RemoteService;
 import net.sunny.talker.factory.persistence.Account;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,29 +25,6 @@ import retrofit2.Response;
  */
 
 public class TrackHelper {
-
-//    public static void putTrack(TrackCreateModel model, final DataSource.Callback<TrackCard> callback) {
-//
-//        RemoteService service = Network.remote();
-//        Call<RspModel<TrackCard>> call = service.putTrack(model);
-//        call.enqueue(new Callback<RspModel<TrackCard>>() {
-//            @Override
-//            public void onResponse(Call<RspModel<TrackCard>> call, Response<RspModel<TrackCard>> response) {
-//                RspModel<TrackCard> rspModel = response.body();
-//                if (rspModel.success()) {
-//                    TrackCard trackCard = rspModel.getResult();
-//                    callback.onDataLoaded(trackCard);
-//                } else {
-//                    // 错误情况下进行错误分配
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<RspModel<TrackCard>> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public static void putTrack(String context, List<String> photoUrls, boolean justFriend, final DataSource.Callback<TrackCard> callback) {
 
@@ -121,9 +97,8 @@ public class TrackHelper {
                 RspModel<List<TrackCard>> rspModel = response.body();
                 if (rspModel.success()) {
                     List<TrackCard> trackCardList = rspModel.getResult();
-                    for (TrackCard trackCard : trackCardList) {
-                        Log.e("trackCard", trackCard.toString());
-                    }
+
+                    Collections.reverse(trackCardList);
                     Factory.getTrackCenter().dispatch(trackCardList.toArray(new TrackCard[0]));
                 }
             }
