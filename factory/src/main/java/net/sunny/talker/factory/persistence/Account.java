@@ -161,7 +161,7 @@ public class Account {
      * @return 用户Id
      */
     public static String getUserId() {
-        return getUser().getId();
+        return userId;
     }
 
     /**

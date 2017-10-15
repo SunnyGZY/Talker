@@ -21,13 +21,18 @@ import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.factory.data.helper.DbHelper;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
+import net.sunny.talker.factory.persistence.Account;
+import net.sunny.talker.factory.presenter.track.item.TrackItemContract;
+import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 import net.sunny.talker.factory.presenter.track.school.SchoolTrackContract;
 import net.sunny.talker.factory.presenter.track.school.SchoolTrackPresenter;
 import net.sunny.talker.push.R;
+import net.sunny.talker.push.activities.CommentActivity;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.utils.DateTimeUtil;
 import net.sunny.talker.utils.SpUtils;
@@ -42,7 +47,8 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  * 校内动态展示
  */
-public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.Presenter> implements SchoolTrackContract.View {
+public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.Presenter>
+        implements SchoolTrackContract.View {
 
     OnPagerChangeListener onPagerChangeListener;
 
@@ -59,7 +65,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     TextView mNewTrackCount;
 
     @BindView(R.id.iv_load)
-    ImageView loadingView;
+    ImageView mLoading;
 
     private RecyclerAdapter<Track> mAdapter;
 
@@ -120,7 +126,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @Override
     public void onAdapterDataChanged() {
         mEmptyView.triggerOk();
-        loadingView.setVisibility(View.INVISIBLE);
+        mLoading.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -148,7 +154,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     public void refreshTrack() {
         mNewTrackCount.setVisibility(View.GONE);
 
-        loadingView.setVisibility(View.VISIBLE);
+        mLoading.setVisibility(View.VISIBLE);
 
         int minSize = (int) Ui.dipToPx(getResources(), 20);
         int maxSize = (int) Ui.dipToPx(getResources(), 28);
@@ -159,7 +165,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         int[] color = new int[]{UiCompat.getColor(getResources(), R.color.white_alpha_208)};
         drawable.setForegroundColor(color);
-        loadingView.setImageDrawable(drawable);
+        mLoading.setImageDrawable(drawable);
         drawable.start();
 
         mPresenter.loadSchoolTrack(getContext());
@@ -167,7 +173,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
     int count;
 
-    class viewHolder extends RecyclerAdapter.ViewHolder<Track> {
+    class viewHolder extends RecyclerAdapter.ViewHolder<Track> implements TrackItemContract.View<TrackItemPresenter> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;
@@ -181,9 +187,24 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         RecyclerView mRecyclerPhoto;
         @BindView(R.id.view)
         View view;
+        @BindView(R.id.iv_great)
+        ImageView great;
+        @BindView(R.id.iv_hate)
+        ImageView hate;
+        @BindView(R.id.iv_comment)
+        ImageView comment;
+        @BindView(R.id.tv_great)
+        TextView greatCount;
+        @BindView(R.id.tv_hate)
+        TextView hateCount;
+        @BindView(R.id.tv_comment)
+        TextView commentCount;
+
+        TrackItemPresenter presenter;
 
         viewHolder(View itemView) {
             super(itemView);
+            initPresenter();
         }
 
         @Override
@@ -194,11 +215,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 view.setVisibility(View.INVISIBLE);
             }
 
-            User user = UserHelper.findFromLocal(track.getOwnerId());
-
-            List<Photo> photoList = track.getPhotos();
             track.load();
-
+            User user = UserHelper.findFromLocal(track.getOwnerId());
             if (user != null) {
                 mName.setText(user.getName());
                 Glide.with(getContext()).load(user.getPortrait()).into(mPortraitView);
@@ -206,39 +224,82 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             mInf.setText(track.getCreateAt().toString());
             mContent.setText(track.getContent());
-
-            RecyclerAdapter<Photo> adapter = new RecyclerAdapter<Photo>() {
-
-                @Override
-                protected int getItemView(int position, Photo photo) {
-                    return R.layout.cell_track_photo;
-                }
-
-                @Override
-                protected ViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
-                    return new PhotoHolder(root);
-                }
-            };
+            greatCount.setText(String.valueOf(track.getComplimentCount()));
+            hateCount.setText(String.valueOf(track.getTauntCount()));
+            commentCount.setText(String.valueOf(track.getCommentCount()));
 
             mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
             mRecyclerPhoto.setAdapter(adapter);
-
+            List<Photo> photoList = track.getPhotos();
             adapter.replace(photoList);
+
+            if (track.isCompliment()) {
+                great.setOnClickListener(null);
+                great.setColorFilter(R.color.grey_800);
+            }
+            if (track.isTaunt()) {
+                hate.setOnClickListener(null);
+                hate.setColorFilter(R.color.grey_800);
+            }
         }
 
-        class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {
+        @OnClick(R.id.iv_great)
+        public void greatClick() {
+            great.setColorFilter(R.color.grey_800);
+            int count = Integer.parseInt(greatCount.getText().toString());
+            count++;
+            mData.setComplimentCount(count);
+            mData.setCompliment(true);
+            DbHelper.save(Track.class, mData);
+            greatCount.setText(String.valueOf(count));
+            presenter.compliment(mData.getId(), Account.getUserId());
+            great.setOnClickListener(null);
+        }
 
-            @BindView(R.id.iv_photo)
-            ImageView mPhoto;
+        @OnClick(R.id.iv_hate)
+        public void hateClick() {
+            hate.setColorFilter(R.color.grey_800);
+            int count = Integer.parseInt(hateCount.getText().toString());
+            count++;
+            mData.setTauntCount(count);
+            mData.setTaunt(true);
+            DbHelper.save(Track.class, mData);
+            hateCount.setText(String.valueOf(count));
+            presenter.taunt(mData.getId(), Account.getUserId());
+            hate.setOnClickListener(null);
+        }
 
-            PhotoHolder(View itemView) {
-                super(itemView);
-            }
+        @OnClick(R.id.iv_comment)
+        public void commentClick() {
 
-            @Override
-            protected void onBind(Photo photo) {
-                Glide.with(getContext()).load(photo.getPhotoUrl()).into(mPhoto);
-            }
+            CommentActivity.show(getContext(), mData);
+        }
+
+        @Override
+        public void setPresenter(TrackItemPresenter presenter) {
+            this.presenter = presenter;
+        }
+
+        @Override
+        public TrackItemContract.Presenter initPresenter() {
+            return new TrackItemPresenter(this);
+        }
+
+        @Override
+        public void complimentFail() {
+            great.setColorFilter(R.color.grey_400);
+            int count = Integer.parseInt(greatCount.getText().toString());
+            count--;
+            greatCount.setText(String.valueOf(count));
+        }
+
+        @Override
+        public void tauntFail() {
+            hate.setColorFilter(R.color.grey_400);
+            int count = Integer.parseInt(hateCount.getText().toString());
+            count--;
+            hateCount.setText(String.valueOf(count));
         }
     }
 
@@ -251,5 +312,35 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             SpUtils.putString(getContext(), "lastTime", str);
         }
         super.onDestroy();
+    }
+
+    private RecyclerAdapter<Photo> getPhotoListAdapter() {
+        return new RecyclerAdapter<Photo>() {
+
+            @Override
+            protected int getItemView(int position, Photo photo) {
+                return R.layout.cell_track_photo;
+            }
+
+            @Override
+            protected ViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
+                return new PhotoHolder(root);
+            }
+        };
+    }
+
+    class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {
+
+        @BindView(R.id.iv_photo)
+        ImageView mPhoto;
+
+        PhotoHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(Photo photo) {
+            Glide.with(getContext()).load(photo.getPhotoUrl()).into(mPhoto);
+        }
     }
 }

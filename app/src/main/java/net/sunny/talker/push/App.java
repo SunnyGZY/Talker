@@ -17,7 +17,6 @@ import net.sunny.talker.utils.SoundManager;
 
 public class App extends Application {
 
-
     @Override
     public void onCreate() {
         super.onCreate();

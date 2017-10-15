@@ -1,8 +1,10 @@
 package net.sunny.talker.factory.model.db.track;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -12,7 +14,6 @@ import net.sunny.talker.factory.model.api.track.TrackCreateModel;
 import net.sunny.talker.factory.model.api.track.TrackUpdateModel;
 import net.sunny.talker.factory.model.db.AppDatabase;
 import net.sunny.talker.factory.model.db.BaseDbModel;
-import net.sunny.talker.factory.model.db.User;
 
 import java.util.Date;
 import java.util.List;
@@ -24,10 +25,34 @@ import java.util.Objects;
  */
 
 @Table(database = AppDatabase.class)
-public class Track extends BaseDbModel<Track> {
+public class Track extends BaseDbModel<Track> implements Parcelable {
 
     public static int IN_SCHOOL = 0x01;
     public static int IN_FRIEND = 0x02;
+
+    public Track() {
+
+    }
+
+    public Track(String id) {
+        this.id = id;
+    }
+
+    public Track(String userId, TrackCreateModel model) {
+        this.id = model.getId();
+        this.ownerId = userId;
+        this.content = model.getContent();
+        this.type = model.getType();
+        this.jurisdiction = model.getJurisdiction();
+    }
+
+    public Track(String userId, TrackUpdateModel model) {
+        this.id = model.getId();
+        this.ownerId = userId;
+        this.content = model.getContent();
+        this.type = model.getType();
+        this.jurisdiction = model.getJurisdiction();
+    }
 
     @PrimaryKey
     private String id;
@@ -39,6 +64,19 @@ public class Track extends BaseDbModel<Track> {
     private String content;
 
     List<Photo> photos;
+
+    protected Track(Parcel in) {
+        id = in.readString();
+        ownerId = in.readString();
+        content = in.readString();
+        type = in.readInt();
+        jurisdiction = in.readInt();
+        tauntCount = in.readLong();
+        complimentCount = in.readLong();
+        commentCount = in.readLong();
+        isCompliment = in.readByte() != 0;
+        isTaunt = in.readByte() != 0;
+    }
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "photos")
     public List<Photo> getPhotos() {
@@ -55,6 +93,16 @@ public class Track extends BaseDbModel<Track> {
     private int type;
     @Column
     private int jurisdiction;
+    @Column
+    private long tauntCount;
+    @Column
+    private long complimentCount;
+    @Column
+    private long commentCount;
+    @Column
+    private boolean isCompliment;
+    @Column
+    private boolean isTaunt;
 
     public String getId() {
         return id;
@@ -108,28 +156,44 @@ public class Track extends BaseDbModel<Track> {
         this.photos = photos;
     }
 
-    public Track() {
-
+    public long getTauntCount() {
+        return tauntCount;
     }
 
-    public Track(String id) {
-        this.id = id;
+    public void setTauntCount(long tauntCount) {
+        this.tauntCount = tauntCount;
     }
 
-    public Track(String userId, TrackCreateModel model) {
-        this.id = model.getId();
-        this.ownerId = userId;
-        this.content = model.getContent();
-        this.type = model.getType();
-        this.jurisdiction = model.getJurisdiction();
+    public long getComplimentCount() {
+        return complimentCount;
     }
 
-    public Track(String userId, TrackUpdateModel model) {
-        this.id = model.getId();
-        this.ownerId = userId;
-        this.content = model.getContent();
-        this.type = model.getType();
-        this.jurisdiction = model.getJurisdiction();
+    public void setComplimentCount(long complimentCount) {
+        this.complimentCount = complimentCount;
+    }
+
+    public long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(long commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public boolean isCompliment() {
+        return isCompliment;
+    }
+
+    public void setCompliment(boolean compliment) {
+        isCompliment = compliment;
+    }
+
+    public boolean isTaunt() {
+        return isTaunt;
+    }
+
+    public void setTaunt(boolean taunt) {
+        isTaunt = taunt;
     }
 
     @Override
@@ -140,5 +204,52 @@ public class Track extends BaseDbModel<Track> {
     @Override
     public boolean isUiContentSame(Track old) {
         return old == this || old.id.equals(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(ownerId);
+        dest.writeString(content);
+        dest.writeInt(type);
+        dest.writeInt(jurisdiction);
+        dest.writeLong(tauntCount);
+        dest.writeLong(complimentCount);
+        dest.writeLong(commentCount);
+        dest.writeByte((byte) (isCompliment ? 1 : 0));
+        dest.writeByte((byte) (isTaunt ? 1 : 0));
+    }
+
+    public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "id='" + id + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", content='" + content + '\'' +
+                ", photos=" + photos +
+                ", createAt=" + createAt +
+                ", type=" + type +
+                ", jurisdiction=" + jurisdiction +
+                ", tauntCount=" + tauntCount +
+                ", complimentCount=" + complimentCount +
+                ", commentCount=" + commentCount +
+                ", isCompliment=" + isCompliment +
+                ", isTaunt=" + isTaunt +
+                '}';
     }
 }

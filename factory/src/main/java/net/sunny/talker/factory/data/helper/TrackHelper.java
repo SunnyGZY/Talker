@@ -10,6 +10,7 @@ import net.sunny.talker.factory.model.db.track.Track;
 import net.sunny.talker.factory.net.Network;
 import net.sunny.talker.factory.net.RemoteService;
 import net.sunny.talker.factory.persistence.Account;
+import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,6 +110,44 @@ public class TrackHelper {
             }
         });
 
-        return null;
+        return call;
+    }
+
+    public static void giveCompliment(String trackId, String userId, final TrackItemPresenter.CallBack callBack) {
+        RemoteService service = Network.remote();
+        Call<RspModel<String>> call = service.compliment(trackId, userId);
+        call.enqueue(new Callback<RspModel<String>>() {
+            @Override
+            public void onResponse(Call<RspModel<String>> call, Response<RspModel<String>> response) {
+                if (response.isSuccessful())
+                    callBack.success();
+                else
+                    callBack.fail();
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<String>> call, Throwable t) {
+                callBack.fail();
+            }
+        });
+    }
+
+    public static void giveTaunt(String trackId, String userId, final TrackItemPresenter.CallBack callBack) {
+        RemoteService service = Network.remote();
+        Call<RspModel<String>> call = service.taunt(trackId, userId);
+        call.enqueue(new Callback<RspModel<String>>() {
+            @Override
+            public void onResponse(Call<RspModel<String>> call, Response<RspModel<String>> response) {
+                if (response.isSuccessful())
+                    callBack.success();
+                else
+                    callBack.fail();
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<String>> call, Throwable t) {
+                callBack.fail();
+            }
+        });
     }
 }

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/cell_group_bg"
-    android:orientation="vertical"
     android:paddingTop="@dimen/len_16">
 
     <net.sunny.talker.common.widget.PortraitView
@@ -111,11 +110,12 @@
                 android:tint="@color/windowsBackgroundDark" />
 
             <TextView
+                android:id="@+id/tv_great"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/iv_great"
-                android:text="0"
+                android:text="1"
                 android:textColor="@color/windowsBackgroundDark" />
         </RelativeLayout>
 
@@ -134,11 +134,12 @@
                 android:tint="@color/windowsBackgroundDark" />
 
             <TextView
+                android:id="@+id/tv_hate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/iv_hate"
-                android:text="0"
+                android:text="1"
                 android:textColor="@color/windowsBackgroundDark" />
         </RelativeLayout>
 
@@ -148,7 +149,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/iv_collection"
+                android:id="@+id/iv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
@@ -157,11 +158,12 @@
                 android:tint="@color/windowsBackgroundDark" />
 
             <TextView
+                android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
-                android:layout_toRightOf="@id/iv_collection"
-                android:text="0"
+                android:layout_toRightOf="@id/iv_comment"
+                android:text="1"
                 android:textColor="@color/windowsBackgroundDark" />
         </RelativeLayout>
 

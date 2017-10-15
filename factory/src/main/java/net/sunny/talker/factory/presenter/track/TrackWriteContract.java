@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.presenter.track;
 
-import net.sunny.talker.factory.model.card.track.PhotoCard;
-import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.presenter.BaseContract;
 
 import java.util.List;

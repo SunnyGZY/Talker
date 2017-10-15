@@ -1,18 +1,14 @@
 package net.sunny.talker.factory.model.card.track;
 
-import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 申请请求的Card, 用于推送一个申请请求
- *
- * @author qiujuer Email:qiujuer.live.cn
  */
 public class TrackCard {
 
@@ -23,6 +19,9 @@ public class TrackCard {
     private Date createAt;
     private int type;
     private int jurisdiction;
+    private long tauntCount;
+    private long complimentCount;
+    private long commentCount;
 
     public String getId() {
         return id;
@@ -76,15 +75,39 @@ public class TrackCard {
         this.jurisdiction = jurisdiction;
     }
 
-    public TrackCard() {
-        this.id = UUID.randomUUID().toString();
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public long getTauntCount() {
+        return tauntCount;
+    }
+
+    public void setTauntCount(long tauntCount) {
+        this.tauntCount = tauntCount;
+    }
+
+    public long getComplimentCount() {
+        return complimentCount;
+    }
+
+    public void setComplimentCount(long complimentCount) {
+        this.complimentCount = complimentCount;
+    }
+
+    public long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(long commentCount) {
+        this.commentCount = commentCount;
+    }
+
 
     public Track buildTract() {
         Track track = new Track();
         track.setId(id);
         track.setContent(content);
-//        track.setPublisher(UserHelper.search(ownerId));
         track.setOwnerId(ownerId);
 
         List<Photo> photoList = new ArrayList<>();
@@ -95,6 +118,9 @@ public class TrackCard {
         track.setType(type);
         track.setCreateAt(createAt);
         track.setJurisdiction(jurisdiction);
+        track.setCommentCount(commentCount);
+        track.setComplimentCount(complimentCount);
+        track.setTauntCount(tauntCount);
         return track;
     }
 

@@ -15,4 +15,5 @@
     <string name="font_face">O(∩_∩)O~</string>
     <string name="action_just_friends">仅好友可见</string>
     <string name="title_ok_gallery">确认</string>
+    <string name="title_activity_track_comment">评论</string>
 </resources>

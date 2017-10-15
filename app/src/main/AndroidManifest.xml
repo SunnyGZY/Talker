@@ -85,6 +85,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
 
+        <activity
+            android:name=".activities.CommentActivity"
+            android:label="@string/title_activity_track_comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+
         <!-- 个推的广播注册 -->
         <receiver
             android:name=".MessageReceiver"
@@ -95,6 +101,7 @@
                 <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/len_16">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Sunny"
+        android:id="@+id/tv_commenter_name"
+        android:textColor="@color/textAccent"
+        android:textSize="@dimen/font_14" />
+
+    <RelativeLayout
+        android:id="@+id/rl_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/len_2"
+        android:layout_marginRight="@dimen/len_2">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="回复"
+            android:textColor="@color/textDark"
+            android:textSize="@dimen/font_14" />
+
+        <TextView
+            android:id="@+id/tv_receiver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv"
+            tools:text="Kiki"
+            android:textColor="@color/textAccent"
+            android:textSize="@dimen/font_14" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_14" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/len_4"
+        tools:text="so good!"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_14" />
+</LinearLayout>

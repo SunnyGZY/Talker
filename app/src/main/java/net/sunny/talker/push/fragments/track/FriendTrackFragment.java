@@ -36,6 +36,4 @@ public class FriendTrackFragment extends Fragment {
         if (listener != null)
             listener.changeViewPager(this);
     }
-
-
 }

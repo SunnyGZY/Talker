@@ -13,15 +13,11 @@ import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.model.card.GroupMemberCard;
 import net.sunny.talker.factory.model.card.MessageCard;
 import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.model.card.track.NewTrackCountCard;
 import net.sunny.talker.factory.model.card.track.TrackCard;
-import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.model.db.track.Track;
+import net.sunny.talker.factory.model.card.track.comment.CommentCard;
 
-import java.util.Date;
 import java.util.List;
 
-import okhttp3.MediaType;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -105,10 +101,21 @@ public interface RemoteService {
     @PUT("track/put")
     Call<RspModel<TrackCard>> putTrack(@Body TrackCreateModel trackCreateModel);
 
+    // 获取服务器新的动态消息个数
     @GET("track/school/newTrackCount/lastTime={lastTime}")
     Call<RspModel<Integer>> newSchoolTrackCount(@Path("lastTime") String lastTime);
 
+    // 获取服务器新的动态消息
     @GET("track/school/pageNo={pageNo}&pageSize={pageSize}&lastTime={lastTime}")
     Call<RspModel<List<TrackCard>>> schoolTrack(@Path("pageNo") int pageNo, @Path("pageSize") int pageSize, @Path("lastTime") String lastTime);
+
+    @GET("track/great/trackId={trackId}&complimenterId={complimenterId}")
+    Call<RspModel<String>> compliment(@Path("trackId") String trackId, @Path("complimenterId") String complimenterId);
+
+    @GET("track/hate/trackId={trackId}&taunterId={taunterId}")
+    Call<RspModel<String>> taunt(@Path("trackId") String trackId, @Path("taunterId") String taunterId);
+
+    @GET("track/comments/trackId={trackId}")
+    Call<RspModel<List<List<CommentCard>>>> commentLists(@Path("trackId") String trackId);
 }
 

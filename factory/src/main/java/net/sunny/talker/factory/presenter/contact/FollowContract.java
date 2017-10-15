@@ -6,7 +6,7 @@ import net.sunny.talker.factory.presenter.BaseContract;
 /**
  * Created by Sunny on 2017/6/5.
  * Email：670453367@qq.com
- * Description: TOOD
+ * Description: FollowContract
  */
 
 public interface FollowContract {
