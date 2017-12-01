@@ -176,9 +176,10 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
     }
 
     @Override
-    protected GroupCreateContract.Presenter initPresenter() {
+    public GroupCreateContract.Presenter initPresenter() {
         return new GroupCreatePresenter(this);
     }
+
 
     private class Adapter extends RecyclerAdapter<GroupCreateContract.ViewModel> {
 

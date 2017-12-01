@@ -27,4 +27,8 @@
             <enum name="three" value="3" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CircleLoadingView">
+        <attr name="progress_color" format="color" />
+    </declare-styleable>
 </resources>

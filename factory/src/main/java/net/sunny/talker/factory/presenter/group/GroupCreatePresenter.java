@@ -14,7 +14,7 @@ import net.sunny.talker.factory.model.api.group.GroupCreateModel;
 import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.model.db.view.UserSampleModel;
 import net.sunny.talker.factory.net.UploadHelper;
-import net.sunny.talker.factory.presenter.BaseRecyclerPresenter;
+import net.sunny.talker.factory.presenter.base.BaseRecyclerPresenter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -86,7 +86,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
-                    GroupCreateContract.View view = getView();
+                    GroupCreateContract.View view = (GroupCreateContract.View) getView();
                     if (view != null)
                         view.showError(R.string.data_upload_error);
                 }
@@ -114,7 +114,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                GroupCreateContract.View view = getView();
+                GroupCreateContract.View view = (GroupCreateContract.View) getView();
                 if (view != null) {
                     view.onCreateSuccess();
                 }
@@ -127,7 +127,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                GroupCreateContract.View view = getView();
+                GroupCreateContract.View view = (GroupCreateContract.View) getView();
                 if (view != null) {
                     view.showError(strRes);
                 }

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.sunny.talker.factory.model.db.Group;
-import net.sunny.talker.factory.model.db.GroupMember;
 import net.sunny.talker.factory.model.db.view.MemberUserModel;
 import net.sunny.talker.factory.presenter.message.ChatContract;
 import net.sunny.talker.factory.presenter.message.ChatGroupPresenter;
@@ -40,7 +39,7 @@ public class ChatGroupFragment extends ChatFragment<Group>
     }
 
     @Override
-    protected ChatContract.Presenter initPresenter() {
+    public ChatContract.Presenter initPresenter() {
         return new ChatGroupPresenter(this, mReceiverId);
     }
 

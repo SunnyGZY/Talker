@@ -3,7 +3,7 @@ package net.sunny.talker.common.app;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 /**
  * Created by Sunny on 2017/5/25.
@@ -20,8 +20,6 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
         super.onAttach(context);
         initPresenter();
     }
-
-    protected abstract Presenter initPresenter();
 
     @Override
     public void showError(@StringRes int str) {

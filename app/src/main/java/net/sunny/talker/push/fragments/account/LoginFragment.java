@@ -49,7 +49,7 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
     }
 
     @Override
-    protected LoginContract.Presenter initPresenter() {
+    public LoginContract.Presenter initPresenter() {
         return new LoginPresenter(this);
     }
 

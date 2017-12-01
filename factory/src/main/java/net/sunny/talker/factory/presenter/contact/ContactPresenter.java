@@ -41,7 +41,7 @@ public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDat
      */
     @Override
     public void onDataLoaded(List<User> users) {
-        final ContactContract.View view = getView();
+        final ContactContract.View view = (ContactContract.View) getView();
         if (view == null)
             return;
 

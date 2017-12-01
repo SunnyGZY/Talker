@@ -147,7 +147,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     }
 
     @Override
-    protected PersonalContract.Presenter initPresenter() {
+    public PersonalContract.Presenter initPresenter() {
         return new PersonalPresenter(this);
     }
 }

@@ -7,6 +7,7 @@ import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransacti
 
 import net.sunny.talker.factory.data.BaseDbRepository;
 import net.sunny.talker.factory.model.db.track.Track;
+import net.sunny.talker.factory.model.db.track.Track_Table;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class TrackRepository extends BaseDbRepository<Track>
         SQLite.select()
                 .from(Track.class)
                 .limit(100)
+                .orderBy(Track_Table.createAt, false)
                 .async()
                 .queryListResultCallback(this)
                 .execute();
@@ -36,10 +38,6 @@ public class TrackRepository extends BaseDbRepository<Track>
     @Override
     protected boolean isRequired(Track track) {
         return track.getJurisdiction() == Track.IN_SCHOOL;
-    }
-
-    protected void insert(Track track) {
-        dataList.addFirst(track);
     }
 
     @Override

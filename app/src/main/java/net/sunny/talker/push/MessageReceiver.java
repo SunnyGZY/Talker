@@ -11,6 +11,8 @@ import com.igexin.sdk.PushConsts;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.helper.AccountHelper;
 import net.sunny.talker.factory.persistence.Account;
+import net.sunny.talker.observe.ObservableManager;
+import net.sunny.talker.push.activities.MainActivity;
 import net.sunny.talker.utils.SoundManager;
 
 /**
@@ -20,6 +22,7 @@ import net.sunny.talker.utils.SoundManager;
  */
 
 public class MessageReceiver extends BroadcastReceiver {
+
     private static final String TAG = MessageReceiver.class.getSimpleName();
 
     @Override
@@ -49,6 +52,10 @@ public class MessageReceiver extends BroadcastReceiver {
                     Log.i(TAG, "GET_MSG_DATA:" + message);
                     onMessageArrived(message);
                 }
+
+                //触发事件，将数据返回给MainActivity
+                ObservableManager.newInstance()
+                        .notify(MainActivity.OBSERVABLE_NEW_SESSION);
                 break;
             }
             default:

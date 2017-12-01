@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 
 import net.sunny.talker.common.R;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 /**
  * Created by Sunny on 2017/6/1.
@@ -33,8 +33,6 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
             mPresenter.destroy();
         }
     }
-
-    protected abstract Presenter initPresenter();
 
     @Override
     public void showError(@StringRes int str) {

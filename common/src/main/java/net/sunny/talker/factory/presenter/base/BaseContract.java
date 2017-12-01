@@ -1,8 +1,9 @@
-package net.sunny.talker.factory.presenter;
+package net.sunny.talker.factory.presenter.base;
 
 import android.support.annotation.StringRes;
 
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.factory.presenter.SimpleContract;
 
 /**
  * Created by Sunny on 2017/5/25.
@@ -11,20 +12,15 @@ import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
  */
 
 public interface BaseContract {
-    interface View<T extends Presenter> {
+    interface View<T extends Presenter> extends SimpleContract.View<T>{
 
         void showError(@StringRes int str);
 
         void showLoading();
-
-        void setPresenter(T presenter);
     }
 
-    interface Presenter {
+    interface Presenter extends SimpleContract.Presenter{
 
-        void start();
-
-        void destroy();
     }
 
     interface RecyclerView<T extends Presenter, ViewMode> extends View<T> {

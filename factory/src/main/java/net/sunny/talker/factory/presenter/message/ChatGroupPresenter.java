@@ -29,7 +29,7 @@ public class ChatGroupPresenter extends ChatPresenter<ChatContract.GroupView>
         Group group = GroupHelper.findFromLocal(mReceiverId);
         if (group != null) {
             // 初始化
-            ChatContract.GroupView view = getView();
+            ChatContract.GroupView view = (ChatContract.GroupView) getView();
 
             boolean isAdmin = Account.getUserId().equalsIgnoreCase(group.getOwner().getId());
             view.showAdminOption(isAdmin);

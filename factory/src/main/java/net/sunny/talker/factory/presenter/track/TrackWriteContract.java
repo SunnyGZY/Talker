@@ -1,6 +1,6 @@
 package net.sunny.talker.factory.presenter.track;
 
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 import java.util.List;
 

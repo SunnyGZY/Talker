@@ -3,7 +3,7 @@ package net.sunny.talker.factory.presenter.group;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.helper.GroupHelper;
 import net.sunny.talker.factory.model.db.view.MemberUserModel;
-import net.sunny.talker.factory.presenter.BaseRecyclerPresenter;
+import net.sunny.talker.factory.presenter.base.BaseRecyclerPresenter;
 
 import java.util.List;
 

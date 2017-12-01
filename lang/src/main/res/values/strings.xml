@@ -6,4 +6,11 @@
     <string name="btn_send">发送</string>
     <string name="label_version_code">1.0.0</string>
     <string name="label_wait_receiver">等待对方回复</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="label_receive">回复</string>
+    <string name="label_colon">:</string>
+    <string name="minutes_ago">%d分钟前</string>
+    <string name="just_now">刚刚</string>
+    <string name="about_app">关于Talker</string>
 </resources>

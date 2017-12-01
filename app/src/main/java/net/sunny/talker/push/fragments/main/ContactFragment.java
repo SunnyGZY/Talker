@@ -78,7 +78,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
     }
 
     @Override
-    protected ContactContract.Presenter initPresenter() {
+    public ContactContract.Presenter initPresenter() {
         return new ContactPresenter(this);
     }
 

@@ -55,7 +55,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
         dataList.clear();
     }
 
-    // 数据库统一通知的地方：增加 / 更改
+    // 数据库统一通知的地方：增加 / 更改(数据库中存入新的数据）
     @Override
     public void onDataSave(Data... list) {
         boolean isChanged = false;
@@ -108,7 +108,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
      *
      * @param data
      */
-    private void insertOrUpdate(Data data) {
+    protected void insertOrUpdate(Data data) { // 13 12 11 10 9
         int index = indexOf(data);
         if (index >= 0) {
             replace(index, data);
@@ -123,7 +123,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
      * @param index
      * @param data
      */
-    protected void replace(int index, Data data) {
+    private void replace(int index, Data data) {
         dataList.remove(index);
         dataList.add(index, data);
     }

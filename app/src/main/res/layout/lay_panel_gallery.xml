@@ -55,7 +55,7 @@
             android:padding="0dp"
             android:text="@string/btn_send"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textColor="@color/textLight"
+            android:textColor="@color/textWhite"
             android:textSize="@dimen/font_14" />
     </FrameLayout>
 

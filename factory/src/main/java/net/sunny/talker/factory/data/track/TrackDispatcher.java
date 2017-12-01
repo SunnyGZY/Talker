@@ -3,9 +3,7 @@ package net.sunny.talker.factory.data.track;
 import android.text.TextUtils;
 
 import net.sunny.talker.factory.data.helper.DbHelper;
-import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.card.track.TrackCard;
-import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
 
@@ -43,6 +41,7 @@ public class TrackDispatcher implements TrackCenter {
         executor.execute(new TrackCardHandler(cards));
     }
 
+
     private class TrackCardHandler implements Runnable {
         private final TrackCard[] cards;
 
@@ -59,11 +58,38 @@ public class TrackDispatcher implements TrackCenter {
                 if (card == null || TextUtils.isEmpty(card.getId()))
                     continue;
 
-                trackList.add(card.buildTract());
+                trackList.add(card.buildTract()); // 13 12 11 10 9
                 photoList.addAll(card.buildPhoto()); // 照片
             }
 
             DbHelper.save(Track.class, trackList.toArray(new Track[0]));
+            DbHelper.save(Photo.class, photoList.toArray(new Photo[0]));
+        }
+    }
+
+    @Override
+    public void dispatch(List<Track> tracks) {
+        if (tracks == null || tracks.size() == 0)
+            return;
+
+        executor.execute(new TrackHandler(tracks));
+    }
+
+    private class TrackHandler implements Runnable {
+        private final List<Track> tracks;
+
+        TrackHandler(List<Track> tracks) {
+            this.tracks = tracks;
+        }
+
+        @Override
+        public void run() {
+            List<Photo> photoList = new ArrayList<>();
+            for (Track track : tracks) {
+                photoList.addAll(track.getPhotos());
+            }
+
+            DbHelper.save(Track.class, tracks.toArray(new Track[0]));
             DbHelper.save(Photo.class, photoList.toArray(new Photo[0]));
         }
     }

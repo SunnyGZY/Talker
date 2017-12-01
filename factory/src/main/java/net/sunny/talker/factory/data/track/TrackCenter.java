@@ -1,7 +1,9 @@
 package net.sunny.talker.factory.data.track;
 
-import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.card.track.TrackCard;
+import net.sunny.talker.factory.model.db.track.Track;
+
+import java.util.List;
 
 /**
  * Created by Sunny on 2017/6/10.
@@ -12,4 +14,6 @@ import net.sunny.talker.factory.model.card.track.TrackCard;
 public interface TrackCenter {
 
     void dispatch(TrackCard... cards);
+
+    void dispatch(List<Track> tracks);
 }

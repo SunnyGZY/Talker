@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.sunny.talker.push.activities.AboutActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionBarWithStatusBarSize"
+        android:background="@color/colorPrimary"
+        android:paddingTop="@dimen/statusBarSize" />
+
+    <ImageView
+        android:id="@+id/iv_app_icon"
+        android:layout_width="@dimen/len_64"
+        android:layout_height="@dimen/len_64"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/len_32"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_app_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/len_6"
+        android:textColor="@color/textSecond"
+        android:textSize="@dimen/font_16"
+        tools:text="Talker 1.0.0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_app_version"
+        android:layout_marginTop="@dimen/len_32"
+        android:background="@color/white">
+
+        <TextView
+            android:foreground="@drawable/ic_touch_fg"
+            android:id="@+id/tv_function_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/len_16"
+            android:text="@string/function_desc"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
+
+        <View
+            android:id="@+id/line_1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/tv_function_desc"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_16"
+            android:background="@color/lineColor" />
+
+        <TextView
+            android:foreground="@drawable/ic_touch_fg"
+            android:id="@+id/tv_bug_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_1"
+            android:padding="@dimen/len_16"
+            android:text="@string/bug_report"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
+
+        <View
+            android:id="@+id/line_2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/tv_bug_report"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_16"
+            android:background="@color/lineColor" />
+
+        <TextView
+            android:foreground="@drawable/ic_touch_fg"
+            android:id="@+id/tv_check_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_2"
+            android:padding="@dimen/len_16"
+            android:text="@string/check_update"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/len_4"
+        android:text="@string/app_author"
+        android:textColor="@color/textSecond" />
+</RelativeLayout>

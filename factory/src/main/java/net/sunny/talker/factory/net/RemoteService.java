@@ -7,6 +7,7 @@ import net.sunny.talker.factory.model.api.account.RegisterModel;
 import net.sunny.talker.factory.model.api.group.GroupCreateModel;
 import net.sunny.talker.factory.model.api.group.GroupMemberAddModel;
 import net.sunny.talker.factory.model.api.message.MsgCreateModel;
+import net.sunny.talker.factory.model.api.track.CommentModel;
 import net.sunny.talker.factory.model.api.track.TrackCreateModel;
 import net.sunny.talker.factory.model.api.user.UserUpdateModel;
 import net.sunny.talker.factory.model.card.GroupCard;
@@ -101,21 +102,36 @@ public interface RemoteService {
     @PUT("track/put")
     Call<RspModel<TrackCard>> putTrack(@Body TrackCreateModel trackCreateModel);
 
-    // 获取服务器新的动态消息个数
+    // 获取服务器校内新的动态消息个数
     @GET("track/school/newTrackCount/lastTime={lastTime}")
     Call<RspModel<Integer>> newSchoolTrackCount(@Path("lastTime") String lastTime);
 
-    // 获取服务器新的动态消息
+    // 获取服务器好友新的动态消息个数
+    @GET("track/friend/newTrackCount/lastTime={lastTime}")
+    Call<RspModel<Integer>> newFriendTrackCount(@Path("lastTime") String lastTime);
+
+    // 获取服务器校内新的动态消息
     @GET("track/school/pageNo={pageNo}&pageSize={pageSize}&lastTime={lastTime}")
     Call<RspModel<List<TrackCard>>> schoolTrack(@Path("pageNo") int pageNo, @Path("pageSize") int pageSize, @Path("lastTime") String lastTime);
 
+    // 获取服务器好友新的动态消息
+    @GET("track/friend/pageNo={pageNo}&pageSize={pageSize}&lastTime={lastTime}")
+    Call<RspModel<List<TrackCard>>> friendTrack(@Path("pageNo") int pageNo, @Path("pageSize") int pageSize, @Path("lastTime") String lastTime);
+
+    // 赞一赞动态
     @GET("track/great/trackId={trackId}&complimenterId={complimenterId}")
     Call<RspModel<String>> compliment(@Path("trackId") String trackId, @Path("complimenterId") String complimenterId);
 
+    // 踩一踩动态
     @GET("track/hate/trackId={trackId}&taunterId={taunterId}")
     Call<RspModel<String>> taunt(@Path("trackId") String trackId, @Path("taunterId") String taunterId);
 
+    // 拉取该条动态的所有评论
     @GET("track/comments/trackId={trackId}")
     Call<RspModel<List<List<CommentCard>>>> commentLists(@Path("trackId") String trackId);
+
+    // 评论该条动态
+    @PUT("track/comment")
+    Call<RspModel<CommentCard>> sendComment(@Body CommentModel model);
 }
 

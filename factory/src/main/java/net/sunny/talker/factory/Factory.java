@@ -39,7 +39,7 @@ import java.util.concurrent.Executors;
  */
 public class Factory {
     private final static String TAG = Factory.class.getSimpleName();
-    // 单例模式ø
+    // 单例模式
     private static final Factory instance;
     // 全局的线程池
     private final Executor executor;
@@ -151,7 +151,7 @@ public class Factory {
                 break;
             case RspModel.ERROR_ACCOUNT_TOKEN:
                 Application.showToast(R.string.data_rsp_error_account_token);
-                instance.logout();
+                instance.logoutPrepare();
                 break;
             case RspModel.ERROR_ACCOUNT_LOGIN:
                 decodeRspCode(R.string.data_rsp_error_account_login, callback);
@@ -179,9 +179,8 @@ public class Factory {
     /**
      * 收到账户退出的消息需要进行账户退出重新登录
      */
-    private void logout() {
-        Application.showToast("此时应该打开登录界面");
-
+    private void logoutPrepare() {
+        Application.getInstance().logout();
     }
 
 
@@ -203,7 +202,7 @@ public class Factory {
 
             switch (entity.type) {
                 case PushModel.ENTITY_TYPE_LOGOUT:
-                    instance.logout();
+                    instance.logoutPrepare();
                     return;
                 case PushModel.ENTITY_TYPE_MESSAGE: {
                     MessageCard card = getGson().fromJson(entity.content, MessageCard.class);

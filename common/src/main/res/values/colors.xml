@@ -15,13 +15,15 @@
     <color name="windowsBackground">#f7f7f7</color>
     <color name="windowsBackgroundDark">#eeeeee</color>
     <color name="windowsBackgroundLight">#f8f8f8</color>
+
     <color name="defaultWhite">#F8F8F8</color>
 
     <!--字体颜色-->
-    <color name="textPrimary">#4e5864</color>
+    <color name="textPrimary">#393939</color>
     <color name="textSecond">#8d9ca9</color>
     <color name="textAccent">@color/colorAccent</color>
-    <color name="textLight">@color/colorLight</color>
+    <color name="textAccentDark">#1770f5</color>
+    <color name="textWhite">@color/colorLight</color>
     <color name="textDark">#202020</color>
     <color name="textHint">#a4acb4</color>
 
@@ -33,4 +35,6 @@
     <color name="maskChatHeader">@color/black_alpha_48</color>
     <!--导航栏Icon遮罩色-->
     <color name="navIconTintLight">@color/white_alpha_240</color>
+
+    <color name="lineColor">#e8e8e8</color>
 </resources>

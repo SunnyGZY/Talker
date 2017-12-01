@@ -12,7 +12,7 @@ import net.sunny.talker.factory.model.api.user.UserUpdateModel;
 import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.net.UploadHelper;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 /**
  * Created by Sunny on 2017/5/29.
@@ -31,7 +31,7 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
     public void update(final String photoFilePath, final String desc, final boolean isMan) {
         start();
 
-        final UpdateInfoContract.View view = getView();
+        final UpdateInfoContract.View view = (UpdateInfoContract.View) getView();
 
         if (TextUtils.isEmpty(photoFilePath) || TextUtils.isEmpty(desc)) {
             view.showError(R.string.data_account_update_invalid_parameter);
@@ -58,7 +58,7 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
 
     @Override
     public void onDataLoaded(UserCard userCard) {
-        final UpdateInfoContract.View view = getView();
+        final UpdateInfoContract.View view = (UpdateInfoContract.View) getView();
         if (view == null)
             return;
         // 强制执行在主线程中
@@ -72,7 +72,7 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
 
     @Override
     public void onDataNotAvailable(final int strRes) {
-        final UpdateInfoContract.View view = getView();
+        final UpdateInfoContract.View view = (UpdateInfoContract.View) getView();
         if (view == null)
             return;
         // 强制执行在主线程中

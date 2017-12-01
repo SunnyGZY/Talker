@@ -2,6 +2,8 @@ package net.sunny.talker.factory.presenter;
 
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.DbDataSource;
+import net.sunny.talker.factory.presenter.base.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseRecyclerPresenter;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * Email：670453367@qq.com
  * Description: 基础的仓库源的Presenter定义
  */
-// User, User, ContactDataSource, ContactContract.View     TrackDataSource
+
 public abstract class BaseSourcePresenter<Data, ViewModel, Source extends DbDataSource<Data>, View extends BaseContract.RecyclerView>
         extends BaseRecyclerPresenter<ViewModel, View> // 方便在presenter中对view的recycler进行操作
         implements DataSource.SucceedCallback<List<Data>> { // 数据返回接口 onDataLoaded(...)

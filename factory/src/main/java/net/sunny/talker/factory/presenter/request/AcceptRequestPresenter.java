@@ -7,7 +7,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 /**
  * Created by Sunny on 2017/6/16.
@@ -31,7 +31,7 @@ public class AcceptRequestPresenter extends BasePresenter<AcceptRequestContact.V
 
     @Override
     public void onDataLoaded(final UserCard userCard) {
-        final AcceptRequestContact.View view = getView();
+        final AcceptRequestContact.View view = (AcceptRequestContact.View) getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
@@ -44,7 +44,7 @@ public class AcceptRequestPresenter extends BasePresenter<AcceptRequestContact.V
 
     @Override
     public void onDataNotAvailable(@StringRes final int strRes) {
-        final AcceptRequestContact.View view = getView();
+        final AcceptRequestContact.View view = (AcceptRequestContact.View) getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override

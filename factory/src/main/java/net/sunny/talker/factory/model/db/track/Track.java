@@ -1,8 +1,10 @@
 package net.sunny.talker.factory.model.db.track;
 
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
@@ -18,6 +20,7 @@ import net.sunny.talker.factory.model.db.BaseDbModel;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
 
 /**
  * Created by sunny on 17-8-3.
@@ -74,13 +77,34 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
         tauntCount = in.readLong();
         complimentCount = in.readLong();
         commentCount = in.readLong();
-        isCompliment = in.readByte() != 0;
-        isTaunt = in.readByte() != 0;
+        complimentEnable = in.readByte() != 0;
+        tauntEnable = in.readByte() != 0;
+        createAt = new Date(in.readLong());
     }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "photos")
     public List<Photo> getPhotos() {
 
+        if (photos != null) {
+            return photos;
+        } else {
+            return getPhotosFromLocal();
+        }
+    }
+
+    public List<Photo> getPhotosFromLocal() {
         return photos = SQLite.select()
                 .from(Photo.class)
                 .where(Photo_Table.track_id.eq(id))
@@ -100,9 +124,9 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
     @Column
     private long commentCount;
     @Column
-    private boolean isCompliment;
+    private boolean complimentEnable;
     @Column
-    private boolean isTaunt;
+    private boolean tauntEnable;
 
     public String getId() {
         return id;
@@ -180,22 +204,23 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
         this.commentCount = commentCount;
     }
 
-    public boolean isCompliment() {
-        return isCompliment;
+    public boolean isComplimentEnable() {
+        return complimentEnable;
     }
 
-    public void setCompliment(boolean compliment) {
-        isCompliment = compliment;
+    public void setComplimentEnable(boolean complimentEnable) {
+        this.complimentEnable = complimentEnable;
     }
 
-    public boolean isTaunt() {
-        return isTaunt;
+    public boolean isTauntEnable() {
+        return tauntEnable;
     }
 
-    public void setTaunt(boolean taunt) {
-        isTaunt = taunt;
+    public void setTauntEnable(boolean tauntEnable) {
+        this.tauntEnable = tauntEnable;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean isSame(Track old) {
         return Objects.equals(id, old.id);
@@ -221,19 +246,10 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
         dest.writeLong(tauntCount);
         dest.writeLong(complimentCount);
         dest.writeLong(commentCount);
-        dest.writeByte((byte) (isCompliment ? 1 : 0));
-        dest.writeByte((byte) (isTaunt ? 1 : 0));
+        dest.writeByte((byte) (complimentEnable ? 1 : 0));
+        dest.writeByte((byte) (tauntEnable ? 1 : 0));
+        dest.writeLong(createAt.getTime());
     }
-
-    public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
-        public Track createFromParcel(Parcel in) {
-            return new Track(in);
-        }
-
-        public Track[] newArray(int size) {
-            return new Track[size];
-        }
-    };
 
     @Override
     public String toString() {
@@ -248,8 +264,8 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
                 ", tauntCount=" + tauntCount +
                 ", complimentCount=" + complimentCount +
                 ", commentCount=" + commentCount +
-                ", isCompliment=" + isCompliment +
-                ", isTaunt=" + isTaunt +
+                ", complimentEnable=" + complimentEnable +
+                ", tauntEnable=" + tauntEnable +
                 '}';
     }
 }

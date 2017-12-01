@@ -22,6 +22,8 @@ public class TrackCard {
     private long tauntCount;
     private long complimentCount;
     private long commentCount;
+    private boolean isCompliment;
+    private boolean isTaunt;
 
     public String getId() {
         return id;
@@ -103,6 +105,21 @@ public class TrackCard {
         this.commentCount = commentCount;
     }
 
+    public boolean isCompliment() {
+        return isCompliment;
+    }
+
+    public void setCompliment(boolean compliment) {
+        isCompliment = compliment;
+    }
+
+    public boolean isTaunt() {
+        return isTaunt;
+    }
+
+    public void setTaunt(boolean taunt) {
+        isTaunt = taunt;
+    }
 
     public Track buildTract() {
         Track track = new Track();
@@ -121,6 +138,8 @@ public class TrackCard {
         track.setCommentCount(commentCount);
         track.setComplimentCount(complimentCount);
         track.setTauntCount(tauntCount);
+        track.setComplimentEnable(isCompliment);
+        track.setTauntEnable(isTaunt);
         return track;
     }
 

@@ -1,6 +1,6 @@
 package net.sunny.talker.factory.presenter.user;
 
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 /**
  * Created by Sunny on 2017/5/29.

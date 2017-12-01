@@ -98,9 +98,7 @@ public class DbHelper {
      * @param models  这个Class对应的实力的数组
      * @param <Model> 这个实例的泛型，限定条件时BaseModel
      */
-
-//      DbHelper.save(Track.class, tracks.toArray(new Track[0]));
-    public static <Model extends BaseModel> void save(final Class<Model> tClass, final Model... models) {
+    public static <Model extends BaseModel> void save(final Class<Model> tClass, final Model... models) { // 13 12 11 10 9
         if (models == null || models.length == 0)
             return;
 

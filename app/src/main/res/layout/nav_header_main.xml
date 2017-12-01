@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorAccent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="@dimen/len_16"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <net.sunny.talker.common.widget.PortraitView
+        android:id="@+id/im_portrait"
+        android:layout_width="@dimen/len_52"
+        android:layout_height="@dimen/len_52"
+        android:foreground="@drawable/ic_touch_menu"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_portrait" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        tools:text="Android Studio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="android.studio@android.com" />
+
+</LinearLayout>

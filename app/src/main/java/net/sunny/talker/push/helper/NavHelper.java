@@ -82,6 +82,7 @@ public class NavHelper<T> {
         doTabChanged(currentTab, oldTab);
     }
 
+
     private void doTabChanged(Tab<T> newTab, Tab<T> oldTab) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -91,6 +92,7 @@ public class NavHelper<T> {
             }
         }
 
+        // 如果该Fragment不存在，则创建，若存在，则直接显示出来
         if (newTab != null) {
             if (newTab.fragment == null) {
                 Fragment fragment = Fragment.instantiate(context, newTab.clx.getName(), null);

@@ -40,6 +40,12 @@ public class AccountActivity extends Activity implements AccountTrigger {
         context.startActivity(new Intent(context, AccountActivity.class));
     }
 
+    public static void showInNewTask(Context context) {
+        Intent intent = new Intent(context, AccountActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_account;

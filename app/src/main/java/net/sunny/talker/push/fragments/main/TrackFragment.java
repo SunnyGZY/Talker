@@ -40,10 +40,8 @@ public class TrackFragment extends Fragment implements OnPagerChangeListener {
     protected void initWidget(View root) {
         super.initWidget(root);
 
-        Fragment schoolTrackFragment = new SchoolTrackFragment(this);
-        Fragment friendTrackFragment = new FriendTrackFragment(this);
-        mFragments.add(schoolTrackFragment);
-        mFragments.add(friendTrackFragment);
+        mFragments.add(new SchoolTrackFragment(this));
+        mFragments.add(new FriendTrackFragment(this));
 
         // FragmentPagerAdapter 适配器
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {

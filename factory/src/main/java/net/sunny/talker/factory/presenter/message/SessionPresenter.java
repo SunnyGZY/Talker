@@ -31,18 +31,6 @@ public class SessionPresenter extends BaseSourcePresenter<Session, Session, Sess
 
         List<Session> old = view.getRecyclerAdapter().getItems();
 
-        if (old.size() == 0) { // TODO: 17-7-29 此处不应依赖于动态数据 此外当出现新的会话时，会把好友请求挤到下面
-
-            Session headSession = new Session();
-            headSession.setTitle("HEAD");
-            headSession.setId("HEAD_ID"); // 更改ID，为了之后的验证
-            headSession.setContent("HEAD");
-            headSession.setMessage(null);
-
-            sessions.add(0, headSession);
-        }
-
-
         DiffUiDataCallback<Session> callback = new DiffUiDataCallback<>(old, sessions);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         refreshData(result, sessions);

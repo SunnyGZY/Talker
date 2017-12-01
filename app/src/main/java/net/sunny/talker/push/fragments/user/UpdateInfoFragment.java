@@ -153,7 +153,7 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
     }
 
     @Override
-    protected UpdateInfoContract.Presenter initPresenter() {
+    public UpdateInfoContract.Presenter initPresenter() {
         return new UpdateInfoPresenter(this);
     }
 }

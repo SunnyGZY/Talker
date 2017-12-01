@@ -4,7 +4,7 @@ import net.sunny.talker.factory.model.db.Group;
 import net.sunny.talker.factory.model.db.Message;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.view.MemberUserModel;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 import java.util.List;
 

@@ -79,7 +79,7 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
     }
 
     @Override
-    protected GroupsContract.Presenter initPresenter() {
+    public GroupsContract.Presenter initPresenter() {
         return new GroupsPresenter(this);
     }
 

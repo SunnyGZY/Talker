@@ -31,7 +31,7 @@ public class GroupsPresenter extends BaseSourcePresenter<Group, Group, GroupsDat
 
     @Override
     public void onDataLoaded(List<Group> groups) {
-        final GroupsContract.View view = getView();
+        final GroupsContract.View view = (GroupsContract.View) getView();
         if (view == null)
             return;
 

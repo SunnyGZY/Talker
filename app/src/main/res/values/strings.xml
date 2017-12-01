@@ -16,4 +16,12 @@
     <string name="action_just_friends">仅好友可见</string>
     <string name="title_ok_gallery">确认</string>
     <string name="title_activity_track_comment">评论</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="function_desc">功能介绍</string>
+    <string name="bug_report">BUG反馈</string>
+    <string name="check_update">检查新版本</string>
+    <string name="app_author">软件作者：Sunny</string>
+    <string name="label_look_look">看一看</string>
+    <string name="label_near_people">附近的人</string>
+    <string name="title_activity_new_friends">新朋友</string>
 </resources>

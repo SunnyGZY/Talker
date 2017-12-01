@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.sunny.talker.common.R;
+import net.sunny.talker.view.okrecycler.OkRecycleView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +105,16 @@ public abstract class RecyclerAdapter<Data>
     public void addFromHead(Data... dataList) {
         if (dataList != null && dataList.length > 0) {
             mDataList.addAll(0, Arrays.asList(dataList));
-            notifyItemRangeChanged(0, mDataList.size() );
+
+            notifyItemRangeChanged(0, mDataList.size());
+        }
+    }
+
+    public void addFromHead(OkRecycleView okRecycleView, Data... dataList) {
+        if (dataList != null && dataList.length > 0) {
+            mDataList.addAll(0, Arrays.asList(dataList));
+
+            notifyItemRangeChanged(okRecycleView.getHeadersCount(), mDataList.size());
         }
     }
 

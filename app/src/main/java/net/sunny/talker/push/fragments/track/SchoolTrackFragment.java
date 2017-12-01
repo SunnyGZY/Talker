@@ -2,6 +2,7 @@ package net.sunny.talker.push.fragments.track;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,17 +13,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.drawable.LoadingCircleDrawable;
 import net.qiujuer.genius.ui.drawable.LoadingDrawable;
-import net.sunny.talker.common.app.Fragment;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
-import net.sunny.talker.factory.data.helper.DbHelper;
+import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.UserHelper;
+import net.sunny.talker.factory.data.track.TrackDispatcher;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
@@ -31,24 +34,32 @@ import net.sunny.talker.factory.presenter.track.item.TrackItemContract;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 import net.sunny.talker.factory.presenter.track.school.SchoolTrackContract;
 import net.sunny.talker.factory.presenter.track.school.SchoolTrackPresenter;
+import net.sunny.talker.observe.Function;
+import net.sunny.talker.observe.ObservableManager;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.activities.CommentActivity;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.utils.DateTimeUtil;
 import net.sunny.talker.utils.SpUtils;
+import net.sunny.talker.utils.TimeDescribeUtil;
+import net.sunny.talker.view.okrecycler.OkRecycleView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+
 /**
- * A simple {@link Fragment} subclass.
  * 校内动态展示
  */
 public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.Presenter>
-        implements SchoolTrackContract.View {
+        implements SchoolTrackContract.View, Function {
+
+    private static int LOAD_FRESH_DATA = 2;
+    private static int LOAD_MORE_DATA = 1;
 
     OnPagerChangeListener onPagerChangeListener;
 
@@ -56,7 +67,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     EmptyView mEmptyView;
 
     @BindView(R.id.recycler)
-    RecyclerView mRecycler;
+    OkRecycleView mRecycler;
 
     @BindView(R.id.tv_friend)
     TextView mChangeFriend;
@@ -68,9 +79,16 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     ImageView mLoading;
 
     private RecyclerAdapter<Track> mAdapter;
+    private int loadType = 0;
 
     public SchoolTrackFragment(TrackFragment trackFragment) {
         onPagerChangeListener = trackFragment;
+    }
+
+    @OnClick(R.id.tv_friend)
+    public void showFriendTrackFragment() {
+        if (onPagerChangeListener != null)
+            onPagerChangeListener.changeViewPager(this);
     }
 
     @Override
@@ -79,6 +97,10 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         mPresenter.start();
         mPresenter.getNewTrackCount(getContext());
+        mPresenter.loadDataFromLocal();
+
+        String OBSERVABLE_NEW_TRACK = "OBSERVABLE_NEW_TRACK";
+        ObservableManager.newInstance().registerObserver(OBSERVABLE_NEW_TRACK, this);
     }
 
     @Override
@@ -89,8 +111,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-
-        mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecycler.setLayoutManager(linearLayoutManager);
         mRecycler.setAdapter(mAdapter = new RecyclerAdapter<Track>() {
             @Override
             protected int getItemView(int position, Track track) {
@@ -99,22 +121,41 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             @Override
             protected ViewHolder<Track> onCreateViewHolder(View root, int viewType) {
-                return new viewHolder(root);
+                return new SchoolTrackFragment.ViewHolder(root);
             }
         });
 
+
         mEmptyView.bind(mRecycler);
         setPlaceHolderView(mEmptyView);
+
+        // 监听刷新事件
+        mRecycler.setRefreshAndLoadMoreListener(new OkRecycleView.OnRefreshAndLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                Date date = new Date();
+                String nowStr = DateTimeUtil.getIntactData(date);
+                mPresenter.clearData();
+                mPresenter.loadDataFromNet(0, nowStr);
+                loadType = LOAD_FRESH_DATA;
+            }
+
+            @Override
+            public void onLoadMore() {
+                Date lastDate = mAdapter.getItems().get(mAdapter.getItemCount() - 1).getCreateAt();
+                String lastStr = DateTimeUtil.getIntactData(lastDate);
+                if (lastStr == null)
+                    lastStr = "2022-01-01 00:00:00.000";
+
+                mPresenter.loadDataFromNet(0, lastStr);
+                loadType = LOAD_MORE_DATA;
+            }
+        });
     }
 
-    @OnClick(R.id.tv_friend)
-    public void showFriendTrackFragment() {
-        if (onPagerChangeListener != null)
-            onPagerChangeListener.changeViewPager(this);
-    }
 
     @Override
-    protected SchoolTrackContract.Presenter initPresenter() {
+    public SchoolTrackContract.Presenter initPresenter() {
         return new SchoolTrackPresenter(this);
     }
 
@@ -126,7 +167,22 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @Override
     public void onAdapterDataChanged() {
         mEmptyView.triggerOk();
+
+        if (loadType == LOAD_FRESH_DATA) {
+            mRecycler.setReFreshComplete();
+        } else if (loadType == LOAD_MORE_DATA) {
+            mRecycler.setLoadMoreComplete();
+        }
+
         mLoading.setVisibility(View.INVISIBLE);
+        if (mNewTrackCount.getVisibility() == View.VISIBLE) {
+            mNewTrackCount.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public OkRecycleView getRecyclerView() {
+        return mRecycler;
     }
 
     @Override
@@ -153,7 +209,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @OnClick(R.id.tv_new_count)
     public void refreshTrack() {
         mNewTrackCount.setVisibility(View.GONE);
-
         mLoading.setVisibility(View.VISIBLE);
 
         int minSize = (int) Ui.dipToPx(getResources(), 20);
@@ -168,12 +223,26 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         mLoading.setImageDrawable(drawable);
         drawable.start();
 
-        mPresenter.loadSchoolTrack(getContext());
+        Date date = new Date();
+        String nowStr = DateTimeUtil.getIntactData(date);
+        mPresenter.clearData();
+        mPresenter.loadDataFromNet(0, nowStr);
     }
 
     int count;
 
-    class viewHolder extends RecyclerAdapter.ViewHolder<Track> implements TrackItemContract.View<TrackItemPresenter> {
+    @Override
+    public Object function(Object[] data) {
+        if (data[0] instanceof Track) {
+            Track track = (Track) data[0];
+            if (track.getJurisdiction() == Track.IN_SCHOOL)
+                mAdapter.addFromHead(mRecycler, track);
+        }
+        return null;
+    }
+
+    class ViewHolder extends RecyclerAdapter.ViewHolder<Track>
+            implements TrackItemContract.View<TrackItemPresenter>, DataSource.Callback<User> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;
@@ -202,13 +271,13 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         TrackItemPresenter presenter;
 
-        viewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             initPresenter();
         }
 
         @Override
-        protected void onBind(Track track) {
+        protected void onBind(final Track track) {
             count++;
 
             if (mAdapter.getItemCount() == count) {
@@ -217,12 +286,22 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             track.load();
             User user = UserHelper.findFromLocal(track.getOwnerId());
+
             if (user != null) {
                 mName.setText(user.getName());
                 Glide.with(getContext()).load(user.getPortrait()).into(mPortraitView);
+            } else {
+                Run.onBackground(new Action() {
+                    @Override
+                    public void call() {
+                        UserHelper.findFromNet(track.getOwnerId(), ViewHolder.this);
+                    }
+                });
             }
 
-            mInf.setText(track.getCreateAt().toString());
+            String timeDesc = TimeDescribeUtil.getTimeDescribe(getContext(), track.getCreateAt());
+            mInf.setText(timeDesc);
+
             mContent.setText(track.getContent());
             greatCount.setText(String.valueOf(track.getComplimentCount()));
             hateCount.setText(String.valueOf(track.getTauntCount()));
@@ -232,26 +311,31 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
             mRecyclerPhoto.setAdapter(adapter);
             List<Photo> photoList = track.getPhotos();
+
             adapter.replace(photoList);
 
-            if (track.isCompliment()) {
+            if (track.isComplimentEnable()) {
                 great.setOnClickListener(null);
-                great.setColorFilter(R.color.grey_800);
+                great.setColorFilter(R.color.colorAccent);
+            } else {
+                great.clearColorFilter();
             }
-            if (track.isTaunt()) {
+            if (track.isTauntEnable()) {
                 hate.setOnClickListener(null);
-                hate.setColorFilter(R.color.grey_800);
+                hate.setColorFilter(R.color.colorAccent);
+            } else {
+                hate.clearColorFilter();
             }
         }
 
         @OnClick(R.id.iv_great)
         public void greatClick() {
-            great.setColorFilter(R.color.grey_800);
+            great.setColorFilter(R.color.colorAccent);
             int count = Integer.parseInt(greatCount.getText().toString());
             count++;
             mData.setComplimentCount(count);
-            mData.setCompliment(true);
-            DbHelper.save(Track.class, mData);
+            mData.setComplimentEnable(true);
+
             greatCount.setText(String.valueOf(count));
             presenter.compliment(mData.getId(), Account.getUserId());
             great.setOnClickListener(null);
@@ -259,12 +343,12 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @OnClick(R.id.iv_hate)
         public void hateClick() {
-            hate.setColorFilter(R.color.grey_800);
+            hate.setColorFilter(R.color.colorAccent);
             int count = Integer.parseInt(hateCount.getText().toString());
             count++;
             mData.setTauntCount(count);
-            mData.setTaunt(true);
-            DbHelper.save(Track.class, mData);
+            mData.setTauntEnable(true);
+
             hateCount.setText(String.valueOf(count));
             presenter.taunt(mData.getId(), Account.getUserId());
             hate.setOnClickListener(null);
@@ -272,7 +356,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @OnClick(R.id.iv_comment)
         public void commentClick() {
-
             CommentActivity.show(getContext(), mData);
         }
 
@@ -301,16 +384,38 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             count--;
             hateCount.setText(String.valueOf(count));
         }
+
+        @Override
+        public void onDataLoaded(User user) {
+            mName.setText(user.getName());
+            Glide.with(getContext()).load(user.getPortrait()).into(mPortraitView);
+        }
+
+        @Override
+        public void onDataNotAvailable(@StringRes int strRes) {
+
+        }
     }
 
     @Override
     public void onDestroy() {
         if (mAdapter.getItemCount() > 0) {
-            Date date = mAdapter.getItems().get(0).getCreateAt();
-
-            String str = DateTimeUtil.getIntactData(date);
-            SpUtils.putString(getContext(), "lastTime", str);
+            Date lastDate = mAdapter.getItems().get(0).getCreateAt();
+            String lastStr = DateTimeUtil.getIntactData(lastDate);
+            SpUtils.putString(getContext(), "lastTime", lastStr);
         }
+
+        List<Track> tracks = new ArrayList<>();
+        List<Track> trackList = mAdapter.getItems();
+        if (mAdapter.getItemCount() >= 20) {
+            for (int i = 0; i < 20; i++) {
+                tracks.add(trackList.get(i));
+            }
+            TrackDispatcher.instance().dispatch(tracks);
+        } else {
+            TrackDispatcher.instance().dispatch(trackList);
+        }
+
         super.onDestroy();
     }
 

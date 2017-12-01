@@ -83,7 +83,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
     }
 
     @Override
-    protected SearchContract.Presenter initPresenter() {
+    public SearchContract.Presenter initPresenter() {
         return new SearchGroupPresenter(this);
     }
 

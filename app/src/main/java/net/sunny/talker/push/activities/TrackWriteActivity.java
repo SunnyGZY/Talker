@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,37 +17,17 @@ import com.bumptech.glide.Glide;
 
 import net.sunny.talker.common.app.ToolbarActivity;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
-import net.sunny.talker.factory.Factory;
-import net.sunny.talker.factory.data.helper.MessageHelper;
-import net.sunny.talker.factory.model.api.RspModel;
-import net.sunny.talker.factory.model.api.track.PhotoModel;
-import net.sunny.talker.factory.model.api.track.TrackCreateModel;
-import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.model.card.track.PhotoCard;
-import net.sunny.talker.factory.model.card.track.TrackCard;
-import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.model.db.track.Photo;
-import net.sunny.talker.factory.model.db.track.Track;
-import net.sunny.talker.factory.net.Network;
-import net.sunny.talker.factory.net.RemoteService;
-import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.track.TrackWriteContract;
 import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-import static net.sunny.talker.push.R.menu.put;
 
 public class TrackWriteActivity extends ToolbarActivity implements TrackWriteContract.View {
 
@@ -70,7 +49,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     @Override
     protected void initBefore() {
         super.initBefore();
-        mPresenter = new TrackWritePresenter(this);
+        initPresenter();
     }
 
     @Override
@@ -80,9 +59,9 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mToolbar.setNavigationIcon(R.drawable.ic_menu_delete);
+
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(put, menu);
+        inflater.inflate(R.menu.put, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -90,8 +69,14 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_put:
-                if (mPresenter != null)
-                    mPresenter.put(mContent.getText().toString(), adapter.getItems(), mJustFriend.isChecked());
+                if (mPresenter != null) {
+                    String content = mContent.getText().toString().trim().trim();
+                    if (!content.equals("")) {
+                        mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
+                    } else {
+                        App.showToast(R.string.toast_comment_not_null);
+                    }
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -137,6 +122,11 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     @Override
     public void setPresenter(TrackWriteContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    public TrackWriteContract.Presenter initPresenter() {
+        return new TrackWritePresenter(this);
     }
 
     @Override

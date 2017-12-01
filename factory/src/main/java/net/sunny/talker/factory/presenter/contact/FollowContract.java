@@ -1,7 +1,7 @@
 package net.sunny.talker.factory.presenter.contact;
 
 import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 /**
  * Created by Sunny on 2017/6/5.

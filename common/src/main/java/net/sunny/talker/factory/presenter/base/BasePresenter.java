@@ -1,4 +1,4 @@
-package net.sunny.talker.factory.presenter;
+package net.sunny.talker.factory.presenter.base;
 
 /**
  * Created by Sunny on 2017/5/25.

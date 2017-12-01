@@ -6,10 +6,8 @@ import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.GroupHelper;
-import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.card.GroupCard;
-import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class SearchGroupPresenter extends BasePresenter<SearchContract.GroupView
 
     @Override
     public void onDataLoaded(final List<GroupCard> groupCards) {
-        final SearchContract.GroupView view = getView();
+        final SearchContract.GroupView view = (SearchContract.GroupView) getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
@@ -57,7 +55,7 @@ public class SearchGroupPresenter extends BasePresenter<SearchContract.GroupView
 
     @Override
     public void onDataNotAvailable(@StringRes final int strRes) {
-        final SearchContract.GroupView view = getView();
+        final SearchContract.GroupView view = (SearchContract.GroupView) getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override

@@ -1,6 +1,5 @@
 package net.sunny.talker.factory.data.helper;
 
-import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
 import net.sunny.talker.factory.model.api.track.PhotoModel;
@@ -13,7 +12,6 @@ import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -89,7 +87,27 @@ public class TrackHelper {
         });
     }
 
-    public static Call getSchoolTrack(int pageNo, int pageSize, String strTime) {
+    public static void getNewFriendTrackCount(String strTime, final DataSource.Callback<Integer> callback) {
+        RemoteService service = Network.remote();
+        Call<RspModel<Integer>> call = service.newFriendTrackCount(strTime);
+        call.enqueue(new Callback<RspModel<Integer>>() {
+            @Override
+            public void onResponse(Call<RspModel<Integer>> call, Response<RspModel<Integer>> response) {
+                RspModel<Integer> rspModel = response.body();
+                if (rspModel.success()) {
+                    Integer newTrackCountCard = rspModel.getResult();
+                    callback.onDataLoaded(newTrackCountCard);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<Integer>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public static Call getSchoolTrack(int pageNo, int pageSize, String strTime, final DataSource.Callback<List<Track>> callback) {
         RemoteService service = Network.remote();
         Call<RspModel<List<TrackCard>>> call = service.schoolTrack(pageNo, pageSize, strTime);
         call.enqueue(new Callback<RspModel<List<TrackCard>>>() {
@@ -98,9 +116,37 @@ public class TrackHelper {
                 RspModel<List<TrackCard>> rspModel = response.body();
                 if (rspModel.success()) {
                     List<TrackCard> trackCardList = rspModel.getResult();
+                    List<Track> trackList = new ArrayList<>();
+                    for (TrackCard trackCard : trackCardList) {
+                        trackList.add(trackCard.buildTract());
+                    }
+                    callback.onDataLoaded(trackList);
+                }
+            }
 
-                    Collections.reverse(trackCardList);
-                    Factory.getTrackCenter().dispatch(trackCardList.toArray(new TrackCard[0]));
+            @Override
+            public void onFailure(Call<RspModel<List<TrackCard>>> call, Throwable t) {
+
+            }
+        });
+
+        return call;
+    }
+
+    public static Call getFriendTrack(int pageNo, int pageSize, String strTime, final DataSource.Callback<List<Track>> callback) {
+        RemoteService service = Network.remote();
+        Call<RspModel<List<TrackCard>>> call = service.friendTrack(pageNo, pageSize, strTime);
+        call.enqueue(new Callback<RspModel<List<TrackCard>>>() {
+            @Override
+            public void onResponse(Call<RspModel<List<TrackCard>>> call, Response<RspModel<List<TrackCard>>> response) {
+                RspModel<List<TrackCard>> rspModel = response.body();
+                if (rspModel.success()) {
+                    List<TrackCard> trackCardList = rspModel.getResult();
+                    List<Track> trackList = new ArrayList<>();
+                    for (TrackCard trackCard : trackCardList) {
+                        trackList.add(trackCard.buildTract());
+                    }
+                    callback.onDataLoaded(trackList);
                 }
             }
 

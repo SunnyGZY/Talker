@@ -22,7 +22,7 @@ import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 import net.sunny.talker.factory.presenter.request.AcceptRequestContact;
 import net.sunny.talker.factory.presenter.request.AcceptRequestPresenter;
 import net.sunny.talker.factory.presenter.request.RequestMsgContact;
@@ -36,7 +36,6 @@ import butterknife.OnClick;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
-// TODO: 17-7-28 ToolBar字体过大
 public class RequestMgrActivity extends PresenterToolbarActivity implements RequestMsgContact.View {
 
     @BindView(R.id.empty)
@@ -92,7 +91,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
     }
 
     @Override
-    protected BaseContract.Presenter initPresenter() {
+    public BaseContract.Presenter initPresenter() {
         return new RequestMsgPresenter(this);
     }
 
@@ -170,7 +169,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
 
         ViewHolderReceive(View itemView) {
             super(itemView);
-            new AcceptRequestPresenter(this);
+            initPresenter();
         }
 
         @Override
@@ -216,6 +215,11 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
         @Override
         public void setPresenter(AcceptRequestContact.Presenter presenter) {
             mPresenter = presenter;
+        }
+
+        @Override
+        public AcceptRequestContact.Presenter initPresenter() {
+            return new AcceptRequestPresenter(this);
         }
 
         @Override

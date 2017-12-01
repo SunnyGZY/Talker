@@ -15,6 +15,15 @@
 
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- iBeancon功能所需权限 -->
+    ;
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 个推3.0电子围栏功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".App"
@@ -78,16 +87,28 @@
         <activity
             android:name=".activities.RequestMgrActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TransStatusBar" />
+            android:theme="@style/AppTheme.TransStatusBar"
+            android:label="@string/title_activity_new_friends"/>
         <activity
             android:name=".activities.TrackWriteActivity"
             android:label="@string/title_activity_track_write"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
-
         <activity
             android:name=".activities.CommentActivity"
             android:label="@string/title_activity_track_comment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.SettingActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/about_app"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
 
@@ -101,6 +122,35 @@
                 <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="PUSH_APPID"
+            android:value="${GETUI_APP_ID}" />
+        <meta-data
+            android:name="PUSH_APPKEY"
+            android:value="${GETUI_APP_KEY}" />
+        <meta-data
+            android:name="PUSH_APPSECRET"
+            android:value="${GETUI_APP_SECRET}" />
+
+        <receiver android:name="com.igexin.sdk.PushReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.igexin.sdk.action.refreshls" />
+                <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".PushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
 
     </application>
 

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/ry_message"
-    android:background="@drawable/cell_white_bg"/>
+    android:background="@drawable/cell_white_bg">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ry_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/len_10"
+        android:paddingLeft="@dimen/len_16"
+        android:paddingRight="@dimen/len_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_below="@id/ry_message"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/len_10"
+        android:layout_marginLeft="@dimen/len_64"
+        android:layout_marginTop="@dimen/len_8"
+        android:background="@color/lineColor" />
+
+</RelativeLayout>

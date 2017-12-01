@@ -1,8 +1,7 @@
 package net.sunny.talker.factory.presenter.group;
 
 import net.sunny.talker.factory.model.db.Group;
-import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 /**
  * Created by Sunny on 2017/6/6.

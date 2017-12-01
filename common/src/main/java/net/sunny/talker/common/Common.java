@@ -12,7 +12,7 @@ public class Common {
         String REGEX_MOBILE = "[1][3,4,5,7,8][0-9]{9}$";
 
         // 基础的网络请求地址
-        String API_URL = "http://172.29.183.208:8080/api/";
+        String API_URL = "http://60.205.189.60:8080/api/";
 
         // 最大上传大小860KB
         long MAX_UPLOAD_IMAGE_LENGTH = 860 * 1024;

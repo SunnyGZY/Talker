@@ -34,6 +34,12 @@ public class CommentCard {
 
     private String receiverName;
 
+    private String commentId;
+
+    private String portrait;
+
+    private String time;
+
     public CommentCard(){
     }
 
@@ -101,6 +107,30 @@ public class CommentCard {
         this.receiverName = receiverName;
     }
 
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "CommentCard{" +
@@ -112,6 +142,9 @@ public class CommentCard {
                 ", date=" + date +
                 ", commenterName='" + commenterName + '\'' +
                 ", receiverName='" + receiverName + '\'' +
+                ", commentId='" + commentId + '\'' +
+                ", portrait='" + portrait + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

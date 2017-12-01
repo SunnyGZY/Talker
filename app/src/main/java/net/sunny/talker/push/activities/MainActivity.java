@@ -6,6 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
@@ -24,11 +30,16 @@ import net.qiujuer.genius.ui.widget.FloatActionButton;
 import net.sunny.talker.common.app.Activity;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.factory.persistence.Account;
+import net.sunny.talker.factory.presenter.main.MainContract;
+import net.sunny.talker.factory.presenter.main.MainPresenter;
+import net.sunny.talker.observe.Function;
+import net.sunny.talker.observe.ObservableManager;
+import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.main.ActiveFragment;
-import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
+import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
 
 import java.util.Objects;
@@ -36,10 +47,17 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static net.sunny.talker.push.R.id.msg;
+
 /**
  * 软件主Activity
  */
-public class MainActivity extends Activity implements BottomNavigationBar.OnTabSelectedListener, NavHelper.OnTabChangedListener<Integer> {
+public class MainActivity extends Activity
+        implements BottomNavigationBar.OnTabSelectedListener,
+        NavHelper.OnTabChangedListener<Integer>,
+        NavigationView.OnNavigationItemSelectedListener, MainContract.View, Function {
+
+    public static String OBSERVABLE_NEW_SESSION = "OBSERVABLE_NEW_SESSION";
 
     @BindView(R.id.appbar)
     View mLayAppbar;
@@ -57,16 +75,34 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
     BottomNavigationBar mNavigation;
 
     @BindView(R.id.btn_action)
+
     FloatActionButton mAction;
+    TextView mNavName;
+    PortraitView mNavPortrait;
+    TextView mNavDesc;
 
     private NavHelper<Integer> mNavHelper;
+    private MainContract.Presenter mPresenter;
+    private int unreadMessagesCount = 0;
+    private BadgeItem numberBadgeItem;
+    private NavigationView navigationView;
+    private TextView navNewFriendReq;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
 
     @Override
+    protected void initBefore() {
+        super.initBefore();
+        ObservableManager.newInstance().registerObserver(OBSERVABLE_NEW_SESSION, this);
+    }
+
+    @Override
     protected boolean initArgs(Bundle bundle) {
+        initPresenter();
+        mPresenter.start();
+
         if (Account.isComplete()) {
             return super.initArgs(bundle);
         } else {
@@ -84,20 +120,43 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
     protected void initWidget() {
         super.initWidget();
 
-        // TODO: 17-7-24 临时展示数据
-        BadgeItem numberBadgeItem = new BadgeItem()
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        mNavName = (TextView) headerView.findViewById(R.id.tv_name);
+        mNavPortrait = (PortraitView) headerView.findViewById(R.id.im_portrait);
+        mNavPortrait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalActivity.show(MainActivity.this, Account.getUserId());
+            }
+        });
+        mNavDesc = (TextView) headerView.findViewById(R.id.tv_description);
+
+        numberBadgeItem = new BadgeItem()
                 .setBorderWidth(4)
                 .setBackgroundColor(Color.RED)
-                .setText("5")
                 .setHideOnSelect(true);
 
         mNavigation.setMode(BottomNavigationBar.MODE_FIXED);
 
-        mNavigation.addItem(new BottomNavigationItem(R.drawable.ic_home, getResources().getString(R.string.action_home)).setActiveColorResource(R.color.text_nav).setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.drawable.ic_contact, getResources().getString(R.string.action_contact)).setActiveColorResource(R.color.text_nav))
-                .addItem(new BottomNavigationItem(R.drawable.ic_group, getResources().getString(R.string.action_group)).setActiveColorResource(R.color.text_nav))
-                .addItem(new BottomNavigationItem(R.drawable.ic_track, getResources().getString(R.string.action_circle)).setActiveColorResource(R.color.text_nav))
-                .initialise();
+        mNavigation.addItem(new BottomNavigationItem(R.drawable.ic_home,
+                getResources().getString(R.string.action_home)).setActiveColorResource(R.color.text_nav).setBadgeItem(numberBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.ic_contact,
+                        getResources().getString(R.string.action_contact)).setActiveColorResource(R.color.text_nav))
+                .addItem(new BottomNavigationItem(R.drawable.ic_group,
+                        getResources().getString(R.string.action_group)).setActiveColorResource(R.color.text_nav))
+                .addItem(new BottomNavigationItem(R.drawable.ic_track,
+                        getResources().getString(R.string.action_circle)).setActiveColorResource(R.color.text_nav));
+        mNavigation.initialise();
+
+        numberBadgeItem.hide(true);
 
         mNavigation.setTabSelectedListener(this);
         mNavigation.unHide();
@@ -107,6 +166,9 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
                 .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
                 .add(R.id.action_group, new NavHelper.Tab<>(GroupFragment.class, R.string.title_group))
                 .add(R.id.action_circle, new NavHelper.Tab<>(TrackFragment.class, R.string.title_track));
+        navNewFriendReq = (TextView) navigationView.getMenu().findItem(R.id.nav_new_friend)
+                .getActionView().findViewById(msg);
+        navNewFriendReq.setVisibility(View.INVISIBLE);
 
         Glide.with(this)
                 .load(R.drawable.bg_src_morning)
@@ -124,6 +186,9 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
         super.initData();
 
         mPortrait.setup(Glide.with(this), Account.getUser());
+        mNavPortrait.setup(Glide.with(this), Account.getUser());
+        mNavName.setText(Account.getUser().getName());
+        mNavDesc.setText(Account.getUser().getDesc());
         onTabSelected(0);
     }
 
@@ -146,7 +211,7 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
             SearchActivity.show(this, SearchActivity.TYPE_USER);
         } else if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group)) {
             GroupCreateActivity.show(this);
-        } else {
+        } else if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_track)) {
             TrackWriteActivity.show(this);
         }
     }
@@ -222,12 +287,20 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
             animSet.setInterpolator(new AnticipateOvershootInterpolator(1));
             animSet.start();
         }
-
     }
 
     @Override
     public void onTabSelected(int position) {
         mNavHelper.performClickMenuPosition(position);
+
+        if (position == 0) {
+            unreadMessagesCount = 0;
+            numberBadgeItem.hide(true);
+        }
+
+        if (unreadMessagesCount == 0 && !numberBadgeItem.isHidden()) {
+            numberBadgeItem.hide(true);
+        }
     }
 
     @Override
@@ -238,5 +311,63 @@ public class MainActivity extends Activity implements BottomNavigationBar.OnTabS
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_new_friend) {
+            RequestMgrActivity.show(this);
+            if (navNewFriendReq.getVisibility() == View.VISIBLE)
+                navNewFriendReq.setVisibility(View.INVISIBLE);
+        } else if (id == R.id.nav_look_look) {
+            App.showToast("功能正在开发，请耐心等待");
+        } else if (id == R.id.nav_near_people) {
+            App.showToast("功能正在开发，请耐心等待");
+        } else if (id == R.id.nav_settings) {
+            SettingActivity.show(this);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public MainContract.Presenter initPresenter() {
+        return new MainPresenter(this);
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showRequestMsgCount(int count) {
+        if (count > 0) {
+            navNewFriendReq.setText(String.valueOf(count));
+            if (navNewFriendReq.getVisibility() == View.INVISIBLE) {
+                navNewFriendReq.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public Object function(Object[] data) {
+        int selectPosition = mNavigation.getCurrentSelectedPosition();
+        if (selectPosition != 0)
+            unreadMessagesCount++;
+
+        numberBadgeItem.setText(String.valueOf(unreadMessagesCount));
+        if (numberBadgeItem.isHidden() && mNavigation.getCurrentSelectedPosition() != 0)
+            numberBadgeItem.show(true);
+        return null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ObservableManager.newInstance().removeObserver(OBSERVABLE_NEW_SESSION);
     }
 }

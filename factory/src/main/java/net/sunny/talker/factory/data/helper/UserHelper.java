@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.data.helper;
 
-import android.util.Log;
-
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import net.sunny.talker.factory.Factory;
@@ -211,6 +209,24 @@ public class UserHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    // 从网络查询一个用户的信息
+    public static void findFromNet(String id, DataSource.Callback<User> callback) {
+        RemoteService remoteService = Network.remote();
+        try {
+            Response<RspModel<UserCard>> response = remoteService.userFind(id).execute();
+            UserCard card = response.body().getResult();
+            if (card != null) {
+                User user = card.build();
+                Factory.getUserCenter().dispatch(card);
+                callback.onDataLoaded(user);
+            }
+        } catch (Exception e) {
+            callback.onDataNotAvailable(R.string.data_rsp_error_user_not_find);
+            e.printStackTrace();
+        }
     }
 
     /**

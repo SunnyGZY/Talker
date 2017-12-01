@@ -6,7 +6,7 @@ import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.persistence.Account;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 /**
  * Created by Sunny on 2017/6/9.
@@ -22,7 +22,8 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
 
     public PersonalPresenter(PersonalContract.View view) {
         super(view);
-        this.id = getView().getUserId();
+        PersonalContract.View view2 = (PersonalContract.View) getView();
+        this.id = view2.getUserId();
     }
 
     @Override
@@ -32,7 +33,7 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         Factory.runOnAsync(new Runnable() {
             @Override
             public void run() {
-                PersonalContract.View view = getView();
+                PersonalContract.View view = (PersonalContract.View) getView();
                 if (view != null) {
                     User user = UserHelper.searchFirstOfNet(id);
                     onLoaded(user);
@@ -53,7 +54,7 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                final PersonalContract.View view = getView();
+                final PersonalContract.View view = (PersonalContract.View) getView();
                 view.onLoadDone(user);
                 view.setFollowStatus(isFollow);
                 view.allowSayHello(allowSayHello);

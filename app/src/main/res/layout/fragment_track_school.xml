@@ -18,7 +18,7 @@
         android:visibility="invisible"
         tools:text="5条新动态" />
 
-    <android.support.v7.widget.RecyclerView
+    <net.sunny.talker.view.okrecycler.OkRecycleView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,6 +48,7 @@
         android:layout_margin="@dimen/len_10"
         android:background="@drawable/bg_track_select"
         android:text="@string/show_track_school"
+        android:elevation="@dimen/len_8"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/font_12" />
 

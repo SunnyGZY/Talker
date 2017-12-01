@@ -98,7 +98,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
     }
 
     @Override
-    protected SearchContract.Presenter initPresenter() {
+    public SearchContract.Presenter initPresenter() {
         return new SearchUserPresenter(this);
     }
 
@@ -118,7 +118,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
         ViewHolder(View itemView) {
             super(itemView);
             // 初始化Presenter
-            new FollowPresenter(this);
+            initPresenter();
         }
 
         @Override
@@ -158,6 +158,11 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
         @Override
         public void setPresenter(FollowContract.Presenter presenter) {
             mPresenter = presenter;
+        }
+
+        @Override
+        public FollowContract.Presenter initPresenter() {
+            return new FollowPresenter(this);
         }
 
         @Override

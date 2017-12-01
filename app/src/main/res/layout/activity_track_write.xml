@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/statusBarSize" />
+        android:paddingTop="@dimen/statusBarSize"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

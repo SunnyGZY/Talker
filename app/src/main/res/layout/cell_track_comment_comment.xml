@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_comment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/len_16"
+    android:paddingRight="@dimen/len_16">
+
+    <View
+        android:id="@id/line"
+        android:layout_width="3.2dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="@dimen/len_4"
+        android:background="@color/windowsBackgroundDark" />
+
+    <TextView
+        android:id="@+id/tv_commenter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textAccentDark"
+        android:textSize="@dimen/font_16"
+        tools:text="Sunny" />
+
+    <TextView
+        android:id="@+id/receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_receive"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tv_receiver_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textAccentDark"
+        android:textSize="@dimen/font_16"
+        tools:text="Kiki" />
+
+    <TextView
+        android:id="@+id/tv_colon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_colon"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/len_4"
+        android:textColor="@color/textDark"
+        android:textSize="@dimen/font_16"
+        tools:text="希望能坚持下去(ง •_•)ง希望能坚持下去(ง •_•)ง希望能坚持下去(ง •_•)ง" />
+</LinearLayout>

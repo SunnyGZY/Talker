@@ -172,4 +172,22 @@ public class Account {
     public static String getToken() {
         return token;
     }
+
+    public static void clearUserCache(Context context) {
+        // 获取数据持久化的SP
+        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+                Context.MODE_PRIVATE);
+        // 清除数据
+        sp.edit()
+                .putBoolean(KEY_IS_BIND, false)
+                .putString(KEY_TOKEN, "")
+                .putString(KEY_USER_ID, "")
+                .putString(KEY_ACCOUNT, "")
+                .apply();
+
+        isBind = false;
+        token = null;
+        userId = null;
+        account = null;
+    }
 }

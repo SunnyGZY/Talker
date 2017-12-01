@@ -1,6 +1,6 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/ic_put"
-    android:insetBottom="@dimen/len_6"
-    android:insetLeft="@dimen/len_6"
-    android:insetRight="@dimen/len_6"
-    android:insetTop="@dimen/len_6" />
+    android:insetBottom="7dp"
+    android:insetLeft="7dp"
+    android:insetRight="7dp"
+    android:insetTop="7dp" />

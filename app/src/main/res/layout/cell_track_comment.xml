@@ -1,57 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_comment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Sunny"
-        android:id="@+id/tv_commenter_name"
-        android:textColor="@color/textAccent"
-        android:textSize="@dimen/font_14" />
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/len_6">
 
     <RelativeLayout
-        android:id="@+id/rl_receiver"
-        android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/len_2"
-        android:layout_marginRight="@dimen/len_2">
+        android:layout_height="match_parent">
+
+        <net.sunny.talker.common.widget.PortraitView
+            android:id="@+id/im_portrait"
+            android:layout_width="@dimen/portraitSize"
+            android:layout_height="@dimen/portraitSize"
+            android:layout_gravity="start"
+            android:padding="1px"
+            android:src="@drawable/default_portrait"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="@dimen/len_2" />
 
         <TextView
-            android:id="@+id/tv"
+            android:id="@+id/tv_commenter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="回复"
+            android:layout_marginLeft="@dimen/len_4"
+            android:layout_toRightOf="@id/im_portrait"
+            android:gravity="center_horizontal"
             android:textColor="@color/textDark"
-            android:textSize="@dimen/font_14" />
+            android:textSize="@dimen/font_16"
+            tools:text="Sunny" />
 
         <TextView
-            android:id="@+id/tv_receiver_name"
+            android:id="@+id/tv_comment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv"
-            tools:text="Kiki:"
-            android:textColor="@color/textAccent"
-            android:textSize="@dimen/font_14" />
+            android:layout_below="@+id/tv_commenter_name"
+            android:layout_marginLeft="@dimen/len_4"
+            android:textSize="@dimen/font_12"
+            android:layout_toRightOf="@id/im_portrait"
+            android:textColor="@color/textSecond"
+            tools:text="1小时前" />
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=":"
-        android:textColor="@color/textDark"
-        android:textSize="@dimen/font_14" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/len_4"
-        tools:text="so good!"
+        android:layout_marginLeft="@dimen/len_44"
         android:textColor="@color/textDark"
-        android:textSize="@dimen/font_14" />
+        android:textSize="@dimen/font_16"
+        tools:text="为善良的女孩祝福." />
 </LinearLayout>

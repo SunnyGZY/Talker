@@ -5,7 +5,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.request.AllRequestRepository;
 import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class RequestMsgPresenter extends BasePresenter<RequestMsgContact.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                RequestMsgContact.View view = getView();
+                RequestMsgContact.View view = (RequestMsgContact.View) getView();
                 if (view == null)
                     return;
 

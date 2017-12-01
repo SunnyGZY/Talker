@@ -104,7 +104,7 @@ public class ChatUserFragment extends ChatFragment<User>
     }
 
     @Override
-    protected ChatContract.Presenter initPresenter() {
+    public ChatContract.Presenter initPresenter() {
         return new ChatUserPresenter(this, mReceiverId);
     }
 

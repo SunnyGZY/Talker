@@ -1,7 +1,7 @@
 package net.sunny.talker.factory.presenter.request;
 
 import net.sunny.talker.factory.model.db.User;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 import java.util.List;
 

@@ -171,7 +171,7 @@ public class MessageHelper {
     }
 
     /**
-     * 查询一个消息，这个消息适合一个人的最后一条消息
+     * 查询一个消息，这个消息是和一个人的最后一条消息
      *
      * @param userId UserId
      * @return 聊天的最后一条消息

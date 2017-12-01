@@ -7,7 +7,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 import java.util.List;
 

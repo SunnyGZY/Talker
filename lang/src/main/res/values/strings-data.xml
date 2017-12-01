@@ -5,6 +5,7 @@
     <string name="data_account_register_invalid_parameter_mobile">请输入正确的手机号!</string>
     <string name="data_account_register_invalid_parameter_password">密码不能小于6位!</string>
     <string name="data_account_register_invalid_parameter_name">称呼不能小于2位!</string>
+    <string name="data_track_comment_content_not_null">评论内容不能为空</string>
     <string name="data_account_update_invalid_parameter">头像和描述不能为空!</string>
     <string name="data_network_error">网络错误！</string>
     <string name="data_upload_error">上传失败！</string>
@@ -23,4 +24,5 @@
     <string name="data_rsp_error_account_login">登录失败，是那里没搞定么? §^_^§</string>
     <string name="data_rsp_error_account_register">抱歉，注册失败! ^_^|||</string>
     <string name="data_rsp_error_account_no_permission">您越权啦!!!</string>
+    <string name="data_rsp_error_user_not_find">用户未找到</string>
 </resources>

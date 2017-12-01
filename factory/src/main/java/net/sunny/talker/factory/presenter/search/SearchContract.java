@@ -2,7 +2,7 @@ package net.sunny.talker.factory.presenter.search;
 
 import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.model.card.UserCard;
-import net.sunny.talker.factory.presenter.BaseContract;
+import net.sunny.talker.factory.presenter.base.BaseContract;
 
 import java.util.List;
 

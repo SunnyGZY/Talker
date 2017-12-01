@@ -104,7 +104,7 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMembersCo
     }
 
     @Override
-    protected GroupMembersContract.Presenter initPresenter() {
+    public GroupMembersContract.Presenter initPresenter() {
         return new GroupMembersPresenter(this);
     }
 

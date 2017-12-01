@@ -1,6 +1,5 @@
 package net.sunny.talker.utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -12,11 +11,15 @@ import java.util.Locale;
  */
 
 public class DateTimeUtil {
-    private static final SimpleDateFormat SIMPLE_FORMAT = new SimpleDateFormat("yy-MM-dd", Locale.ENGLISH);
+    private static final SimpleDateFormat SIMPLE_FORMAT = new SimpleDateFormat("yy-MM-dd", Locale.CHINA);
 
     private static final SimpleDateFormat INTACT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
 
     private static final SimpleDateFormat WEEK_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss E", Locale.CHINA);
+
+    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.CHINA);
+
+    private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("MM-dd h:mm a", Locale.CHINA);
 
     public static String getSimpleData(Date date) {
         return SIMPLE_FORMAT.format(date);
@@ -30,13 +33,11 @@ public class DateTimeUtil {
         return WEEK_FORMAT.format(date);
     }
 
-    public static Date getIntactData(String str) {
-        Date date = null;
-        try {
-            date = INTACT_FORMAT.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    public static String getTimeData(Date date) {
+        return TIME_FORMAT.format(date);
+    }
+
+    public static String getDayData(Date date) {
+        return DAY_FORMAT.format(date);
     }
 }

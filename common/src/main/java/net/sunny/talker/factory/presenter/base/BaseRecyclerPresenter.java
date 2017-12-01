@@ -1,4 +1,4 @@
-package net.sunny.talker.factory.presenter;
+package net.sunny.talker.factory.presenter.base;
 
 import android.support.v7.util.DiffUtil;
 
@@ -23,6 +23,7 @@ public class BaseRecyclerPresenter<ViewMode, View extends BaseContract.RecyclerV
 
     /**
      * 刷新一堆新数据到界面中
+     *
      * @param dataList 新数据
      */
     protected void refreshData(final List<ViewMode> dataList) {
@@ -42,8 +43,9 @@ public class BaseRecyclerPresenter<ViewMode, View extends BaseContract.RecyclerV
 
     /**
      * 刷新界面操作，该操作可以保证只能给方法在主线程进行
+     *
      * @param diffResult 一个差异的结果集
-     * @param dataList 具体的新数据
+     * @param dataList   具体的新数据
      */
     protected void refreshData(final DiffUtil.DiffResult diffResult, final List<ViewMode> dataList) {
         Run.onUiAsync(new Action() {
@@ -55,7 +57,7 @@ public class BaseRecyclerPresenter<ViewMode, View extends BaseContract.RecyclerV
     }
 
     private void refreshDataOnUiThread(final DiffUtil.DiffResult diffResult, final List<ViewMode> dataList) {
-        View view = getView();
+        View view =  getView();
         if (view == null)
             return;
 

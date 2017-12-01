@@ -1,6 +1,5 @@
 package net.sunny.talker.push.fragments.main;
 
-import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -17,15 +16,11 @@ import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.factory.model.db.Session;
-import net.sunny.talker.factory.presenter.BaseContract;
 import net.sunny.talker.factory.presenter.message.SessionContact;
 import net.sunny.talker.factory.presenter.message.SessionPresenter;
-import net.sunny.talker.factory.presenter.request.RequestCountContact;
-import net.sunny.talker.factory.presenter.request.RequestCountPresenter;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.activities.MessageActivity;
-import net.sunny.talker.push.activities.RequestMgrActivity;
-import net.sunny.talker.utils.DateTimeUtil;
+import net.sunny.talker.utils.TimeDescribeUtil;
 
 import butterknife.BindView;
 
@@ -75,25 +70,14 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
 
             @Override
             protected ViewHolder<Session> onCreateViewHolder(View root, int viewType) {
-                switch (viewType) {
-                    case R.layout.head_chat_list:
-                        return new HeadHolder(root);
-                    case R.layout.cell_chat_list:
-                        return new ActiveFragment.ViewHolder(root);
-                    default:
-                        return new ActiveFragment.ViewHolder(root);
-                }
+                return new ActiveFragment.ViewHolder(root);
             }
         });
 
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Session>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, Session session) {
-                if (session.getTitle().equals("HEAD")) { // 如果第一个item标记是Header
-                    RequestMgrActivity.show(getContext());
-                } else {
-                    MessageActivity.show(getContext(), session);
-                }
+                MessageActivity.show(getContext(), session);
             }
         });
 
@@ -108,12 +92,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
     }
 
     @Override
-    protected void initData() {
-        super.initData();
-    }
-
-    @Override
-    protected SessionContact.Presenter initPresenter() {
+    public SessionContact.Presenter initPresenter() {
         return new SessionPresenter(this);
     }
 
@@ -123,51 +102,8 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
     }
 
     @Override
-    public void onAdapterDataChanged() {
+    public void onAdapterDataChanged() { // TODO: 2017/11/3 使用接口回调，将mAdapter的新增数据传过去
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
-    }
-
-    class HeadHolder extends RecyclerAdapter.ViewHolder implements RequestCountContact.View {
-
-        BaseContract.Presenter mHolderPresenter;
-
-        @BindView(R.id.sys_message_count)
-        TextView textView;
-
-        HeadHolder(View itemView) {
-            super(itemView);
-            new RequestCountPresenter(this);
-        }
-
-        @Override
-        protected void onBind(Object o) {
-            mHolderPresenter.start();
-        }
-
-        @Override
-        public void showError(@StringRes int str) {
-
-        }
-
-        @Override
-        public void showLoading() {
-
-        }
-
-        @Override
-        public void setPresenter(BaseContract.Presenter presenter) {
-            mHolderPresenter = presenter;
-        }
-
-        @Override
-        public void showRequestMsgCount(int count) {
-            if (count > 0) { // TODO: 17-7-27 可以加一个弹出动画，与用户的交互性更好
-                textView.setVisibility(View.VISIBLE);
-                textView.setText(String.valueOf(count));
-            } else {
-                textView.setVisibility(View.GONE);
-            }
-        }
     }
 
     class ViewHolder extends RecyclerAdapter.ViewHolder<Session> {
@@ -197,7 +133,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
             // 解析表情
             Face.decode(mContent, spannable, (int) mContent.getTextSize());
             mContent.setText(spannable);
-            mTime.setText(DateTimeUtil.getSimpleData(session.getModifyAt()));
+            mTime.setText(TimeDescribeUtil.getTimeDescribe(getContext(), session.getModifyAt()));
         }
     }
 }

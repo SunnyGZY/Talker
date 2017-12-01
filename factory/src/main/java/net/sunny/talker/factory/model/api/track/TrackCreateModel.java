@@ -1,24 +1,11 @@
 package net.sunny.talker.factory.model.api.track;
 
-
-import android.os.Build;
-
-import net.sunny.talker.factory.model.api.message.MsgCreateModel;
-import net.sunny.talker.factory.model.db.track.Photo;
-import net.sunny.talker.factory.model.db.track.Track;
-
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-
-import static net.sunny.talker.factory.model.db.Message_Table.attach;
-import static net.sunny.talker.factory.model.db.Session_Table.receiverType;
 
 /**
  * Created by sunny on 17-8-16.
- *
  */
 public class TrackCreateModel {
 

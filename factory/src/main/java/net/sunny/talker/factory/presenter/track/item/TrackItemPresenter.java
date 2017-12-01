@@ -4,11 +4,11 @@ import net.sunny.talker.factory.data.helper.TrackHelper;
 
 /**
  * Created by sunny on 17-9-1.
+ * TrackItemPresenter
  */
-
 public class TrackItemPresenter implements TrackItemContract.Presenter {
 
-    TrackItemContract.View<TrackItemPresenter> mView;
+    private TrackItemContract.View<TrackItemPresenter> mView;
 
     public TrackItemPresenter(TrackItemContract.View<TrackItemPresenter> view) {
         mView = view;

@@ -86,4 +86,15 @@ public class Photo extends BaseDbModel<Photo> {
     public boolean isUiContentSame(Photo old) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id='" + id + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", track=" + track +
+                ", position=" + position +
+                ", photoUrl='" + photoUrl + '\'' +
+                '}';
+    }
 }

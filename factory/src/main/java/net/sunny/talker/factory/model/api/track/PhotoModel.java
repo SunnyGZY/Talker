@@ -1,8 +1,5 @@
 package net.sunny.talker.factory.model.api.track;
 
-import net.sunny.talker.factory.model.db.User;
-
-import java.util.List;
 import java.util.UUID;
 
 /**

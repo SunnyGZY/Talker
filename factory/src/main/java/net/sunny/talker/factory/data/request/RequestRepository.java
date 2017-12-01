@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.data.request;
 
-import android.util.Log;
-
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import net.sunny.talker.factory.data.BaseDbRepository;

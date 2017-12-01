@@ -10,7 +10,7 @@ import net.sunny.talker.factory.data.helper.AccountHelper;
 import net.sunny.talker.factory.model.api.account.LoginModel;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.persistence.Account;
-import net.sunny.talker.factory.presenter.BasePresenter;
+import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 /**
  * Created by Sunny on 2017/5/27.
@@ -26,7 +26,7 @@ import net.sunny.talker.factory.presenter.BasePresenter;
  */
 public class LoginPresenter extends BasePresenter<LoginContract.View>
         implements LoginContract.Presenter, DataSource.Callback<User> {
-    
+
     public LoginPresenter(LoginContract.View view) {
         super(view);
     }
@@ -48,7 +48,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
 
     @Override
     public void onDataLoaded(User user) {
-        final LoginContract.View view = getView();
+        final LoginContract.View view =  getView();
         if (view == null)
             return;
         // 强制执行在主线程中
@@ -63,7 +63,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
     @Override
     public void onDataNotAvailable(final int strRes) {
         // 网络请求告知注册失败
-        final LoginContract.View view = getView();
+        final LoginContract.View view =  getView();
         if (view == null)
             return;
         // 此时是从网络回送回来的，并不保证处于主现场状态

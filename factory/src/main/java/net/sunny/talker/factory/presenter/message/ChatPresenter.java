@@ -35,7 +35,7 @@ class ChatPresenter<View extends ChatContract.View>
 
     @Override
     public void onDataLoaded(final List<Message> messages) { // MessageRepository的接口回调
-        final ChatContract.View view = getView();
+        final ChatContract.View view = (ChatContract.View) getView();
         if (view == null)
             return;
 

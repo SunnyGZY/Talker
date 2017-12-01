@@ -1,7 +1,9 @@
 package net.sunny.talker.factory.data.helper;
 
+import net.sunny.talker.factory.R;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
+import net.sunny.talker.factory.model.api.track.CommentModel;
 import net.sunny.talker.factory.model.card.track.comment.CommentCard;
 import net.sunny.talker.factory.net.Network;
 import net.sunny.talker.factory.net.RemoteService;
@@ -45,4 +47,29 @@ public class CommentHelper {
 
         return call;
     }
+
+    public static Call send(CommentModel model, final DataSource.Callback<CommentCard> callBack) {
+
+        RemoteService service = Network.remote();
+        Call<RspModel<CommentCard>> call = service.sendComment(model);
+        call.enqueue(new Callback<RspModel<CommentCard>>() {
+            @Override
+            public void onResponse(Call<RspModel<CommentCard>> call, Response<RspModel<CommentCard>> response) {
+                RspModel<CommentCard> rspModel = response.body();
+
+                if (rspModel != null && rspModel.success()) {
+                    CommentCard commentCard = response.body().getResult();
+                    callBack.onDataLoaded(commentCard);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<CommentCard>> call, Throwable t) {
+                callBack.onDataNotAvailable(R.string.data_network_error);
+            }
+        });
+
+        return call;
+    }
+
 }

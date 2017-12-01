@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.push.R;
+import net.sunny.talker.push.activities.AccountActivity;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
 
 import java.util.List;
@@ -163,6 +164,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
             Application.showToast(R.string.label_permission_ok);
             refreshState(getView());
+            AccountActivity.show(getContext());
         } else {
             EasyPermissions.requestPermissions(this,
                     getString(R.string.title_assist_permissions),

@@ -48,7 +48,7 @@ public class RegisterFragment extends PresenterFragment<RegisterContract.Present
     }
 
     @Override
-    protected RegisterContract.Presenter initPresenter() {
+    public RegisterContract.Presenter initPresenter() {
         return new RegisterPresenter(this);
     }
 
