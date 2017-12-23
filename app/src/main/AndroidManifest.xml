@@ -86,9 +86,9 @@
             android:theme="@style/AppTheme.TransStatusBar" />
         <activity
             android:name=".activities.RequestMgrActivity"
+            android:label="@string/title_activity_new_friends"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TransStatusBar"
-            android:label="@string/title_activity_new_friends"/>
+            android:theme="@style/AppTheme.TransStatusBar" />
         <activity
             android:name=".activities.TrackWriteActivity"
             android:label="@string/title_activity_track_write"
@@ -105,12 +105,28 @@
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
-
         <activity
             android:name=".activities.AboutActivity"
             android:label="@string/about_app"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="@string/user_feedback"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+        <activity
+            android:name=".activities.LookLookActivity"
+            android:label="@string/label_look_look"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+
+        <activity
+            android:name=".activities.FunctionIntroductionActivity"
+            android:label="@string/label_function_introduction"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+
 
         <!-- 个推的广播注册 -->
         <receiver

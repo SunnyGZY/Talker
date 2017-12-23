@@ -4,6 +4,7 @@ import net.sunny.talker.factory.model.api.RspModel;
 import net.sunny.talker.factory.model.api.account.AccountRspModel;
 import net.sunny.talker.factory.model.api.account.LoginModel;
 import net.sunny.talker.factory.model.api.account.RegisterModel;
+import net.sunny.talker.factory.model.api.feedback.FeedbackModel;
 import net.sunny.talker.factory.model.api.group.GroupCreateModel;
 import net.sunny.talker.factory.model.api.group.GroupMemberAddModel;
 import net.sunny.talker.factory.model.api.message.MsgCreateModel;
@@ -133,5 +134,8 @@ public interface RemoteService {
     // 评论该条动态
     @PUT("track/comment")
     Call<RspModel<CommentCard>> sendComment(@Body CommentModel model);
+
+    @PUT("feedback/put")
+    Call<RspModel<String>> putFeedback(@Body FeedbackModel model);
 }
 

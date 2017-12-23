@@ -49,6 +49,7 @@ import net.sunny.talker.view.GalleryDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -183,7 +184,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
     }
 
     private void showGalleryDialog(Message message) {
-        ArrayList<String> imageUrls = new ArrayList<>();
+        List<String> imageUrls = new ArrayList<>();
 
         for (Message msg : mAdapter.getItems()) {
             if (msg.getType() == Message.TYPE_PIC) {
@@ -198,7 +199,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
                 position = i;
         }
 
-        final GalleryDialog galleryDialog = new GalleryDialog(getContext(), imageUrls, position);
+        GalleryDialog galleryDialog = new GalleryDialog(getContext(), imageUrls, position);
         galleryDialog.show();
     }
 

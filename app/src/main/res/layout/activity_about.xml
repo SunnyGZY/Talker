@@ -41,10 +41,10 @@
         android:background="@color/white">
 
         <TextView
-            android:foreground="@drawable/ic_touch_fg"
-            android:id="@+id/tv_function_desc"
+            android:id="@+id/tv_function_introduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="@drawable/ic_touch_fg"
             android:padding="@dimen/len_16"
             android:text="@string/function_desc"
             android:textColor="@color/textPrimary"
@@ -54,19 +54,19 @@
             android:id="@+id/line_1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@id/tv_function_desc"
+            android:layout_below="@id/tv_function_introduction"
             android:layout_marginLeft="@dimen/len_16"
             android:layout_marginRight="@dimen/len_16"
             android:background="@color/lineColor" />
 
         <TextView
-            android:foreground="@drawable/ic_touch_fg"
-            android:id="@+id/tv_bug_report"
+            android:id="@+id/tv_user_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line_1"
+            android:foreground="@drawable/ic_touch_fg"
             android:padding="@dimen/len_16"
-            android:text="@string/bug_report"
+            android:text="@string/user_feedback"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/font_16" />
 
@@ -74,17 +74,17 @@
             android:id="@+id/line_2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@id/tv_bug_report"
+            android:layout_below="@id/tv_user_feedback"
             android:layout_marginLeft="@dimen/len_16"
             android:layout_marginRight="@dimen/len_16"
             android:background="@color/lineColor" />
 
         <TextView
-            android:foreground="@drawable/ic_touch_fg"
             android:id="@+id/tv_check_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line_2"
+            android:foreground="@drawable/ic_touch_fg"
             android:padding="@dimen/len_16"
             android:text="@string/check_update"
             android:textColor="@color/textPrimary"

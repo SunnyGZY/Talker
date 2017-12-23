@@ -39,6 +39,7 @@ import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.utils.DateTimeUtil;
 import net.sunny.talker.utils.SpUtils;
 import net.sunny.talker.utils.TimeDescribeUtil;
+import net.sunny.talker.view.GalleryDialog;
 import net.sunny.talker.view.okrecycler.OkRecycleView;
 
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 
 
 /**
@@ -217,7 +217,7 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         }
 
         mLoading.setVisibility(View.INVISIBLE);
-        if (mNewTrackCount.getVisibility() == View.VISIBLE){
+        if (mNewTrackCount.getVisibility() == View.VISIBLE) {
             mNewTrackCount.setVisibility(View.INVISIBLE);
         }
     }
@@ -227,7 +227,7 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
     @Override
     public Object function(Object[] data) {
         if (data[0] instanceof Track) {
-            mAdapter.addFromHead(mRecycler, (Track)data[0]);
+            mAdapter.addFromHead(mRecycler, (Track) data[0]);
         }
         return null;
     }
@@ -341,6 +341,12 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
             CommentActivity.show(getContext(), mData);
         }
 
+
+        @OnClick(R.id.rl_track)
+        public void showDetail() {
+            CommentActivity.show(getContext(), mData);
+        }
+
         @Override
         public void setPresenter(TrackItemPresenter presenter) {
             this.presenter = presenter;
@@ -390,8 +396,13 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         super.onDestroy();
     }
 
+    /**
+     * 获得照片显示的Adapter
+     *
+     * @return RecyclerAdapter<Photo>
+     */
     private RecyclerAdapter<Photo> getPhotoListAdapter() {
-        return new RecyclerAdapter<Photo>() {
+        final RecyclerAdapter<Photo> photoRecyclerAdapter = new RecyclerAdapter<Photo>() {
 
             @Override
             protected int getItemView(int position, Photo photo) {
@@ -403,6 +414,42 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
                 return new PhotoHolder(root);
             }
         };
+
+        photoRecyclerAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Photo>() {
+            @Override
+            public void onItemClick(RecyclerAdapter.ViewHolder holder, Photo photo) {
+                super.onItemClick(holder, photo);
+
+                List<Photo> photoList = photoRecyclerAdapter.getItems();
+                showGalleryDialog(photo, photoList);
+            }
+        });
+
+        return photoRecyclerAdapter;
+    }
+
+    /**
+     * 用户点击照片显示大图
+     *
+     * @param photo     点击的图片
+     * @param photoList 点击位置的所有图片
+     */
+    private void showGalleryDialog(Photo photo, List<Photo> photoList) {
+        List<String> photoUrlList = new ArrayList<>();
+
+        for (Photo photo1 : photoList) {
+            photoUrlList.add(photo1.getPhotoUrl());
+        }
+
+        // 找当前点击的图片在所有图片中的位置
+        int position = 0;
+        for (int i = 0; i < photoUrlList.size(); i++) {
+            if (photoUrlList.get(i).equalsIgnoreCase(photo.getPhotoUrl()))
+                position = i;
+        }
+
+        GalleryDialog galleryDialog = new GalleryDialog(getContext(), photoUrlList, position);
+        galleryDialog.show();
     }
 
     class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {

@@ -18,10 +18,18 @@
     <string name="title_activity_track_comment">评论</string>
     <string name="title_activity_settings">设置</string>
     <string name="function_desc">功能介绍</string>
-    <string name="bug_report">BUG反馈</string>
+    <string name="user_feedback">意见反馈</string>
     <string name="check_update">检查新版本</string>
     <string name="app_author">软件作者：Sunny</string>
     <string name="label_look_look">看一看</string>
     <string name="label_near_people">附近的人</string>
     <string name="title_activity_new_friends">新朋友</string>
+    <string name="please_input_feedback">请输入遇到的问题或建议......</string>
+    <string name="user_phone_num">联系电话</string>
+    <string name="please_input_phone_num">便于我们联系你</string>
+    <string name="thanks_for_your_feedback">谢谢您的反馈</string>
+    <string name="feedback_content_not_null">反馈内容不能为空</string>
+    <string name="feedback_phone_not_null">请填写您的电话信息，方便我们及时联系您</string>
+    <string name="label_function_introduction">功能介绍</string>
+    <string name="please_input_content">分享新鲜事...</string>
 </resources>

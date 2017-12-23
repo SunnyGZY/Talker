@@ -43,6 +43,7 @@ public class SettingActivity extends ToolbarActivity {
     private void showDialog() {
 
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.dialog)
+                .setIcon(R.mipmap.ic_launcher)
                 .setTitle("Talker")
                 .setMessage("是否确认退出登陆?")
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

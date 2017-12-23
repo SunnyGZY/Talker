@@ -156,15 +156,17 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         @Override
         protected void onBind(String string) {
             if (string.equals("")) { // 如果不是照片
+                photo.setPadding(36, 36, 36, 36);
                 // TODO: 17-8-29 需要优化
                 Glide.with(TrackWriteActivity.this)
                         .load(R.drawable.ic_default_photo)
-                        .centerCrop()
+                        .fitCenter()
                         .into(photo);
+
             } else {
                 Glide.with(TrackWriteActivity.this)
                         .load(string)
-                        .centerCrop()
+                        .fitCenter()
                         .into(photo);
             }
         }

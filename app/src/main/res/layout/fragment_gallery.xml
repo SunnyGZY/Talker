@@ -28,5 +28,6 @@
         android:clipToPadding="false"
         android:minHeight="@dimen/len_92"
         android:padding="1dp"
+        android:layout_marginBottom="@dimen/len_56"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>

@@ -11,6 +11,7 @@ import net.sunny.talker.common.app.ToolbarActivity;
 import net.sunny.talker.push.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class AboutActivity extends ToolbarActivity {
 
@@ -32,6 +33,16 @@ public class AboutActivity extends ToolbarActivity {
         super.initData();
         String versionName = getAppVersionName();
         mVersion.setText("Talker " + versionName);
+    }
+
+    @OnClick(R.id.tv_function_introduction)
+    public void goIntroduction() {
+        FunctionIntroductionActivity.show(this);
+    }
+
+    @OnClick(R.id.tv_user_feedback)
+    public void goFeedback() {
+        FeedbackActivity.show(this);
     }
 
     public String getAppVersionName() {

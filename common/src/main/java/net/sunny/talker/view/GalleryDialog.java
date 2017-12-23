@@ -25,13 +25,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
 
 
 public class GalleryDialog extends Dialog {
 
-    private ArrayList<String> imageUrls;
+    private List<String> imageUrls;
     private int clickPosition;
     private View downLoad;
 
@@ -42,13 +43,13 @@ public class GalleryDialog extends Dialog {
      * @param imageUrls 图片地址
      * @param position  默认显示第 position 张图片
      */
-    public GalleryDialog(Context context, ArrayList<String> imageUrls, int position) {
+    public GalleryDialog(Context context, List<String> imageUrls, int position) {
         super(context, R.style.GalleryDialogTheme);
         this.imageUrls = imageUrls;
         this.clickPosition = position;
     }
 
-    public GalleryDialog(Context context, ArrayList<String> imageUrls) {
+    public GalleryDialog(Context context, List<String> imageUrls) {
         this(context, imageUrls, 0);
     }
 
@@ -127,9 +128,9 @@ public class GalleryDialog extends Dialog {
     private class PicPagerAdapter extends PagerAdapter {
 
         private Context mContext;
-        private ArrayList<String> mData;
+        private List<String> mData;
 
-        PicPagerAdapter(Context context, ArrayList<String> list) {
+        PicPagerAdapter(Context context, List<String> list) {
             mContext = context;
             mData = list;
         }

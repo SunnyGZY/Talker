@@ -321,7 +321,7 @@ public class MainActivity extends Activity
             if (navNewFriendReq.getVisibility() == View.VISIBLE)
                 navNewFriendReq.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_look_look) {
-            App.showToast("功能正在开发，请耐心等待");
+            LookLookActivity.show(this);
         } else if (id == R.id.nav_near_people) {
             App.showToast("功能正在开发，请耐心等待");
         } else if (id == R.id.nav_settings) {
