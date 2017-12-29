@@ -22,7 +22,7 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
 
     public PersonalPresenter(PersonalContract.View view) {
         super(view);
-        PersonalContract.View view2 = (PersonalContract.View) getView();
+        PersonalContract.View view2 = getView();
         this.id = view2.getUserId();
     }
 
@@ -33,7 +33,7 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         Factory.runOnAsync(new Runnable() {
             @Override
             public void run() {
-                PersonalContract.View view = (PersonalContract.View) getView();
+                PersonalContract.View view = getView();
                 if (view != null) {
                     User user = UserHelper.searchFirstOfNet(id);
                     onLoaded(user);
@@ -54,7 +54,7 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                final PersonalContract.View view = (PersonalContract.View) getView();
+                final PersonalContract.View view = getView();
                 view.onLoadDone(user);
                 view.setFollowStatus(isFollow);
                 view.allowSayHello(allowSayHello);

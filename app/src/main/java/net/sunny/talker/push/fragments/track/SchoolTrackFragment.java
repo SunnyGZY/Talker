@@ -2,7 +2,6 @@ package net.sunny.talker.push.fragments.track;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.provider.ContactsContract;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,11 +23,9 @@ import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
-import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.data.track.TrackDispatcher;
-import net.sunny.talker.factory.model.db.Message;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
@@ -400,7 +397,10 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 @Override
                 public void call() {
                     mName.setText(user.getName());
-                    Glide.with(getContext()).load(user.getPortrait()).into(mPortraitView);
+                    Glide.with(getContext())
+                            .load(user.getPortrait())
+                            .placeholder(R.drawable.img_place_holder)
+                            .into(mPortraitView);
                 }
             });
         }
@@ -497,7 +497,11 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @Override
         protected void onBind(Photo photo) {
-            Glide.with(getContext()).load(photo.getPhotoUrl()).into(mPhoto);
+            Glide.with(getContext())
+                    .load(photo.getPhotoUrl())
+                    .error(R.drawable.load_img_error)
+                    .placeholder(R.drawable.img_place_holder)
+                    .into(mPhoto);
         }
     }
 }

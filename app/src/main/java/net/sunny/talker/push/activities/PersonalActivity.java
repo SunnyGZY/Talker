@@ -27,6 +27,9 @@ import net.sunny.talker.push.R;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 个人信息
+ */
 public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.Presenter>
         implements PersonalContract.View {
 
@@ -92,7 +95,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_follow) {
-            // 进行关注操作
+            // todo 进行关注操作
             return true;
         }
         return super.onOptionsItemSelected(item);

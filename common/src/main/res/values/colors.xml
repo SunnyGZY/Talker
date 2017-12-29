@@ -36,5 +36,10 @@
     <!--导航栏Icon遮罩色-->
     <color name="navIconTintLight">@color/white_alpha_240</color>
 
+    <!--间隔线颜色-->
     <color name="lineColor">#e8e8e8</color>
+
+    <!--Glide加载出图片前占位颜色-->
+    <color name="imgPlaceHolder">#d0d0d0</color>
+
 </resources>

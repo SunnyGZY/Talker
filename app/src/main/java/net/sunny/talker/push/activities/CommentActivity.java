@@ -207,7 +207,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
 
             @Override
             protected int getItemView(int position, Photo photo) {
-                return R.layout.cell_track_photo;
+                return R.layout.cell_write_track_photo;
             }
 
             @Override

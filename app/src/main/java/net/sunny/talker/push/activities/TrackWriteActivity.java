@@ -100,7 +100,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     RecyclerAdapter<String> adapter = new RecyclerAdapter<String>() {
         @Override
         protected int getItemView(int position, String o) {
-            return R.layout.cell_track_photo;
+            return R.layout.cell_write_track_photo;
         }
 
         @Override
