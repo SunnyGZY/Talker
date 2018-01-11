@@ -28,6 +28,7 @@
 
     <style name="AppTheme.Message" parent="AppTheme.TransStatusBar">
         <item name="android:windowBackground">@color/windowsBackgroundLight</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.Group.Create" parent="AppTheme.TransStatusBar">

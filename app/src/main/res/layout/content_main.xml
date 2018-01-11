@@ -59,8 +59,10 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <FrameLayout
         android:id="@+id/lay_container"

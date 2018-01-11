@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/statusBarSize" />
+        android:paddingTop="@dimen/statusBarSize"
+        android:elevation="@dimen/len_2"
+        android:outlineProvider="bounds"
+        tools:targetApi="lollipop"/>
 
     <net.sunny.talker.view.ProgressWebView
         android:id="@+id/wv_content"

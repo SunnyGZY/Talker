@@ -1,5 +1,8 @@
 package net.sunny.talker.push.fragments.main;
 
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +15,7 @@ import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.factory.model.db.Message;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.presenter.contact.ContactContract;
 import net.sunny.talker.factory.presenter.contact.ContactPresenter;
@@ -63,7 +67,15 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<User>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, User user) {
-                MessageActivity.show(getContext(), user);
+                ViewHolder holder1 = (ViewHolder) holder;
+                Intent intent = new Intent(getContext(), MessageActivity.class);
+                intent.putExtra("KEY_RECEIVER_ID", user.getId());
+
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(getActivity(), holder1.mPortraitView, "Portrait");
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+
+//                MessageActivity.show(getContext(), user);
             }
         });
 

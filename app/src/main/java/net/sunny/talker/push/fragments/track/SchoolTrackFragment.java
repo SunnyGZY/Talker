@@ -43,6 +43,7 @@ import net.sunny.talker.utils.DateTimeUtil;
 import net.sunny.talker.utils.SpUtils;
 import net.sunny.talker.utils.TimeDescribeUtil;
 import net.sunny.talker.view.GalleryDialog;
+import net.sunny.talker.view.ResizableImageView;
 import net.sunny.talker.view.okrecycler.OkRecycleView;
 
 import java.util.ArrayList;
@@ -489,7 +490,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {
 
         @BindView(R.id.iv_photo)
-        ImageView mPhoto;
+        ResizableImageView mPhoto;
 
         PhotoHolder(View itemView) {
             super(itemView);

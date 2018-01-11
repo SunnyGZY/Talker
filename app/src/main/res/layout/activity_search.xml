@@ -10,8 +10,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
+        android:elevation="@dimen/len_2"
+        android:outlineProvider="bounds"
         android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/statusBarSize" />
+        android:paddingTop="@dimen/statusBarSize"
+        tools:targetApi="lollipop" />
 
     <FrameLayout
         android:id="@+id/lay_container"

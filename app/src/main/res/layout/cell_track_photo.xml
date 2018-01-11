@@ -6,7 +6,7 @@
     android:background="@color/white">
  
     <net.sunny.talker.view.ResizableImageView
-        android:layout_margin="@dimen/len_2"
+        android:padding="@dimen/len_2"
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
