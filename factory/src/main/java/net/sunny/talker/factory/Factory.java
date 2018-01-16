@@ -228,7 +228,7 @@ public class Factory {
                     break;
                 }
                 case PushModel.ENTITY_TYPE_EXIT_GROUP_MEMBERS: {
-                    // TODO  成员推出的推送
+                    // TODO  成员退出的推送
                     break;
                 }
             }

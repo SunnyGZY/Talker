@@ -55,7 +55,7 @@
                 android:paddingTop="@dimen/len_8"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textColor="@color/textPrimary"
-                android:textColorHint="@color/textSecond"
+                android:textColorHint="@color/textLight"
                 android:textCursorDrawable="@drawable/ic_cursor"
                 android:textSize="@dimen/font_14" />
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:paddingTop="@dimen/len_8"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textColor="@color/textPrimary"
-                android:textColorHint="@color/textSecond"
+                android:textColorHint="@color/textLight"
                 android:textCursorDrawable="@drawable/ic_cursor"
                 android:textSize="@dimen/font_14" />
         </LinearLayout>
@@ -142,7 +142,7 @@
                 android:paddingTop="@dimen/len_8"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                 android:textColor="@color/textPrimary"
-                android:textColorHint="@color/textSecond"
+                android:textColorHint="@color/textLight"
                 android:textCursorDrawable="@drawable/ic_cursor"
                 android:textSize="@dimen/font_14" />
         </LinearLayout>

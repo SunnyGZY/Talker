@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_white_rectangle"
+    android:elevation="@dimen/len_2"
+    android:orientation="vertical"
+    android:outlineProvider="bounds"
+    android:id="@+id/ll_parent"
+    tools:targetApi="lollipop">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:gravity="bottom|left"
+        android:paddingBottom="@dimen/len_2"
+        android:paddingLeft="@dimen/len_16"
+        android:paddingRight="@dimen/len_16"
+        android:text="@string/select_shot_type"
+        android:textColor="@color/textLight"
+        android:textSize="@dimen/font_14" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#C8C8C8" />
+
+    <FrameLayout
+        android:id="@+id/tv_shot_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/cell_group_fg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/len_16"
+            android:paddingRight="@dimen/len_16"
+            android:text="@string/shot_photo"
+            android:textColor="@color/textPrimary" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/lineColor" />
+
+    <FrameLayout
+        android:id="@+id/tv_shot_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/cell_group_fg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/len_16"
+            android:paddingRight="@dimen/len_16"
+            android:text="@string/shot_video"
+            android:textColor="@color/textPrimary" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#C8C8C8" />
+
+    <FrameLayout
+        android:id="@+id/tv_from_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/cell_group_fg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/len_16"
+            android:paddingRight="@dimen/len_16"
+            android:text="@string/select_from_album"
+            android:textColor="@color/textPrimary" />
+    </FrameLayout>
+</LinearLayout>

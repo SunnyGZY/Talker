@@ -22,7 +22,7 @@ public class ChatUserPresenter extends ChatPresenter<ChatContract.UserView>
     public void start() {
         super.start();
         User receiver = UserHelper.findFromLocal(mReceiverId);
-        ChatContract.View view = (ChatContract.View) getView();
+        ChatContract.View view = getView();
         view.onInit(receiver);
     }
 }

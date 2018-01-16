@@ -45,7 +45,7 @@
         android:lines="1"
         android:maxLength="32"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/textSecond"
+        android:textColor="@color/textLight"
         android:textSize="@dimen/font_12"
         tools:text="Mary Harmon" />
 
@@ -59,7 +59,7 @@
         android:lines="1"
         android:maxLength="32"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/textSecond"
+        android:textColor="@color/textLight"
         android:textSize="@dimen/font_12"
         tools:text="17-04-12" />
 </FrameLayout>

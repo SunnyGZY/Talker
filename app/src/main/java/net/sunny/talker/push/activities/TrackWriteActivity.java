@@ -2,9 +2,16 @@ package net.sunny.talker.push.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +19,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -22,6 +30,14 @@ import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
+import net.sunny.talker.view.SelectShotTypDialog;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,7 +56,15 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     @BindView(R.id.cb_just_friend)
     CheckBox mJustFriend;
 
-    TrackWriteContract.Presenter mPresenter;
+    @BindView(R.id.iv_video_frame)
+    ImageView mVideoFrame;
+
+    private TrackWriteContract.Presenter mPresenter;
+    private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
+
+    private static final String PHOTO_DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/";
+
+    String filePath = null;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, TrackWriteActivity.class));
@@ -70,6 +94,10 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         switch (item.getItemId()) {
             case R.id.action_put:
                 if (mPresenter != null) {
+                    if (!isPhotos) {
+                        App.showToast("暂不支持上传视频,请耐心等待新版本");
+                    }
+
                     String content = mContent.getText().toString().trim().trim();
                     if (!content.equals("")) {
                         mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
@@ -174,21 +202,107 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         @OnClick(R.id.iv_photo)
         void selectPhotos() {
             if (mData.equals("")) {
-                new GalleryFragment()
-                        .setListener(new GalleryFragment.GalleryListenerImpl() {
-                            @Override
-                            public void onSelectedImage(String[] path) {
-                                adapter.addFromHead(path);
-                            }
+                final SelectShotTypDialog dialog = new SelectShotTypDialog(TrackWriteActivity.this, new SelectShotTypDialog.OnSelectTypeListener() {
+                    @Override
+                    public void shotPhoto() {
+                        showCamera(true);
+                    }
 
-                            @Override
-                            public void onSelectedImageCount(int count) {
-                                super.onSelectedImageCount(count);
-                            }
-                        })
-                        .setMaxImageCount(9)
-                        .show(getSupportFragmentManager(), GalleryFragment.class.getName());
+                    @Override
+                    public void shotVideo() {
+                        showCamera(false);
+                    }
+
+                    @Override
+                    public void selectFromAlbum() {
+                        new GalleryFragment()
+                                .setListener(new GalleryFragment.GalleryListenerImpl() {
+                                    @Override
+                                    public void onSelectedImage(String[] path) {
+                                        adapter.addFromHead(path);
+                                    }
+
+                                    @Override
+                                    public void onSelectedImageCount(int count) {
+                                        super.onSelectedImageCount(count);
+                                    }
+                                })
+                                .setMaxImageCount(9)
+                                .show(getSupportFragmentManager(), GalleryFragment.class.getName());
+                    }
+                });
+                dialog.show();
             }
         }
+    }
+
+    /**
+     * 打开系统摄像机
+     *
+     * @param isShotPic true 拍照, false 摄像
+     */
+    private void showCamera(boolean isShotPic) {
+
+        File dirFirstFolder = new File(PHOTO_DIR_PATH);
+        if (!dirFirstFolder.exists()) {
+            dirFirstFolder.mkdirs();
+        }
+
+        Intent intent = new Intent();
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+
+        if (isShotPic) {
+            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            String fileName = formatter.format(curDate) + ".jpg";
+
+            File file = new File(PHOTO_DIR_PATH + fileName);
+            filePath = file.getPath();
+
+            Uri uri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(intent, 0);
+        } else {
+            intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+            String fileName = formatter.format(curDate) + ".mp4";
+
+            File file = new File(PHOTO_DIR_PATH + fileName);
+            filePath = file.getPath();
+
+            Uri uri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+            startActivityForResult(intent, 1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0) { // 拍照
+                isPhotos = true;
+                adapter.addFromHead(filePath);
+            } else if (requestCode == 1) { // 视频
+                isPhotos = false;
+                Bitmap bitmap = getVideoFirstFrame(filePath);
+                mRvPhotos.setVisibility(View.GONE);
+                mVideoFrame.setVisibility(View.VISIBLE);
+                mVideoFrame.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    private Bitmap getVideoFirstFrame(String path) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        File file = new File(path);
+        if (file.exists()) {
+            mmr.setDataSource(file.getAbsolutePath());
+            Bitmap bitmap = mmr.getFrameAtTime();
+            if (bitmap != null) {
+                return bitmap;
+            }
+        }
+        return null;
     }
 }

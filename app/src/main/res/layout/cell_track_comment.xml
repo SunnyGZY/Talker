@@ -41,7 +41,7 @@
             android:layout_marginLeft="@dimen/len_4"
             android:textSize="@dimen/font_12"
             android:layout_toRightOf="@id/im_portrait"
-            android:textColor="@color/textSecond"
+            android:textColor="@color/textLight"
             tools:text="1小时前" />
     </RelativeLayout>
 

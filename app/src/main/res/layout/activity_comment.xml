@@ -78,7 +78,7 @@
             android:padding="@dimen/len_4"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/textPrimary"
-            android:textColorHint="@color/textSecond"
+            android:textColorHint="@color/textLight"
             android:textCursorDrawable="@drawable/ic_cursor" />
 
         <ImageView

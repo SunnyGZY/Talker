@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/textSecond"
+            android:textColor="@color/textLight"
             tools:text="已选3张" />
 
         <Button

@@ -9,21 +9,23 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
+        android:background="@color/colorPrimary"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
-        android:background="@color/colorPrimary"
         android:paddingTop="@dimen/statusBarSize"
         tools:targetApi="lollipop" />
 
     <RelativeLayout
-        android:elevation="1dp"
-        android:outlineProvider="background"
-        android:orientation="vertical"
         android:id="@+id/rl_edit_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
         android:background="@color/white"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        android:outlineProvider="background"
         tools:targetApi="lollipop">
 
         <EditText
@@ -44,21 +46,34 @@
             android:textCursorDrawable="@drawable/ic_cursor_primary_color"
             android:textSize="@dimen/font_16" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_photos"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_content"
-            android:layout_marginBottom="@dimen/len_10"
-            android:layout_marginLeft="@dimen/len_16"
-            android:layout_marginRight="@dimen/len_16"
-            android:layout_marginTop="@dimen/len_10" />
+            android:layout_below="@id/et_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/len_10"
+                android:layout_marginLeft="@dimen/len_16"
+                android:layout_marginRight="@dimen/len_16"
+                android:layout_marginTop="@dimen/len_10" />
+
+            <ImageView
+                android:id="@+id/iv_video_frame"
+                android:layout_width="192dp"
+                android:layout_height="108dp"
+                android:contentDescription="@string/app_name"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <View
             android:id="@id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/rv_photos"
+            android:layout_below="@id/preview"
             android:layout_marginLeft="@dimen/len_16"
             android:layout_marginRight="@dimen/len_16"
             android:background="@color/lineColor" />
@@ -66,7 +81,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rv_photos"
+            android:layout_below="@id/preview"
             android:layout_marginBottom="@dimen/len_6"
             android:layout_marginLeft="@dimen/len_16"
             android:layout_marginRight="@dimen/len_16"

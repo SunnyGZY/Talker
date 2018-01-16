@@ -20,7 +20,7 @@
     <style name="AppTheme.Main" parent="AppTheme.TransStatusBar">
         <item name="toolbarTitleColor">@color/white</item>
         <item name="toolbarMenuIconColor">@color/white</item>
-        <item name="colorControlHighlight">@color/textSecond</item>
+        <item name="colorControlHighlight">@color/textLight</item>
         <item name="android:windowBackground">@color/windowsBackgroundLight</item>
     </style>
 

@@ -35,7 +35,7 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/textPrimary"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:tabTextColor="@color/textSecond" />
+            app:tabTextColor="@color/textLight" />
 
         <ImageView
             android:src="@drawable/ic_backspace"
@@ -46,7 +46,7 @@
             android:foreground="@drawable/ic_touch_bg"
             android:padding="@dimen/len_6"
             android:scaleType="centerInside"
-            android:tint="@color/textSecond"
+            android:tint="@color/textLight"
             android:contentDescription="@string/app_name"/>
     </LinearLayout>
 </LinearLayout>

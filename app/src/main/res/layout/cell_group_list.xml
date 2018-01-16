@@ -43,7 +43,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/textSecond"
+        android:textColor="@color/textLight"
         tools:text="1 minutes ago" />
 
     <View
@@ -65,7 +65,7 @@
         android:gravity="center"
         android:lines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/textSecond"
+        android:textColor="@color/textLight"
         tools:text="Mary Harmon" />
 
 </LinearLayout>

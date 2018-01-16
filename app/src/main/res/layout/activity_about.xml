@@ -32,7 +32,7 @@
         android:layout_below="@+id/iv_app_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/len_6"
-        android:textColor="@color/textSecond"
+        android:textColor="@color/textLight"
         android:textSize="@dimen/font_16"
         tools:text="Talker 1.0.0" />
 
@@ -101,5 +101,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/len_4"
         android:text="@string/app_author"
-        android:textColor="@color/textSecond" />
+        android:textColor="@color/textLight" />
 </RelativeLayout>

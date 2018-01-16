@@ -35,7 +35,7 @@ class ChatPresenter<View extends ChatContract.View>
 
     @Override
     public void onDataLoaded(final List<Message> messages) { // MessageRepository的接口回调
-        final ChatContract.View view = (ChatContract.View) getView();
+        final ChatContract.View view = getView();
         if (view == null)
             return;
 
@@ -49,7 +49,7 @@ class ChatPresenter<View extends ChatContract.View>
     }
 
     private void addFooterHolder(List<Message> messages) {
-        if (messages.size()>0) {
+        if (messages.size() > 0) {
             Message msg = messages.get(messages.size() - 1);
             Message msgFooter = msg.copy();
             msgFooter.setType(Message.TYPE_FOOTER);
