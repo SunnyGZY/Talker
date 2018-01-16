@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mraid_content_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <TextureView
+        android:id="@+id/xadsdk_player_video_textureView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:duplicateParentState="true" />
+
+
+    <ImageView
+        android:id="@+id/xadsdk_to_full_view"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="right"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="14dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/xadsdk_ad_mini"
+        android:contentDescription="@string/app_name" />
+
+    <Button
+        android:id="@+id/xadsdk_small_play_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/xadsdk_ad_play"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/loading_bar"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/xadsdk_ad_loading_anim"
+        android:contentDescription="@string/app_name" />
+    <!--<ViewStub-->
+    <!--android:id="@+id/small_view_stub"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout="@layout/xadsdk_video_player_small_layout"-->
+    <!--/>-->
+
+    <!--<ViewStub-->
+    <!--android:id="@+id/big_view_stub"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout="@layout/xadsdk_video_player_big_layout"-->
+    <!--/>-->
+</FrameLayout>

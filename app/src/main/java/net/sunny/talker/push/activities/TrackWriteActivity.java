@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
 import net.sunny.talker.view.SelectShotTypDialog;
+import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,8 +59,8 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     @BindView(R.id.cb_just_friend)
     CheckBox mJustFriend;
 
-    @BindView(R.id.iv_video_frame)
-    ImageView mVideoFrame;
+    @BindView(R.id.iv_video_preview)
+    FrameLayout mVideoPreview;
 
     private TrackWriteContract.Presenter mPresenter;
     private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
@@ -101,6 +104,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                     String content = mContent.getText().toString().trim().trim();
                     if (!content.equals("")) {
                         mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
+
                     } else {
                         App.showToast(R.string.toast_comment_not_null);
                     }
@@ -287,8 +291,10 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                 isPhotos = false;
                 Bitmap bitmap = getVideoFirstFrame(filePath);
                 mRvPhotos.setVisibility(View.GONE);
-                mVideoFrame.setVisibility(View.VISIBLE);
-                mVideoFrame.setImageBitmap(bitmap);
+                mVideoPreview.setVisibility(View.VISIBLE);
+                new AdSDKSlot(filePath, mVideoPreview, new AdSDKSlot.VideoSDKListenerImpl() {
+
+                });
             }
         }
     }

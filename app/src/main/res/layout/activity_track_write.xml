@@ -61,10 +61,10 @@
                 android:layout_marginRight="@dimen/len_16"
                 android:layout_marginTop="@dimen/len_10" />
 
-            <ImageView
-                android:id="@+id/iv_video_frame"
-                android:layout_width="192dp"
-                android:layout_height="108dp"
+            <FrameLayout
+                android:id="@+id/iv_video_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
                 android:visibility="gone" />
         </FrameLayout>
