@@ -8,6 +8,8 @@ public interface TrackWriteContract {
     interface Presenter extends BaseContract.Presenter {
         // 发布动态
         void put(String content, List<String> photoUrls, boolean justFriend);
+
+        void put(String content, String videoUrl, boolean justFriend);
     }
 
     interface View extends BaseContract.RecyclerView<Presenter, String> {

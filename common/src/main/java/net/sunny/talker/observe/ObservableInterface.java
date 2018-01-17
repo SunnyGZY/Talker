@@ -41,5 +41,5 @@ public interface ObservableInterface<T, P, R> {
      * @param p    参数
      * @return 返回值
      */
-    R notify(String name, P... p);
+    R notify(String name, P p);
 }

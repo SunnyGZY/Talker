@@ -81,6 +81,9 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         onPagerChangeListener = trackFragment;
     }
 
+    public FriendTrackFragment() {
+    }
+
     @OnClick(R.id.tv_school)
     public void showSchoolTrackFragment() {
         if (onPagerChangeListener != null)
@@ -225,9 +228,9 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
     int count;
 
     @Override
-    public Object function(Object[] data) {
-        if (data[0] instanceof Track) {
-            mAdapter.addFromHead(mRecycler, (Track) data[0]);
+    public Object function(Object data) {
+        if (data instanceof Track) {
+            mAdapter.addFromHead(mRecycler, (Track) data);
         }
         return null;
     }

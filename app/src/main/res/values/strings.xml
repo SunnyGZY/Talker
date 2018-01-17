@@ -31,5 +31,6 @@
     <string name="feedback_content_not_null">反馈内容不能为空</string>
     <string name="feedback_phone_not_null">请填写您的电话信息，方便我们及时联系您</string>
     <string name="label_function_introduction">功能介绍</string>
-    <string name="please_input_content">分享新鲜事...</string>
+    <string name="please_input_content">分享新鲜事…</string>
+    <string name="uploading">正在上传</string>
 </resources>

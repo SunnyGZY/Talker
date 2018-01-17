@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ import net.sunny.talker.utils.TimeDescribeUtil;
 import net.sunny.talker.view.GalleryDialog;
 import net.sunny.talker.view.ResizableImageView;
 import net.sunny.talker.view.okrecycler.OkRecycleView;
+import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,6 +64,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
     private static int LOAD_FRESH_DATA = 2;
     private static int LOAD_MORE_DATA = 1;
+
+    private List<ViewHolder> videoScrollListener = new ArrayList<>(); // 将RecyclerView的滑动事件传递给ViewHolder
 
     OnPagerChangeListener onPagerChangeListener;
 
@@ -85,6 +89,9 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
     public SchoolTrackFragment(TrackFragment trackFragment) {
         onPagerChangeListener = trackFragment;
+    }
+
+    public SchoolTrackFragment() {
     }
 
     @OnClick(R.id.tv_friend)
@@ -127,7 +134,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             }
         });
 
-
         mEmptyView.bind(mRecycler);
         setPlaceHolderView(mEmptyView);
 
@@ -153,8 +159,20 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 loadType = LOAD_MORE_DATA;
             }
         });
-    }
 
+
+        mRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (videoScrollListener.size() != 0) {
+                    for (ViewHolder viewHolder : videoScrollListener) {
+                        viewHolder.onScrollListener();
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public SchoolTrackContract.Presenter initPresenter() {
@@ -234,9 +252,9 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     int count;
 
     @Override
-    public Object function(Object[] data) {
-        if (data[0] instanceof Track) {
-            Track track = (Track) data[0];
+    public Object function(Object data) {
+        if (data instanceof Track) {
+            Track track = (Track) data;
             if (track.getJurisdiction() == Track.IN_SCHOOL)
                 mAdapter.addFromHead(mRecycler, track);
         }
@@ -270,8 +288,14 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         TextView hateCount;
         @BindView(R.id.tv_comment)
         TextView commentCount;
+        @BindView(R.id.fl_video_view)
+        FrameLayout mVideoView;
+        @BindView(R.id.tv_uploading)
+        TextView mUploading;
 
         TrackItemPresenter presenter;
+
+        AdSDKSlot adSDKSlot = null;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -280,6 +304,10 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @Override
         protected void onBind(final Track track) {
+            if (track.getState() == Track.UPLOADING) {
+                mUploading.setVisibility(View.VISIBLE);
+            }
+
             count++;
 
             if (mAdapter.getItemCount() == count) {
@@ -309,12 +337,23 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             hateCount.setText(String.valueOf(track.getTauntCount()));
             commentCount.setText(String.valueOf(track.getCommentCount()));
 
-            mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
-            RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
-            mRecyclerPhoto.setAdapter(adapter);
-            List<Photo> photoList = track.getPhotos();
+            if (track.getType() == 0) {
+                mVideoView.setVisibility(View.GONE);
+                mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-            adapter.replace(photoList);
+                RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
+                mRecyclerPhoto.setAdapter(adapter);
+                List<Photo> photoList = track.getPhotos();
+                adapter.replace(photoList);
+            } else if (track.getType() == 1) {
+                mRecyclerPhoto.setVisibility(View.GONE);
+                mVideoView.setVisibility(View.VISIBLE);
+                adSDKSlot = new AdSDKSlot(track.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
+
+                });
+                videoScrollListener.add(this);
+            }
+
 
             if (track.isComplimentEnable()) {
                 great.setOnClickListener(null);
@@ -328,6 +367,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             } else {
                 hate.clearColorFilter();
             }
+
         }
 
         @OnClick(R.id.iv_great)
@@ -409,6 +449,12 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         @Override
         public void onDataNotAvailable(@StringRes int strRes) {
 
+        }
+
+        private void onScrollListener() {
+            if (adSDKSlot != null) {
+                adSDKSlot.updateAdInScrollView();
+            }
         }
     }
 

@@ -55,7 +55,7 @@ public class MessageReceiver extends BroadcastReceiver {
 
                 //触发事件，将数据返回给MainActivity
                 ObservableManager.newInstance()
-                        .notify(MainActivity.OBSERVABLE_NEW_SESSION);
+                        .notify(MainActivity.OBSERVABLE_NEW_SESSION, null);
                 break;
             }
             default:

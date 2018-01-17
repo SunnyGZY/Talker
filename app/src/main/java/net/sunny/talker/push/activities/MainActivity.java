@@ -354,7 +354,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public Object function(Object[] data) {
+    public Object function(Object data) {
         int selectPosition = mNavigation.getCurrentSelectedPosition();
         if (selectPosition != 0)
             unreadMessagesCount++;

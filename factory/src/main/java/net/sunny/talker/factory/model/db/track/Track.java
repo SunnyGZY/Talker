@@ -33,6 +33,12 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
     public static int IN_SCHOOL = 0x01;
     public static int IN_FRIEND = 0x02;
 
+    public static int UPLOADING = 0x01;
+    public static int UPLOADED = 0x02;
+
+    public static int BRING_PIC = 0x00;
+    public static int BRING_VIDEO = 0x01;
+
     public Track() {
 
     }
@@ -127,6 +133,10 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
     private boolean complimentEnable;
     @Column
     private boolean tauntEnable;
+    @Column
+    private String videoUrl;
+    @Column
+    private int state;
 
     public String getId() {
         return id;
@@ -218,6 +228,22 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
 
     public void setTauntEnable(boolean tauntEnable) {
         this.tauntEnable = tauntEnable;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

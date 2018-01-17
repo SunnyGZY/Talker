@@ -35,7 +35,21 @@
         android:layout_toRightOf="@id/im_portrait"
         android:textColor="@color/textLight"
         android:textSize="@dimen/len_12"
-        tools:text="今天 12：44    来自 微博 wei.bo.com" />
+        tools:text="今天 12：44   来自 新浪微博" />
+
+    <TextView
+        android:id="@+id/tv_uploading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_inf"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/len_16"
+        android:layout_toRightOf="@id/tv_inf"
+        android:layout_toStartOf="@id/tv_inf"
+        android:text="@string/uploading"
+        android:textColor="@color/textAccent"
+        android:textSize="@dimen/font_12"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_content"
@@ -56,12 +70,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content"
         android:layout_marginLeft="@dimen/len_16"
-        android:layout_marginRight="@dimen/len_16">
+        android:layout_marginRight="@dimen/len_16"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_photos"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/fl_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
@@ -97,11 +118,11 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:padding="@dimen/len_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/len_16"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="@dimen/len_2">
 
             <ImageView
                 android:id="@+id/iv_great"
@@ -123,10 +144,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:padding="@dimen/len_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="@dimen/len_2">
 
             <ImageView
                 android:id="@+id/iv_hate"
@@ -148,10 +169,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:padding="@dimen/len_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="@dimen/len_2">
 
             <ImageView
                 android:id="@+id/iv_comment"
@@ -173,10 +194,10 @@
         </RelativeLayout>
 
         <FrameLayout
-            android:padding="@dimen/len_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3">
+            android:layout_weight="3"
+            android:padding="@dimen/len_2">
 
             <ImageView
                 android:layout_width="wrap_content"

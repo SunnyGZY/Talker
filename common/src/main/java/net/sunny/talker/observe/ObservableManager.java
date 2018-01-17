@@ -79,8 +79,8 @@ public class ObservableManager<Param, Result>
         }
     }
 
-    @SafeVarargs
-    public final Result notify(String name, Param... param) {
+    @Override
+    public final Result notify(String name, Param param) {
         synchronized (_lockObj) {
             if (_mapping.containsKey(name)) {
                 Set<Function> observers = _mapping.get(name);

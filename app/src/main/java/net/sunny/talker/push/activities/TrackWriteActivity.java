@@ -97,16 +97,25 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         switch (item.getItemId()) {
             case R.id.action_put:
                 if (mPresenter != null) {
-                    if (!isPhotos) {
-                        App.showToast("暂不支持上传视频,请耐心等待新版本");
-                    }
+                    if (isPhotos) {
+                        String content = mContent.getText().toString().trim().trim();
+                        if (!content.equals("")) {
+                            adapter.getItems().remove(adapter.getItems().size() - 1);
+                            mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
 
-                    String content = mContent.getText().toString().trim().trim();
-                    if (!content.equals("")) {
-                        mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
-
+                            finish();
+                        } else {
+                            App.showToast(R.string.toast_comment_not_null);
+                        }
                     } else {
-                        App.showToast(R.string.toast_comment_not_null);
+                        String content = mContent.getText().toString().trim().trim();
+                        if (!content.equals("")) {
+                            mPresenter.put(content, filePath, mJustFriend.isChecked());
+
+                            finish();
+                        } else {
+                            App.showToast(R.string.toast_comment_not_null);
+                        }
                     }
                 }
                 return true;
