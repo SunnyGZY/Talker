@@ -20,6 +20,7 @@ import net.sunny.talker.factory.model.db.BaseDbModel;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 /**
@@ -40,7 +41,7 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
     public static int BRING_VIDEO = 0x01;
 
     public Track() {
-
+        this.id = UUID.randomUUID().toString();
     }
 
     public Track(String id) {

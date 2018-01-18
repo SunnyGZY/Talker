@@ -24,6 +24,7 @@ public class TrackCard {
     private long commentCount;
     private boolean isCompliment;
     private boolean isTaunt;
+    private int state;
 
     public String getId() {
         return id;
@@ -121,6 +122,14 @@ public class TrackCard {
         isTaunt = taunt;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public Track buildTract() {
         Track track = new Track();
         track.setId(id);
@@ -140,6 +149,7 @@ public class TrackCard {
         track.setTauntCount(tauntCount);
         track.setComplimentEnable(isCompliment);
         track.setTauntEnable(isTaunt);
+        track.setState(state);
         return track;
     }
 

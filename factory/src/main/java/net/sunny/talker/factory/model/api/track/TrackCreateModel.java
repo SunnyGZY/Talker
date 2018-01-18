@@ -16,6 +16,12 @@ public class TrackCreateModel {
     private Date createAt;
     private int type;
     private int jurisdiction;
+    private String videoUrl;
+    private String state;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -69,8 +75,24 @@ public class TrackCreateModel {
         this.createAt = createAt;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public TrackCreateModel() {
-        this.id = UUID.randomUUID().toString();
+
         this.createAt = new Date();
     }
 
@@ -93,6 +115,11 @@ public class TrackCreateModel {
 
         public Builder() {
             this.model = new TrackCreateModel();
+        }
+
+        public Builder id(String id) {
+            this.model.id = id;
+            return this;
         }
 
         // 设置接收者

@@ -7,6 +7,7 @@ import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.R;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.TrackHelper;
+import net.sunny.talker.factory.data.track.TrackDispatcher;
 import net.sunny.talker.factory.model.card.track.TrackCard;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
@@ -52,7 +53,15 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setType(0);
         track.setCreateAt(new Date());
         track.setOwnerId(Account.getUserId());
+        track.setState(Track.UPLOADING);
         ObservableManager.newInstance().notify("OBSERVABLE_NEW_TRACK", track);
+
+        /**
+         * 先将确认待发送的数据保存在本地数据库
+         */
+        List<Track> trackList = new ArrayList<>();
+        trackList.add(track);
+        TrackDispatcher.instance().dispatch(trackList);
 
 //        Factory.runOnAsync(new Runnable() {
 //            @Override
@@ -79,6 +88,13 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setOwnerId(Account.getUserId());
         track.setState(Track.UPLOADING);
         ObservableManager.newInstance().notify("OBSERVABLE_NEW_TRACK", track);
+
+        /**
+         * 先将确认待发送的数据保存在本地数据库
+         */
+        List<Track> trackList = new ArrayList<>();
+        trackList.add(track);
+        TrackDispatcher.instance().dispatch(trackList);
     }
 
     @Override

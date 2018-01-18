@@ -375,6 +375,11 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
             count--;
             hateCount.setText(String.valueOf(count));
         }
+
+        @Override
+        public void uploadSuccess(Track track) {
+
+        }
     }
 
     @Override

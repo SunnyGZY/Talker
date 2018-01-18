@@ -37,6 +37,7 @@ import net.sunny.talker.factory.presenter.track.school.SchoolTrackContract;
 import net.sunny.talker.factory.presenter.track.school.SchoolTrackPresenter;
 import net.sunny.talker.observe.Function;
 import net.sunny.talker.observe.ObservableManager;
+import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.activities.CommentActivity;
 import net.sunny.talker.push.fragments.main.TrackFragment;
@@ -306,6 +307,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         protected void onBind(final Track track) {
             if (track.getState() == Track.UPLOADING) {
                 mUploading.setVisibility(View.VISIBLE);
+            } else {
+                mUploading.setVisibility(View.GONE);
             }
 
             count++;
@@ -368,6 +371,13 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 hate.clearColorFilter();
             }
 
+            if (track.getState() == Track.UPLOADING) {
+                if (presenter != null) {
+                    presenter.uploadData(track);
+                } else {
+                    App.showToast("Presenter为null");
+                }
+            }
         }
 
         @OnClick(R.id.iv_great)
@@ -433,6 +443,12 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         }
 
         @Override
+        public void uploadSuccess(Track track) {
+            onBind(track);
+            track.update();
+        }
+
+        @Override
         public void onDataLoaded(final User user) {
             Run.onUiSync(new Action() {
                 @Override
@@ -466,11 +482,14 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             SpUtils.putString(getContext(), "lastTime", lastStr);
         }
 
-        List<Track> tracks = new ArrayList<>();
         List<Track> trackList = mAdapter.getItems();
         if (mAdapter.getItemCount() >= 20) {
-            for (int i = 0; i < 20; i++) {
-                tracks.add(trackList.get(i));
+
+            List<Track> tracks = trackList.subList(0, 20);
+            for (Track track : tracks) {
+                if (track.getState() == Track.UPLOADING) {
+                    tracks.remove(track);
+                }
             }
             TrackDispatcher.instance().dispatch(tracks);
         } else {

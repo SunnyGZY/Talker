@@ -25,14 +25,15 @@ import retrofit2.Response;
 
 public class TrackHelper {
 
-    public static void putTrack(String context, List<String> photoUrls, boolean justFriend, final DataSource.Callback<TrackCard> callback) {
+    public static void putTrack(String id, String context, List<String> photoUrls, int justFriend, final DataSource.Callback<TrackCard> callback) {
 
         List<PhotoModel> photoModels = new ArrayList<>();
 
         TrackCreateModel model = new TrackCreateModel.Builder()
+                .id(id)
                 .content(context)
                 .publisherId(Account.getUserId())
-                .jurisdiction(0, justFriend ? Track.IN_FRIEND : Track.IN_SCHOOL)
+                .jurisdiction(0, justFriend)
                 .build();
 
         for (String s : photoUrls) {

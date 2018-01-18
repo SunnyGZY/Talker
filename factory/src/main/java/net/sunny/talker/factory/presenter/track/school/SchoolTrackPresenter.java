@@ -94,14 +94,39 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
             @Override
             public void onDataLoaded(List<Track> tracks) {
 
-                if (loadFromHead) {
-                    trackList.clear();
-                }
                 trackList.addAll(tracks);
+
+                if (loadFromHead) {
+                    getNotUploadTrack();
+                }
+
                 loadFromHead = false;
-                notifyDataChange();
             }
         });
+    }
+
+    /**
+     * 拉取未上传至服务器的数据
+     *
+     * @return 用户待发送到服务器的数据
+     */
+    private void getNotUploadTrack() {
+
+        SQLite.select()
+                .from(Track.class)
+                .where(Track_Table.state.eq(Track.UPLOADING))
+                .orderBy(Track_Table.createAt, false)
+                .async()
+                .queryListResultCallback(new QueryTransaction.QueryResultListCallback<Track>() {
+                    @Override
+                    public void onListQueryResult(QueryTransaction transaction, @NonNull List<Track> tResult) {
+                        if (tResult.size() != 0) {
+                            trackList.addAll(0, tResult);
+                        }
+                        notifyDataChange();
+                    }
+                })
+                .execute();
     }
 
     @Override
@@ -111,7 +136,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
                 trackList.clear();
 
             trackList.addAll(tResult);
-            notifyDataChange();
+            getNotUploadTrack();
         } else {
             Date now = new Date();
             String nowStr = DateTimeUtil.getIntactData(now);
@@ -122,6 +147,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
     @Override
     public void clearData() {
         trackList.clear();
+        loadFromHead = true;
     }
 
     private void notifyDataChange() {
