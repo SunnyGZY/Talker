@@ -2,6 +2,8 @@ package net.sunny.talker.push.fragments.track;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
@@ -25,11 +29,13 @@ import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.data.DataSource;
+import net.sunny.talker.factory.data.helper.DbHelper;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.data.track.TrackDispatcher;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.track.Photo;
 import net.sunny.talker.factory.model.db.track.Track;
+import net.sunny.talker.factory.model.db.track.Track_Table;
 import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.track.item.TrackItemContract;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
@@ -104,7 +110,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @Override
     protected void onFirstInit() {
         super.onFirstInit();
-
         mPresenter.start();
         mPresenter.getNewTrackCount(getContext());
         mPresenter.loadDataFromLocal();
@@ -445,7 +450,11 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         @Override
         public void uploadSuccess(Track track) {
             onBind(track);
-            track.update();
+
+            SQLite.update(Track.class)
+                    .set(Track_Table.state.eq(Track.UPLOADED))
+                    .where(Track_Table.id.eq(track.getId()))
+                    .query();
         }
 
         @Override
@@ -486,21 +495,30 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         if (mAdapter.getItemCount() >= 20) {
 
             List<Track> tracks = trackList.subList(0, 20);
+            List<Track> newTracks = new ArrayList<>();
+            newTracks.addAll(tracks);
+
             for (Track track : tracks) {
                 if (track.getState() == Track.UPLOADING) {
-                    tracks.remove(track);
+                    newTracks.remove(track);
                 }
             }
-            TrackDispatcher.instance().dispatch(tracks);
+            TrackDispatcher.instance().dispatch(newTracks);
         } else {
-            TrackDispatcher.instance().dispatch(trackList);
+            List<Track> newTracks = new ArrayList<>();
+            newTracks.addAll(trackList);
+            for (Track track : trackList) {
+                if (track.getState() == Track.UPLOADING) {
+                    newTracks.remove(track);
+                }
+            }
+            TrackDispatcher.instance().dispatch(newTracks);
         }
 
         super.onDestroy();
     }
 
     private RecyclerAdapter<Photo> getPhotoListAdapter() {
-
 
         final RecyclerAdapter<Photo> photoRecyclerAdapter = new RecyclerAdapter<Photo>() {
 

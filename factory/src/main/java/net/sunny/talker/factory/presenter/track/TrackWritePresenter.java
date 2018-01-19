@@ -45,7 +45,6 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setPhotos(photoList);
         track.setJurisdiction(justFriend ? Track.IN_FRIEND : Track.IN_SCHOOL);
 
-        track.setId("-0x01");
         track.setTauntEnable(false);
         track.setComplimentEnable(false);
         track.setCommentCount(0);
@@ -62,13 +61,6 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         List<Track> trackList = new ArrayList<>();
         trackList.add(track);
         TrackDispatcher.instance().dispatch(trackList);
-
-//        Factory.runOnAsync(new Runnable() {
-//            @Override
-//            public void run() {
-//                TrackHelper.putTrack(content, photoUrls, justFriend, TrackWritePresenter.this);
-//            }
-//        });
     }
 
     @Override
@@ -78,12 +70,11 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setVideoUrl(videoUrl);
         track.setJurisdiction(justFriend ? Track.IN_FRIEND : Track.IN_SCHOOL);
 
-        track.setId("-0x01");
         track.setTauntEnable(false);
         track.setComplimentEnable(false);
         track.setCommentCount(0);
         track.setComplimentCount(0);
-        track.setType(1);// 1 带视频
+        track.setType(Track.BRING_VIDEO);// 1 带视频
         track.setCreateAt(new Date());
         track.setOwnerId(Account.getUserId());
         track.setState(Track.UPLOADING);
@@ -99,12 +90,7 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
 
     @Override
     public void onDataLoaded(TrackCard trackCard) {
-//        TrackWriteContract.View view = getView();
-//        ObservableManager.newInstance().notify("OBSERVABLE_NEW_TRACK", trackCard.buildTract());
-//        if (view != null) {
-//            view.onPutSuccess();
-//            Application.showToast(R.string.label_put_track_success);
-//        }
+
     }
 
     @Override

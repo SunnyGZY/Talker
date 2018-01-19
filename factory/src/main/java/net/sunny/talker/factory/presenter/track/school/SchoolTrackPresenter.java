@@ -71,6 +71,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
         // 加载本地数据库数据
         SQLite.select()
                 .from(Track.class)
+                .where(Track_Table.state.eq(Track.UPLOADED))
                 .limit(10)
                 .orderBy(Track_Table.createAt, false)
                 .async()
@@ -140,6 +141,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
         } else {
             Date now = new Date();
             String nowStr = DateTimeUtil.getIntactData(now);
+            clearData();
             loadDataFromNet(0, nowStr);
         }
     }

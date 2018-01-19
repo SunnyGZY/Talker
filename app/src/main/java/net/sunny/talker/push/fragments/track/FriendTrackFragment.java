@@ -98,7 +98,7 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         mPresenter.getNewTrackCount(getContext());
         mPresenter.loadDataFromLocal();
 
-        ObservableManager.newInstance().registerObserver(OBSERVABLE_NEW_TRACK, this);
+//        ObservableManager.newInstance().registerObserver(OBSERVABLE_NEW_TRACK, this);
     }
 
     @Override
