@@ -28,7 +28,7 @@ public class TrackFragment extends Fragment implements OnPagerChangeListener {
     private List<Fragment> mFragments = new ArrayList<>();
 
     public TrackFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -67,7 +67,6 @@ public class TrackFragment extends Fragment implements OnPagerChangeListener {
         @Override
         public void onPageSelected(int arg0) {
             int currentItem = mViewPager.getCurrentItem();
-            // 这里可以根据当前的 currentItem 做不同的处理
         }
 
         @Override

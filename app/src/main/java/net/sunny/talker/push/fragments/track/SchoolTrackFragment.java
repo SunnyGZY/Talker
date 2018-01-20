@@ -303,6 +303,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         AdSDKSlot adSDKSlot = null;
 
+        Track localTrack;
+
         ViewHolder(View itemView) {
             super(itemView);
             initPresenter();
@@ -310,7 +312,9 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @Override
         protected void onBind(final Track track) {
-            if (track.getState() == Track.UPLOADING) {
+            localTrack = track;
+
+            if (localTrack.getState() == Track.UPLOADING) {
                 mUploading.setVisibility(View.VISIBLE);
             } else {
                 mUploading.setVisibility(View.GONE);
@@ -322,8 +326,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 view.setVisibility(View.INVISIBLE);
             }
 
-            track.load();
-            User user = UserHelper.findFromLocal(track.getOwnerId());
+            localTrack.load();
+            User user = UserHelper.findFromLocal(localTrack.getOwnerId());
 
             if (user != null) {
                 mName.setText(user.getName());
@@ -332,53 +336,53 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 Run.onBackground(new Action() {
                     @Override
                     public void call() {
-                        UserHelper.findFromNet(track.getOwnerId(), ViewHolder.this);
+                        UserHelper.findFromNet(localTrack.getOwnerId(), ViewHolder.this);
                     }
                 });
             }
 
-            String timeDesc = TimeDescribeUtil.getTimeDescribe(getContext(), track.getCreateAt());
+            String timeDesc = TimeDescribeUtil.getTimeDescribe(getContext(), localTrack.getCreateAt());
             mInf.setText(timeDesc);
 
-            mContent.setText(track.getContent());
-            greatCount.setText(String.valueOf(track.getComplimentCount()));
-            hateCount.setText(String.valueOf(track.getTauntCount()));
-            commentCount.setText(String.valueOf(track.getCommentCount()));
+            mContent.setText(localTrack.getContent());
+            greatCount.setText(String.valueOf(localTrack.getComplimentCount()));
+            hateCount.setText(String.valueOf(localTrack.getTauntCount()));
+            commentCount.setText(String.valueOf(localTrack.getCommentCount()));
 
-            if (track.getType() == 0) {
+            if (localTrack.getType() == 0) {
                 mVideoView.setVisibility(View.GONE);
                 mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
                 RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
                 mRecyclerPhoto.setAdapter(adapter);
-                List<Photo> photoList = track.getPhotos();
+                List<Photo> photoList = localTrack.getPhotos();
                 adapter.replace(photoList);
-            } else if (track.getType() == 1) {
+            } else if (localTrack.getType() == 1) {
                 mRecyclerPhoto.setVisibility(View.GONE);
                 mVideoView.setVisibility(View.VISIBLE);
-                adSDKSlot = new AdSDKSlot(track.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
+                adSDKSlot = new AdSDKSlot(localTrack.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
 
                 });
                 videoScrollListener.add(this);
             }
 
 
-            if (track.isComplimentEnable()) {
+            if (localTrack.isComplimentEnable()) {
                 great.setOnClickListener(null);
                 great.setColorFilter(R.color.colorAccent);
             } else {
                 great.clearColorFilter();
             }
-            if (track.isTauntEnable()) {
+            if (localTrack.isTauntEnable()) {
                 hate.setOnClickListener(null);
                 hate.setColorFilter(R.color.colorAccent);
             } else {
                 hate.clearColorFilter();
             }
 
-            if (track.getState() == Track.UPLOADING) {
+            if (localTrack.getState() == Track.UPLOADING) {
                 if (presenter != null) {
-                    presenter.uploadData(track);
+                    presenter.uploadData(localTrack);
                 } else {
                     App.showToast("Presenter为null");
                 }
@@ -449,11 +453,13 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @Override
         public void uploadSuccess(Track track) {
-            onBind(track);
+            this.localTrack = track;
+
+            onBind(localTrack);
 
             SQLite.update(Track.class)
                     .set(Track_Table.state.eq(Track.UPLOADED))
-                    .where(Track_Table.id.eq(track.getId()))
+                    .where(Track_Table.id.eq(localTrack.getId()))
                     .query();
         }
 

@@ -2,17 +2,11 @@ package net.sunny.talker.push.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -36,15 +29,9 @@ import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
@@ -64,8 +51,6 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
 
     private TrackWriteContract.Presenter mPresenter;
     private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
-
-    private static final String PHOTO_DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/";
 
     String filePath = null;
 
@@ -97,7 +82,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         switch (item.getItemId()) {
             case R.id.action_put:
                 if (mPresenter != null) {
-                    if (isPhotos) {
+                    if (isPhotos) { // 如果isPhotos为true，无法证明拍摄照片是否成功，但此时不需要用到filePath
                         String content = mContent.getText().toString().trim().trim();
                         if (!content.equals("")) {
                             adapter.getItems().remove(adapter.getItems().size() - 1);
@@ -107,7 +92,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         } else {
                             App.showToast(R.string.toast_comment_not_null);
                         }
-                    } else {
+                    } else { // 如果isPhotos为false，证明拍摄视频成功，此时filePath下的文件肯定存在
                         String content = mContent.getText().toString().trim().trim();
                         if (!content.equals("")) {
                             mPresenter.put(content, filePath, mJustFriend.isChecked());
@@ -203,7 +188,6 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         .load(R.drawable.ic_default_photo)
                         .fitCenter()
                         .into(photo);
-
             } else {
                 Glide.with(TrackWriteActivity.this)
                         .load(string)
@@ -215,79 +199,45 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         @OnClick(R.id.iv_photo)
         void selectPhotos() {
             if (mData.equals("")) {
-                final SelectShotTypDialog dialog = new SelectShotTypDialog(TrackWriteActivity.this, new SelectShotTypDialog.OnSelectTypeListener() {
-                    @Override
-                    public void shotPhoto() {
-                        showCamera(true);
-                    }
-
-                    @Override
-                    public void shotVideo() {
-                        showCamera(false);
-                    }
-
-                    @Override
-                    public void selectFromAlbum() {
-                        new GalleryFragment()
-                                .setListener(new GalleryFragment.GalleryListenerImpl() {
-                                    @Override
-                                    public void onSelectedImage(String[] path) {
-                                        adapter.addFromHead(path);
-                                    }
-
-                                    @Override
-                                    public void onSelectedImageCount(int count) {
-                                        super.onSelectedImageCount(count);
-                                    }
-                                })
-                                .setMaxImageCount(9)
-                                .show(getSupportFragmentManager(), GalleryFragment.class.getName());
-                    }
-                });
-                dialog.show();
+                showSelectDialog();
             }
         }
     }
 
-    /**
-     * 打开系统摄像机
-     *
-     * @param isShotPic true 拍照, false 摄像
-     */
-    private void showCamera(boolean isShotPic) {
+    private void showSelectDialog() {
+        new SelectShotTypDialog(TrackWriteActivity.this, new SelectShotTypDialog.OnSelectTypeListener() {
+            @Override
+            public void shotPhoto() {
+                if (mPresenter != null) {
+                    filePath = mPresenter.showCamera(TrackWriteActivity.this, true);
+                }
+            }
 
-        File dirFirstFolder = new File(PHOTO_DIR_PATH);
-        if (!dirFirstFolder.exists()) {
-            dirFirstFolder.mkdirs();
-        }
+            @Override
+            public void shotVideo() {
+                if (mPresenter != null) {
+                    filePath = mPresenter.showCamera(TrackWriteActivity.this, false);
+                }
+            }
 
-        Intent intent = new Intent();
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+            @Override
+            public void selectFromAlbum() {
+                new GalleryFragment()
+                        .setListener(new GalleryFragment.GalleryListenerImpl() {
+                            @Override
+                            public void onSelectedImage(String[] path) {
+                                adapter.addFromHead(path);
+                            }
 
-        if (isShotPic) {
-            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            String fileName = formatter.format(curDate) + ".jpg";
-
-            File file = new File(PHOTO_DIR_PATH + fileName);
-            filePath = file.getPath();
-
-            Uri uri = Uri.fromFile(file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-            startActivityForResult(intent, 0);
-        } else {
-            intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
-            String fileName = formatter.format(curDate) + ".mp4";
-
-            File file = new File(PHOTO_DIR_PATH + fileName);
-            filePath = file.getPath();
-
-            Uri uri = Uri.fromFile(file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-            intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
-            startActivityForResult(intent, 1);
-        }
+                            @Override
+                            public void onSelectedImageCount(int count) {
+                                super.onSelectedImageCount(count);
+                            }
+                        })
+                        .setMaxImageCount(9)
+                        .show(getSupportFragmentManager(), GalleryFragment.class.getName());
+            }
+        }).show();
     }
 
     @Override
@@ -296,9 +246,12 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
             if (requestCode == 0) { // 拍照
                 isPhotos = true;
                 adapter.addFromHead(filePath);
+
             } else if (requestCode == 1) { // 视频
                 isPhotos = false;
+                // 拿到视频的第一帧
                 Bitmap bitmap = getVideoFirstFrame(filePath);
+
                 mRvPhotos.setVisibility(View.GONE);
                 mVideoPreview.setVisibility(View.VISIBLE);
                 new AdSDKSlot(filePath, mVideoPreview, new AdSDKSlot.VideoSDKListenerImpl() {

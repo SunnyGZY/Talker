@@ -75,8 +75,8 @@ public class MainActivity extends Activity
     BottomNavigationBar mNavigation;
 
     @BindView(R.id.btn_action)
-
     FloatActionButton mAction;
+
     TextView mNavName;
     PortraitView mNavPortrait;
     TextView mNavDesc;

@@ -1,5 +1,11 @@
 package net.sunny.talker.factory.presenter.track;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.StringRes;
 
 import net.sunny.talker.common.app.Application;
@@ -15,6 +21,8 @@ import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.base.BasePresenter;
 import net.sunny.talker.observe.ObservableManager;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,8 +33,56 @@ import java.util.List;
  */
 public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> implements TrackWriteContract.Presenter, DataSource.Callback<TrackCard> {
 
+    private static final String PHOTO_DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/";
+
     public TrackWritePresenter(TrackWriteContract.View view) {
         super(view);
+    }
+
+    /**
+     * 打开系统摄像机
+     *
+     * @param isShotPic true 拍照, false 摄像
+     */
+    @Override
+    public String showCamera(Activity activity, boolean isShotPic) {
+
+        String filePath;
+
+        File dirFirstFolder = new File(PHOTO_DIR_PATH);
+        if (!dirFirstFolder.exists()) {
+            dirFirstFolder.mkdirs();
+        }
+
+        Intent intent = new Intent();
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+
+        if (isShotPic) {
+            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            String fileName = formatter.format(curDate) + ".jpg";
+
+            File file = new File(PHOTO_DIR_PATH + fileName);
+            filePath = file.getPath();
+
+            Uri uri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            activity.startActivityForResult(intent, 0);
+        } else {
+            intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+            String fileName = formatter.format(curDate) + ".mp4";
+
+            File file = new File(PHOTO_DIR_PATH + fileName);
+            filePath = file.getPath();
+
+            Uri uri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+            activity.startActivityForResult(intent, 1);
+        }
+
+        return filePath;
     }
 
     @Override
