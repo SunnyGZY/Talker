@@ -160,6 +160,7 @@ public class OkRecycleView extends RecyclerView {
                 mLastY = e.getRawY();
                 if (isOnTop() && pullRefreshEnabled) {
                     mHeadView.onMove(deltaY / DRAG_RATE);
+                    refreshAndLoadMoreListener.onMove();
                     if (mHeadView.getVisibleHeight() > 0 && mHeadView.getStatus() < mHeadView.STATE_REFRESHING) {
                         return false;
                     }
@@ -490,6 +491,8 @@ public class OkRecycleView extends RecyclerView {
         void onRefresh();
 
         void onLoadMore();
+
+        void onMove();
     }
 
     /**

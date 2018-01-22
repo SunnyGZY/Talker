@@ -1,5 +1,7 @@
 package net.sunny.talker.factory.data.helper;
 
+import android.util.Log;
+
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
 import net.sunny.talker.factory.model.api.track.PhotoModel;
@@ -119,6 +121,7 @@ public class TrackHelper {
                     List<TrackCard> trackCardList = rspModel.getResult();
                     List<Track> trackList = new ArrayList<>();
                     for (TrackCard trackCard : trackCardList) {
+
                         trackList.add(trackCard.buildTract());
                     }
                     callback.onDataLoaded(trackList);

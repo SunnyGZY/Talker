@@ -3,6 +3,7 @@ package net.sunny.talker.factory.presenter.track.school;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
@@ -30,6 +31,8 @@ import retrofit2.Call;
  */
 public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View>
         implements SchoolTrackContract.Presenter, QueryTransaction.QueryResultListCallback<Track> {
+
+    private static final String TAG = "SchoolTrackPresenter";
 
     private List<Track> trackList = new ArrayList<>();
     private Call dataCall;
@@ -81,6 +84,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
 
     @Override
     public void loadDataFromNet(int pageNo, String date) {
+
         Call call = dataCall;
         if (call != null && !call.isCanceled()) {
             call.cancel();
@@ -98,10 +102,13 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
                 trackList.addAll(tracks);
 
                 if (loadFromHead) {
+
                     getNotUploadTrack();
+                    loadFromHead = false;
+                    return;
                 }
 
-                loadFromHead = false;
+                notifyDataChange();
             }
         });
     }
@@ -156,6 +163,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
         SchoolTrackContract.View view = getView();
         RecyclerAdapter<Track> adapter = view.getRecyclerAdapter();
         adapter.replace(trackList);
+
         view.onAdapterDataChanged();
     }
 }

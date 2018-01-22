@@ -25,6 +25,7 @@ public class TrackCard {
     private boolean isCompliment;
     private boolean isTaunt;
     private int state;
+    private String videoUrl;
 
     public String getId() {
         return id;
@@ -130,6 +131,14 @@ public class TrackCard {
         this.state = state;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     public Track buildTract() {
         Track track = new Track();
         track.setId(id);
@@ -150,6 +159,7 @@ public class TrackCard {
         track.setComplimentEnable(isCompliment);
         track.setTauntEnable(isTaunt);
         track.setState(state);
+        track.setVideoUrl(videoUrl);
         return track;
     }
 
@@ -173,6 +183,13 @@ public class TrackCard {
                 ", createAt=" + createAt +
                 ", type=" + type +
                 ", jurisdiction=" + jurisdiction +
+                ", tauntCount=" + tauntCount +
+                ", complimentCount=" + complimentCount +
+                ", commentCount=" + commentCount +
+                ", isCompliment=" + isCompliment +
+                ", isTaunt=" + isTaunt +
+                ", state=" + state +
+                ", videoUrl='" + videoUrl + '\'' +
                 '}';
     }
 }

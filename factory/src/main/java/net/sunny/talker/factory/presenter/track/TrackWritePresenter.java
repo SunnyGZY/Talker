@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.StringRes;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.factory.Factory;
@@ -32,6 +35,8 @@ import java.util.List;
  * TrackWritePresenter
  */
 public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> implements TrackWriteContract.Presenter, DataSource.Callback<TrackCard> {
+
+    private static final String TAG = "TrackWritePresenter";
 
     private static final String PHOTO_DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/";
 
@@ -64,9 +69,18 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
             String fileName = formatter.format(curDate) + ".jpg";
 
             File file = new File(PHOTO_DIR_PATH + fileName);
+            Uri uri;
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                uri = FileProvider.getUriForFile(activity, "net.sunny.talker.push.fileprovider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+
             filePath = file.getPath();
 
-            Uri uri = Uri.fromFile(file);
+            Log.e(TAG, filePath);
+            // /storage/emulated/0/talker/2018年01月22日15:59:25.jpg
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             activity.startActivityForResult(intent, 0);
         } else {
@@ -74,9 +88,20 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
             String fileName = formatter.format(curDate) + ".mp4";
 
             File file = new File(PHOTO_DIR_PATH + fileName);
-            filePath = file.getPath();
 
-            Uri uri = Uri.fromFile(file);
+            Uri uri;
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                uri = FileProvider.getUriForFile(activity, "net.sunny.talker.push.fileprovider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+
+            filePath = file.getPath();
+            // /storage/emulated/0/talker/2018年01月22日15:58:47.mp4
+            Log.e(TAG, filePath);
+            Application.showToast(filePath);
+
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
             activity.startActivityForResult(intent, 1);

@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.panel.PanelFragment;
 import net.sunny.talker.utils.TimeDescribeUtil;
+import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
 import java.util.List;
@@ -83,6 +85,8 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
     ImageView mLoading;
     @BindView(R.id.edit_content)
     EditText commentContent;
+    @BindView(R.id.fl_video_view)
+    FrameLayout mVideoView;
 
     private Track track = null;
     private RecyclerAdapter<List<CommentCard>> mAdapter;
@@ -141,12 +145,24 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
         hateCount.setText(String.valueOf(track.getTauntCount()));
         commentCount.setText(String.valueOf(track.getCommentCount()));
 
-        // 加载照片
-        mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
-        mRecyclerPhoto.setAdapter(adapter);
-        List<Photo> photoList = track.getPhotos();
-        adapter.replace(photoList);
+        if (track.getType() == Track.BRING_PIC) {
+            mVideoView.setVisibility(View.GONE);
+            mRecyclerPhoto.setVisibility(View.VISIBLE);
+
+            // 加载照片
+            mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
+            mRecyclerPhoto.setAdapter(adapter);
+            List<Photo> photoList = track.getPhotos();
+            adapter.replace(photoList);
+        } else if (track.getType() == Track.BRING_VIDEO) {
+            mRecyclerPhoto.setVisibility(View.GONE);
+            mVideoView.setVisibility(View.VISIBLE);
+
+            new AdSDKSlot(track.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
+
+            });
+        }
 
         if (track.isComplimentEnable()) {
             great.setOnClickListener(null);

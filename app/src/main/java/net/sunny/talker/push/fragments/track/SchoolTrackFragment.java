@@ -8,6 +8,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
@@ -69,6 +70,7 @@ import butterknife.OnClick;
 public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.Presenter>
         implements SchoolTrackContract.View, Function {
 
+    private static final String TAG = "SchoolTrackFragment";
     private static int LOAD_FRESH_DATA = 2;
     private static int LOAD_MORE_DATA = 1;
 
@@ -156,6 +158,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             @Override
             public void onLoadMore() {
+
                 Date lastDate = mAdapter.getItems().get(mAdapter.getItemCount() - 1).getCreateAt();
                 String lastStr = DateTimeUtil.getIntactData(lastDate);
                 if (lastStr == null)
@@ -163,6 +166,11 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
                 mPresenter.loadDataFromNet(0, lastStr);
                 loadType = LOAD_MORE_DATA;
+            }
+
+            @Override
+            public void onMove() {
+
             }
         });
 
@@ -314,6 +322,9 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         protected void onBind(final Track track) {
             localTrack = track;
 
+            Log.e(TAG, track.toString());
+            Log.e(TAG, "TYPE: " + localTrack.getType() + "");
+
             if (localTrack.getState() == Track.UPLOADING) {
                 mUploading.setVisibility(View.VISIBLE);
             } else {
@@ -363,6 +374,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 adSDKSlot = new AdSDKSlot(localTrack.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
 
                 });
+                Log.e("videoUrl", localTrack.getVideoUrl());
+
                 videoScrollListener.add(this);
             }
 

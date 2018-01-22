@@ -293,6 +293,8 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
                 ", commentCount=" + commentCount +
                 ", complimentEnable=" + complimentEnable +
                 ", tauntEnable=" + tauntEnable +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", state=" + state +
                 '}';
     }
 }

@@ -147,6 +147,11 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
                 mPresenter.loadDataFromNet(0, lastStr);
                 loadType = LOAD_MORE_DATA;
             }
+
+            @Override
+            public void onMove() {
+
+            }
         });
     }
 
