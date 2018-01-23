@@ -322,9 +322,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         protected void onBind(final Track track) {
             localTrack = track;
 
-            Log.e(TAG, track.toString());
-            Log.e(TAG, "TYPE: " + localTrack.getType() + "");
-
             if (localTrack.getState() == Track.UPLOADING) {
                 mUploading.setVisibility(View.VISIBLE);
             } else {
@@ -468,12 +465,15 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         public void uploadSuccess(Track track) {
             this.localTrack = track;
 
-            onBind(localTrack);
+            String videoUrl = track.getVideoUrl();
 
             SQLite.update(Track.class)
-                    .set(Track_Table.state.eq(Track.UPLOADED))
-                    .where(Track_Table.id.eq(localTrack.getId()))
+                    .set(Track_Table.state.eq(Track.UPLOADED), Track_Table.videoUrl.eq(videoUrl))
+                    .where(Track_Table.id.eq(track.getId()))
                     .query();
+
+            onBind(localTrack);
+
         }
 
         @Override

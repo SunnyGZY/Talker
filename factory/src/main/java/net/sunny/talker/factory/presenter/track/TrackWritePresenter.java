@@ -80,7 +80,7 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
             filePath = file.getPath();
 
             Log.e(TAG, filePath);
-            // /storage/emulated/0/talker/2018年01月22日15:59:25.jpg
+
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             activity.startActivityForResult(intent, 0);
         } else {
@@ -98,7 +98,7 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
             }
 
             filePath = file.getPath();
-            // /storage/emulated/0/talker/2018年01月22日15:58:47.mp4
+
             Log.e(TAG, filePath);
             Application.showToast(filePath);
 

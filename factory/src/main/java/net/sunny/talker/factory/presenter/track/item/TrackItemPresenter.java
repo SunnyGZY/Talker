@@ -1,6 +1,7 @@
 package net.sunny.talker.factory.presenter.track.item;
 
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.factory.Factory;
@@ -19,6 +20,8 @@ import java.util.List;
  * TrackItemPresenter
  */
 public class TrackItemPresenter implements TrackItemContract.Presenter, DataSource.Callback<TrackCard> {
+
+    private static final String TAG = "TrackItemPresenter";
 
     private TrackItemContract.View<TrackItemPresenter> mView;
 
@@ -39,7 +42,7 @@ public class TrackItemPresenter implements TrackItemContract.Presenter, DataSour
                     }
                     TrackHelper.putTrack(track.getId(), track.getContent(), photoUris, track.getJurisdiction(), TrackItemPresenter.this);
                 } else if (track.getType() == Track.BRING_VIDEO) {
-
+                    TrackHelper.putTrack(track.getId(), track.getContent(), track.getVideoUrl(), track.getJurisdiction(), TrackItemPresenter.this);
                 }
             }
         });
@@ -82,6 +85,8 @@ public class TrackItemPresenter implements TrackItemContract.Presenter, DataSour
 
     @Override
     public void onDataLoaded(TrackCard trackCard) {
+
+        Log.e(TAG, trackCard.toString());
 
         if (mView != null) {
             mView.uploadSuccess(trackCard.buildTract());

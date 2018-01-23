@@ -72,6 +72,11 @@ public class UploadHelper {
         return upload(key, path);
     }
 
+    public static String uploadVideo(String path) {
+        String key = getVideoObjKey(path);
+        return upload(key, path);
+    }
+
     public static String getDateString() {
         return DateFormat.format("yyyyMM", new Date()).toString();
     }
@@ -95,5 +100,12 @@ public class UploadHelper {
         String dateString = getDateString();
 
         return String.format("audio/%s/%s.mp3", dateString, fileMd5);
+    }
+
+    private static String getVideoObjKey(String path) {
+        String fileMd5 = HashUtil.getMD5String(new File(path));
+        String dateString = getDateString();
+
+        return String.format("video/%s/%s.mp4", dateString, fileMd5);
     }
 }

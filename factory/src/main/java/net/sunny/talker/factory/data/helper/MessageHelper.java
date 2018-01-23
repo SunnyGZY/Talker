@@ -119,7 +119,7 @@ public class MessageHelper {
      * @param path
      * @return
      */
-    public static String uploadPicture(String path) {
+    static String uploadPicture(String path) {
         File file = null;
         try {
             file = Glide.with(Factory.app())
@@ -154,6 +154,14 @@ public class MessageHelper {
             return null;
 
         return UploadHelper.uploadAudio(content);
+    }
+
+    static String uploadVideo(String videoUri) {
+        File file = new File(videoUri);
+        if (!file.exists() || file.length() <= 0)
+            return null;
+
+        return UploadHelper.uploadVideo(videoUri);
     }
 
     /**

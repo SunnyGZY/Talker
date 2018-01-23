@@ -2,6 +2,7 @@ package net.sunny.talker.factory.data.helper;
 
 import android.util.Log;
 
+import net.sunny.talker.common.app.Application;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
 import net.sunny.talker.factory.model.api.track.PhotoModel;
@@ -27,6 +28,17 @@ import retrofit2.Response;
 
 public class TrackHelper {
 
+    private static final String TAG = "TrackHelper";
+
+    /**
+     * 上传带图片的动态
+     *
+     * @param id         track id
+     * @param context    上下文
+     * @param photoUrls  图片的本地地址
+     * @param justFriend 是否进好友可见
+     * @param callback   回调
+     */
     public static void putTrack(String id, String context, List<String> photoUrls, int justFriend, final DataSource.Callback<TrackCard> callback) {
 
         List<PhotoModel> photoModels = new ArrayList<>();
@@ -48,6 +60,50 @@ public class TrackHelper {
             }
         }
         model.setPhotos(photoModels);
+
+        RemoteService service = Network.remote();
+        Call<RspModel<TrackCard>> call = service.putTrack(model);
+        call.enqueue(new Callback<RspModel<TrackCard>>() {
+            @Override
+            public void onResponse(Call<RspModel<TrackCard>> call, Response<RspModel<TrackCard>> response) {
+                RspModel<TrackCard> rspModel = response.body();
+                if (rspModel.success()) {
+                    TrackCard trackCard = rspModel.getResult();
+                    callback.onDataLoaded(trackCard);
+                } else {
+                    // 错误情况下进行错误分配
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<TrackCard>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * 上传带视频的动态
+     *
+     * @param id         track id
+     * @param context    上下文
+     * @param videoUri   视频的本地地址
+     * @param justFriend 是否进好友可见
+     * @param callback   回调
+     */
+    public static void putTrack(String id, String context, String videoUri, int justFriend, final DataSource.Callback<TrackCard> callback) {
+        TrackCreateModel model = new TrackCreateModel.Builder()
+                .id(id)
+                .content(context)
+                .publisherId(Account.getUserId())
+                .jurisdiction(0, justFriend)
+                .build();
+
+        String ossUrl = MessageHelper.uploadVideo(videoUri);
+        model.setVideoUrl(ossUrl);
+
+        Log.e(TAG, "上传成功：" + ossUrl);
+        Application.showToast("上传成功：" + ossUrl);
 
         RemoteService service = Network.remote();
         Call<RspModel<TrackCard>> call = service.putTrack(model);
