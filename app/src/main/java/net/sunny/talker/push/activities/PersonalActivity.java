@@ -23,6 +23,7 @@ import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.presenter.contact.PersonalContract;
 import net.sunny.talker.factory.presenter.contact.PersonalPresenter;
 import net.sunny.talker.push.R;
+import net.sunny.talker.view.GalleryDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +54,8 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
 
     private MenuItem mFollowItem;
     private boolean mIsFollowUser = false;
+
+    private User user;
 
     public static void show(Context context, String userId) {
         Intent intent = new Intent(context, PersonalActivity.class);
@@ -101,6 +104,14 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.im_portrait)
+    void onPortraitClick() {
+        if (this.user != null) {
+            GalleryDialog galleryDialog = new GalleryDialog(this, user.getPortrait(), 0);
+            galleryDialog.show();
+        }
+    }
+
     // 发起聊天
     @OnClick(R.id.btn_say_hello)
     void onSayHelloClick() {
@@ -130,6 +141,8 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     public void onLoadDone(User user) {
         if (user == null)
             return;
+
+        this.user = user;
         mPortrait.setup(Glide.with(this), user);
         mName.setText(user.getName());
         mDesc.setText(user.getDesc());

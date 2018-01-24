@@ -49,6 +49,14 @@ public class GalleryDialog extends Dialog {
         this.clickPosition = position;
     }
 
+    public GalleryDialog(Context context, String imageUrl, int position) {
+        super(context, R.style.GalleryDialogTheme);
+        List<String> imageUrls = new ArrayList<>();
+        imageUrls.add(imageUrl);
+        this.imageUrls = imageUrls;
+        this.clickPosition = position;
+    }
+
     public GalleryDialog(Context context, List<String> imageUrls) {
         this(context, imageUrls, 0);
     }

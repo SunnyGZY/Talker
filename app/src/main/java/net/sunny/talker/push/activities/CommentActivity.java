@@ -41,9 +41,11 @@ import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.panel.PanelFragment;
 import net.sunny.talker.utils.TimeDescribeUtil;
+import net.sunny.talker.view.GalleryDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -150,10 +152,16 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
             mRecyclerPhoto.setVisibility(View.VISIBLE);
 
             // 加载照片
-            mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            List<Photo> photoList = track.getPhotos();
+            if (photoList.size() == 1) {
+                mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            } else if (photoList.size() % 2 == 0) {
+                mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            } else if (photoList.size() % 3 == 0) {
+                mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            }
             RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
             mRecyclerPhoto.setAdapter(adapter);
-            List<Photo> photoList = track.getPhotos();
             adapter.replace(photoList);
         } else if (track.getType() == Track.BRING_VIDEO) {
             mRecyclerPhoto.setVisibility(View.GONE);
@@ -219,7 +227,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
     }
 
     private RecyclerAdapter<Photo> getPhotoListAdapter() {
-        return new RecyclerAdapter<Photo>() {
+        final RecyclerAdapter<Photo> photoRecyclerAdapter = new RecyclerAdapter<Photo>() {
 
             @Override
             protected int getItemView(int position, Photo photo) {
@@ -231,6 +239,42 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
                 return new PhotoHolder(root);
             }
         };
+
+        photoRecyclerAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Photo>() {
+            @Override
+            public void onItemClick(RecyclerAdapter.ViewHolder holder, Photo photo) {
+                super.onItemClick(holder, photo);
+
+                List<Photo> photoList = photoRecyclerAdapter.getItems();
+                showGalleryDialog(photo, photoList);
+            }
+        });
+
+        return photoRecyclerAdapter;
+    }
+
+    /**
+     * 用户点击照片显示大图
+     *
+     * @param photo     点击的图片
+     * @param photoList 点击位置的所有图片
+     */
+    private void showGalleryDialog(Photo photo, List<Photo> photoList) {
+        List<String> photoUrlList = new ArrayList<>();
+
+        for (Photo photo1 : photoList) {
+            photoUrlList.add(photo1.getPhotoUrl());
+        }
+
+        // 找当前点击的图片在所有图片中的位置
+        int position = 0;
+        for (int i = 0; i < photoUrlList.size(); i++) {
+            if (photoUrlList.get(i).equalsIgnoreCase(photo.getPhotoUrl()))
+                position = i;
+        }
+
+        GalleryDialog galleryDialog = new GalleryDialog(this, photoUrlList, position);
+        galleryDialog.show();
     }
 
     @Override

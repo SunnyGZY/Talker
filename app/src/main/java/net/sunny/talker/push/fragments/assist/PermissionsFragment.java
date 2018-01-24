@@ -1,7 +1,7 @@
 package net.sunny.talker.push.fragments.assist;
 
-
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -165,6 +165,9 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
             Application.showToast(R.string.label_permission_ok);
             refreshState(getView());
             AccountActivity.show(getContext());
+
+            Activity activity = getActivity();
+            activity.finish();
         } else {
             EasyPermissions.requestPermissions(this,
                     getString(R.string.title_assist_permissions),

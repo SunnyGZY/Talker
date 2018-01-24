@@ -22,8 +22,8 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
 
     public PersonalPresenter(PersonalContract.View view) {
         super(view);
-        PersonalContract.View view2 = getView();
-        this.id = view2.getUserId();
+
+        this.id = getView().getUserId();
     }
 
     @Override
