@@ -50,6 +50,7 @@ public class UploadHelper {
             OSS client = getClient();
             PutObjectResult result = client.putObject(request);
             String url = client.presignPublicObjectURL(BUCKET_NAME, objKey);
+
             return url;
         } catch (Exception e) {
             e.printStackTrace();

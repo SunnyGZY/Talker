@@ -87,6 +87,9 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
         complimentEnable = in.readByte() != 0;
         tauntEnable = in.readByte() != 0;
         createAt = new Date(in.readLong());
+        photos = in.createTypedArrayList(Photo.CREATOR);
+        videoUrl = in.readString();
+        state = in.readInt();
     }
 
     public static final Creator<Track> CREATOR = new Creator<Track>() {
@@ -276,6 +279,9 @@ public class Track extends BaseDbModel<Track> implements Parcelable {
         dest.writeByte((byte) (complimentEnable ? 1 : 0));
         dest.writeByte((byte) (tauntEnable ? 1 : 0));
         dest.writeLong(createAt.getTime());
+        dest.writeTypedList(photos);
+        dest.writeString(videoUrl);
+        dest.writeInt(state);
     }
 
     @Override

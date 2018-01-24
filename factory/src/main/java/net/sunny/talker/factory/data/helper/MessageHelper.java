@@ -148,20 +148,21 @@ public class MessageHelper {
         return null;
     }
 
-    private static String uploadAudio(String content) {
-        File file = new File(content);
+    private static String uploadAudio(String path) {
+        File file = new File(path);
         if (!file.exists() || file.length() <= 0)
             return null;
 
-        return UploadHelper.uploadAudio(content);
+        return UploadHelper.uploadAudio(path);
     }
 
-    static String uploadVideo(String videoUri) {
-        File file = new File(videoUri);
+    static String uploadVideo(String path) {
+        File file = new File(path);
         if (!file.exists() || file.length() <= 0)
             return null;
 
-        return UploadHelper.uploadVideo(videoUri);
+        // TODO: 2018/1/23 压缩视频
+        return UploadHelper.uploadVideo(path);
     }
 
     /**

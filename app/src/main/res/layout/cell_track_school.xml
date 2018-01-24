@@ -71,7 +71,8 @@
         android:layout_below="@id/tv_content"
         android:layout_marginLeft="@dimen/len_16"
         android:layout_marginRight="@dimen/len_16"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/len_6">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_photos"

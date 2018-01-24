@@ -59,7 +59,7 @@ public class CustomVideoView extends RelativeLayout implements View.OnClickListe
     private Button mMiniPlayBtn;
     private ImageView mFullBtn;
     private ImageView mLoadingBar;
-//    private ImageView mFrameView;
+    //    private ImageView mFrameView;
     private AudioManager audioManager;
     private Surface videoSurface;
 
@@ -111,7 +111,7 @@ public class CustomVideoView extends RelativeLayout implements View.OnClickListe
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(dm);
-        mScreenWidth = dm.widthPixels;
+        mScreenWidth = dm.widthPixels - 56; // TODO: 2018/1/23 临时写死
         mVideoHeight = (int) (mScreenWidth * SDKConstant.VIDEO_HEIGHT_PERCENT);
     }
 

@@ -34,7 +34,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
         start();
 
         // 得到View层接口
-        RegisterContract.View view = (RegisterContract.View) getView();
+        RegisterContract.View view = getView();
 
         if (!checkMobile(phone)) {
             view.showError(R.string.data_account_register_invalid_parameter_mobile);
@@ -57,7 +57,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
     @Override
     public void onDataLoaded(User user) {
         // 网络请求成功回调
-        final RegisterContract.View view = (RegisterContract.View) getView();
+        final RegisterContract.View view = getView();
         if (view == null)
             return;
         Run.onUiAsync(new Action() {
@@ -70,7 +70,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
 
     @Override
     public void onDataNotAvailable(@StringRes final int strRes) {
-        final RegisterContract.View view = (RegisterContract.View) getView();
+        final RegisterContract.View view = getView();
         if (view == null)
             return;
         Run.onUiAsync(new Action() {

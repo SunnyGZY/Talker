@@ -11,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -194,7 +195,8 @@ public class MainActivity extends Activity
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
-        PersonalActivity.show(this, Account.getUserId());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
     }
 
     @OnClick(R.id.im_search)
@@ -369,5 +371,14 @@ public class MainActivity extends Activity
     protected void onDestroy() {
         super.onDestroy();
         ObservableManager.newInstance().removeObserver(OBSERVABLE_NEW_SESSION);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -1,6 +1,9 @@
 package net.sunny.talker.factory.model.db.track;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -15,7 +18,7 @@ import net.sunny.talker.factory.model.db.BaseDbModel;
  */
 
 @Table(database = AppDatabase.class)
-public class Photo extends BaseDbModel<Photo> {
+public class Photo extends BaseDbModel<Photo>implements Parcelable {
 
     @PrimaryKey
     private String id;
@@ -32,6 +35,26 @@ public class Photo extends BaseDbModel<Photo> {
     // 照片的URL地址
     @Column
     private String photoUrl;
+
+    protected Photo(Parcel in) {
+        id = in.readString();
+        ownerId = in.readString();
+
+        position = in.readInt();
+        photoUrl = in.readString();
+    }
+
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
+        @Override
+        public Photo createFromParcel(Parcel in) {
+            return new Photo(in);
+        }
+
+        @Override
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -96,5 +119,19 @@ public class Photo extends BaseDbModel<Photo> {
                 ", position=" + position +
                 ", photoUrl='" + photoUrl + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
+        dest.writeString(ownerId);
+        dest.writeInt(position);
+        dest.writeString(photoUrl);
     }
 }

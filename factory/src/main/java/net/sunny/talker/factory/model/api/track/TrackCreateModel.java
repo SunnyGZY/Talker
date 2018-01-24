@@ -1,5 +1,7 @@
 package net.sunny.talker.factory.model.api.track;
 
+import android.os.Build;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +19,7 @@ public class TrackCreateModel {
     private int type;
     private int jurisdiction;
     private String videoUrl;
-    private String state;
+    private int state;
 
     public void setId(String id) {
         this.id = id;
@@ -83,11 +85,11 @@ public class TrackCreateModel {
         this.videoUrl = videoUrl;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -142,6 +144,11 @@ public class TrackCreateModel {
         public Builder jurisdiction(int type, int jurisdiction) {
             this.model.type = type;
             this.model.jurisdiction = jurisdiction;
+            return this;
+        }
+
+        public Builder state(int state) {
+            this.model.state = state;
             return this;
         }
 

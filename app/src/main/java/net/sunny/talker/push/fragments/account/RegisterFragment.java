@@ -27,11 +27,8 @@ public class RegisterFragment extends PresenterFragment<RegisterContract.Present
     EditText mName;
     @BindView(R.id.edit_password)
     EditText mPassword;
-
-
     @BindView(R.id.loading)
     Loading mLoading;
-
     @BindView(R.id.btn_submit)
     Button mSubmit;
 

@@ -359,20 +359,28 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             if (localTrack.getType() == 0) {
                 mVideoView.setVisibility(View.GONE);
-                mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                mRecyclerPhoto.setVisibility(View.VISIBLE);
+
+                List<Photo> photoList = localTrack.getPhotos();
+
+                if (photoList.size() == 1) {
+                    mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                } else if (photoList.size() % 2 == 0) {
+                    mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                } else if (photoList.size() % 3 == 0) {
+                    mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                }
 
                 RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
                 mRecyclerPhoto.setAdapter(adapter);
-                List<Photo> photoList = localTrack.getPhotos();
                 adapter.replace(photoList);
             } else if (localTrack.getType() == 1) {
                 mRecyclerPhoto.setVisibility(View.GONE);
                 mVideoView.setVisibility(View.VISIBLE);
+
                 adSDKSlot = new AdSDKSlot(localTrack.getVideoUrl(), mVideoView, new AdSDKSlot.VideoSDKListenerImpl() {
 
                 });
-                Log.e("videoUrl", localTrack.getVideoUrl());
-
                 videoScrollListener.add(this);
             }
 
@@ -390,6 +398,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                 hate.clearColorFilter();
             }
 
+            // 如果未上传至服务器，在此上传
             if (localTrack.getState() == Track.UPLOADING) {
                 if (presenter != null) {
                     presenter.uploadData(localTrack);
@@ -427,7 +436,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
         @OnClick(R.id.iv_comment)
         public void commentClick() {
-            CommentActivity.show(getContext(), mData);
+            CommentActivity.show(getContext(), localTrack);
         }
 
         @OnClick(R.id.rl_track)
@@ -473,7 +482,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                     .query();
 
             onBind(localTrack);
-
         }
 
         @Override
@@ -503,7 +511,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
         if (mAdapter.getItemCount() > 0) {
             Date lastDate = mAdapter.getItems().get(0).getCreateAt();
             String lastStr = DateTimeUtil.getIntactData(lastDate);
@@ -533,6 +541,12 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             }
             TrackDispatcher.instance().dispatch(newTracks);
         }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
 
         super.onDestroy();
     }

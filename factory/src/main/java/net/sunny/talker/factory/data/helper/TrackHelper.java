@@ -96,7 +96,8 @@ public class TrackHelper {
                 .id(id)
                 .content(context)
                 .publisherId(Account.getUserId())
-                .jurisdiction(0, justFriend)
+                .jurisdiction(1, justFriend)
+                .state(Track.UPLOADING)
                 .build();
 
         String ossUrl = MessageHelper.uploadVideo(videoUri);
