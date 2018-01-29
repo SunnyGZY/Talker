@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.os.Environment;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,11 +26,14 @@ import net.sunny.talker.factory.presenter.track.TrackWriteContract;
 import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
+import net.sunny.talker.push.ffmepg.FFmpegKit;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
 import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +58,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
 
     String filePath = null;
+    private static final String DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/ffmpeg/";
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, TrackWriteActivity.class));
@@ -241,11 +247,13 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) { // 拍照
                 isPhotos = true;
                 adapter.addFromHead(filePath);
+
+                Log.e("PhotoUrl", filePath);
 
             } else if (requestCode == 1) { // 视频
                 isPhotos = false;
@@ -257,6 +265,46 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                 new AdSDKSlot(filePath, mVideoPreview, new AdSDKSlot.VideoSDKListenerImpl() {
 
                 });
+
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+                final String fileName = formatter.format(curDate) + ".mp4";
+
+                Runnable compoundRun = new Runnable() {
+                    @Override
+                    public void run() {
+                        String[] commands = new String[10];
+                        commands[0] = "ffmpeg";
+                        commands[1] = "-i";
+                        commands[2] = filePath;
+                        commands[3] = "-i";
+                        commands[4] = "/storage/emulated/0/DCIM/Camera/IMG_20180129_171012.jpg";
+                        commands[5] = "-filter_complex";
+                        commands[6] = "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2";
+                        commands[7] = "-codec:a";
+                        commands[8] = "copy";
+                        commands[9] = DIR_PATH + fileName;
+
+                        FFmpegKit.execute(commands, new FFmpegKit.KitInterface() {
+                            @Override
+                            public void onStart() {
+                                Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行开始执行了...");
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+                                Log.d("FFmpegLog LOGCAT", "done com" + "FFmpeg 命令行执行进度..." + progress);
+                            }
+
+                            @Override
+                            public void onEnd(int result) {
+                                Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行执行完成...");
+                            }
+                        });
+                    }
+                };
+
+                new Thread(compoundRun).run();
             }
         }
     }
