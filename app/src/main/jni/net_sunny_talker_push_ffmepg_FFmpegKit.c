@@ -3,8 +3,8 @@
 #include "ffmpeg.h"
 #include "logjam.h"
 
-JNIEXPORT jint JNICALL Java_codepig_ffmpegcldemo_FFmpegKit_run
-(JNIEnv *env, jclass obj, jobjectArray commands){
+JNIEXPORT jint JNICALL
+Java_net_sunny_talker_push_ffmepg_FFmpegKit_run(JNIEnv *env, jclass obj, jobjectArray commands){
     //FFmpeg av_log() callback
     int argc = (*env)->GetArrayLength(env, commands);
     char *argv[argc];

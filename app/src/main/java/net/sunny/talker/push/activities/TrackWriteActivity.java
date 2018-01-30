@@ -28,6 +28,7 @@ import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.ffmepg.FFmpegKit;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
+import net.sunny.talker.utils.ThreadPoolUtils;
 import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
@@ -58,7 +59,6 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
 
     String filePath = null;
-    private static final String DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/ffmpeg/";
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, TrackWriteActivity.class));
@@ -103,7 +103,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         if (!content.equals("")) {
                             mPresenter.put(content, filePath, mJustFriend.isChecked());
 
-                            finish();
+//                            finish();
                         } else {
                             App.showToast(R.string.toast_comment_not_null);
                         }
@@ -265,46 +265,6 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                 new AdSDKSlot(filePath, mVideoPreview, new AdSDKSlot.VideoSDKListenerImpl() {
 
                 });
-
-                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
-                final String fileName = formatter.format(curDate) + ".mp4";
-
-                Runnable compoundRun = new Runnable() {
-                    @Override
-                    public void run() {
-                        String[] commands = new String[10];
-                        commands[0] = "ffmpeg";
-                        commands[1] = "-i";
-                        commands[2] = filePath;
-                        commands[3] = "-i";
-                        commands[4] = "/storage/emulated/0/DCIM/Camera/IMG_20180129_171012.jpg";
-                        commands[5] = "-filter_complex";
-                        commands[6] = "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2";
-                        commands[7] = "-codec:a";
-                        commands[8] = "copy";
-                        commands[9] = DIR_PATH + fileName;
-
-                        FFmpegKit.execute(commands, new FFmpegKit.KitInterface() {
-                            @Override
-                            public void onStart() {
-                                Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行开始执行了...");
-                            }
-
-                            @Override
-                            public void onProgress(int progress) {
-                                Log.d("FFmpegLog LOGCAT", "done com" + "FFmpeg 命令行执行进度..." + progress);
-                            }
-
-                            @Override
-                            public void onEnd(int result) {
-                                Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行执行完成...");
-                            }
-                        });
-                    }
-                };
-
-                new Thread(compoundRun).run();
             }
         }
     }

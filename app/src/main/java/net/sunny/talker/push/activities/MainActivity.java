@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,12 +39,17 @@ import net.sunny.talker.observe.Function;
 import net.sunny.talker.observe.ObservableManager;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
+import net.sunny.talker.push.ffmepg.FFmpegKit;
 import net.sunny.talker.push.fragments.main.ActiveFragment;
 import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
+import net.sunny.talker.utils.ThreadPoolUtils;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -191,6 +198,57 @@ public class MainActivity extends Activity
         mNavName.setText(Account.getUser().getName());
         mNavDesc.setText(Account.getUser().getDesc());
         onTabSelected(0);
+
+        pressVideo();
+    }
+
+    private void pressVideo() {
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
+        final String fileName = formatter.format(curDate) + ".mp4";
+        final String DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/ffmpeg/";
+        File dirFirstFolder = new File(DIR_PATH);
+        if (!dirFirstFolder.exists()) {
+            dirFirstFolder.mkdirs();
+        }
+
+        final File file = new File(DIR_PATH + fileName);
+
+        Runnable compoundRun = new Runnable() {
+            @Override
+            public void run() {
+                String[] commands = new String[10];
+                commands[0] = "ffmpeg";
+                commands[1] = "-i";
+                commands[2] = "/storage/emulated/0/talker/2018年01月30日10:39:24.mp4";
+                commands[3] = "-i";
+                commands[4] = "/storage/emulated/0/sun.png";
+                commands[5] = "-filter_complex";
+                commands[6] = "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2";
+                commands[7] = "-codec:a";
+                commands[8] = "copy";
+                commands[9] = file.getPath();
+
+                FFmpegKit.execute(commands, new FFmpegKit.KitInterface() {
+                    @Override
+                    public void onStart() {
+                        Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行开始执行了...");
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.d("FFmpegLog LOGCAT", "done com" + "FFmpeg 命令行执行进度..." + progress);
+                    }
+
+                    @Override
+                    public void onEnd(int result) {
+                        Log.d("FFmpegLog LOGCAT", "FFmpeg 命令行执行完成...");
+                    }
+                });
+            }
+        };
+
+        ThreadPoolUtils.execute(compoundRun);
     }
 
     @OnClick(R.id.im_portrait)
