@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.os.Environment;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,15 +25,11 @@ import net.sunny.talker.factory.presenter.track.TrackWriteContract;
 import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
-import net.sunny.talker.push.ffmepg.FFmpegKit;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
-import net.sunny.talker.utils.ThreadPoolUtils;
 import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
