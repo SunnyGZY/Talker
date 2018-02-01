@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -39,6 +40,7 @@ import net.sunny.talker.observe.ObservableManager;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.FFmpeg;
+import net.sunny.talker.push.ffmpeg.FFmpegJni;
 import net.sunny.talker.push.fragments.main.ActiveFragment;
 import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
@@ -210,7 +212,25 @@ public class MainActivity extends Activity
             dirFirstFolder.mkdirs();
         }
 
-        FFmpeg.run();
+        run();
+    }
+
+    public void run() {
+        String dir = Environment.getExternalStorageDirectory().getPath() + "/ffmpegTest/";
+        //ffmpeg -i source_mp3.mp3 -ss 00:01:12 -t 00:01:42 -acodec copy output_mp3.mp3
+        String[] commands = new String[10];
+        commands[0] = "ffmpeg";
+        commands[1] = "-i";
+        commands[2] = dir + "tonghuazhen.mp3";
+        commands[3] = "-ss";
+        commands[4] = "00:01:00";
+        commands[5] = "-t";
+        commands[6] = "00:01:00";
+        commands[7] = "-acodec";
+        commands[8] = "copy";
+        commands[9] = dir + "tonghuazhen_cut_mp3.mp3";
+        int result = FFmpegJni.run(commands);
+        Toast.makeText(MainActivity.this, "命令行执行完成 result=" + result, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.im_portrait)
