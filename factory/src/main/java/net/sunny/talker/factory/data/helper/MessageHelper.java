@@ -1,10 +1,12 @@
 package net.sunny.talker.factory.data.helper;
 
+import android.os.Environment;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.OperatorGroup;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -21,8 +23,11 @@ import net.sunny.talker.factory.net.RemoteService;
 import net.sunny.talker.factory.net.UploadHelper;
 import net.sunny.talker.utils.PicturesCompressor;
 import net.sunny.talker.utils.StreamUtil;
+import net.sunny.talker.utils.VideosCompressor;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,13 +162,14 @@ public class MessageHelper {
     }
 
     static String uploadVideo(String path) {
+
         File file = new File(path);
         if (!file.exists() || file.length() <= 0)
             return null;
 
-        // TODO: 2018/1/23 压缩视频
         return UploadHelper.uploadVideo(path);
     }
+
 
     /**
      * 查询一个消息，这个消息是一个群中的最后一条消息
@@ -194,5 +200,11 @@ public class MessageHelper {
                 .or(Message_Table.receiver_id.eq(userId))
                 .orderBy(Message_Table.createAt, false)
                 .querySingle();
+    }
+
+    public interface OnPressListener {
+        void pressSuccess(String filePath);
+
+        void pressFail();
     }
 }

@@ -3,6 +3,8 @@ package net.sunny.talker.factory.presenter.track.item;
 import android.support.annotation.StringRes;
 import android.util.Log;
 
+import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.R;
@@ -84,13 +86,18 @@ public class TrackItemPresenter implements TrackItemContract.Presenter, DataSour
     }
 
     @Override
-    public void onDataLoaded(TrackCard trackCard) {
+    public void onDataLoaded(final TrackCard trackCard) {
 
         Log.e(TAG, trackCard.toString());
 
         if (mView != null) {
-            mView.uploadSuccess(trackCard.buildTract());
-            Application.showToast(R.string.label_put_track_success);
+            Run.onUiAsync(new Action() {
+                @Override
+                public void call() {
+                    mView.uploadSuccess(trackCard.buildTract());
+                    Application.showToast(R.string.label_put_track_success);
+                }
+            });
         }
     }
 

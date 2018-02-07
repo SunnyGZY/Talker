@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.data.helper;
 
-import android.util.Log;
-
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
@@ -11,8 +9,10 @@ import net.sunny.talker.factory.model.card.track.TrackCard;
 import net.sunny.talker.factory.model.db.track.Track;
 import net.sunny.talker.factory.net.Network;
 import net.sunny.talker.factory.net.RemoteService;
+import net.sunny.talker.factory.net.UploadHelper;
 import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
+import net.sunny.talker.utils.VideosCompressor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +27,6 @@ import retrofit2.Response;
  */
 
 public class TrackHelper {
-
-    private static final String TAG = "TrackHelper";
 
     /**
      * 上传带图片的动态
@@ -92,7 +90,8 @@ public class TrackHelper {
      * @param callback   回调
      */
     public static void putTrack(String id, String context, String videoUri, int justFriend, final DataSource.Callback<TrackCard> callback) {
-        TrackCreateModel model = new TrackCreateModel.Builder()
+
+        final TrackCreateModel model = new TrackCreateModel.Builder()
                 .id(id)
                 .content(context)
                 .publisherId(Account.getUserId())
@@ -100,11 +99,28 @@ public class TrackHelper {
                 .state(Track.UPLOADING)
                 .build();
 
-        String ossUrl = MessageHelper.uploadVideo(videoUri);
-        model.setVideoUrl(ossUrl);
+        VideosCompressor.pressVideo(videoUri, new VideosCompressor.OnPressListener() {
+            @Override
+            public void pressSuccess(String filePath) {
+                upTrack(filePath, model, callback);
+            }
 
-        Log.e(TAG, "上传成功：" + ossUrl);
-        Application.showToast("上传成功：" + ossUrl);
+            @Override
+            public void pressFail() {
+
+            }
+        });
+    }
+
+    // 真正的上传方法
+    private static void upTrack(String filePath, TrackCreateModel model, final DataSource.Callback<TrackCard> callback) {
+        String ossUrl = MessageHelper.uploadVideo(filePath);
+        if (ossUrl != null) {
+            model.setVideoUrl(ossUrl);
+        } else {
+            Application.showToast("上传失败");
+            return;
+        }
 
         RemoteService service = Network.remote();
         Call<RspModel<TrackCard>> call = service.putTrack(model);

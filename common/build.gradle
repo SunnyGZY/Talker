@@ -12,12 +12,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/libs']
+            jni.srcDirs = []
         }
     }
 }
@@ -45,6 +50,8 @@ dependencies {
     // Lame 录音 MP3 转码器
     compile "net.qiujuer.lame:lame:$rootProject.ext.lameVersion"
     compile "com.github.chrisbanes:PhotoView:$rootProject.ext.photoViewVersion"
+
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 
     testCompile 'junit:junit:4.12'
     compile project(':lang')

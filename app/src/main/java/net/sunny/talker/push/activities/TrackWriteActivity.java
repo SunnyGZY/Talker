@@ -98,7 +98,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         if (!content.equals("")) {
                             mPresenter.put(content, filePath, mJustFriend.isChecked());
 
-//                            finish();
+                            finish();
                         } else {
                             App.showToast(R.string.toast_comment_not_null);
                         }

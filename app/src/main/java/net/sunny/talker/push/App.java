@@ -2,6 +2,9 @@ package net.sunny.talker.push;
 
 import android.content.Context;
 
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
+import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 import com.igexin.sdk.PushManager;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -32,6 +35,30 @@ public class App extends Application {
         initSound();
 
         CrashReport.initCrashReport(getApplicationContext(), "194c6a1d07", false);
+
+        // load FFmpeg
+        FFmpeg ffmpeg = FFmpeg.getInstance(this);
+        try {
+            ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
+
+                @Override
+                public void onStart() {
+                }
+
+                @Override
+                public void onFailure() {
+                }
+
+                @Override
+                public void onSuccess() {
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            });
+        } catch (FFmpegNotSupportedException ignored) {
+        }
     }
 
     private void initSound() {

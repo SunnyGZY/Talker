@@ -39,17 +39,12 @@ import net.sunny.talker.observe.Function;
 import net.sunny.talker.observe.ObservableManager;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
-import net.sunny.talker.push.FFmpeg;
-import net.sunny.talker.push.ffmpeg.FFmpegJni;
 import net.sunny.talker.push.fragments.main.ActiveFragment;
 import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -198,90 +193,6 @@ public class MainActivity extends Activity
         mNavName.setText(Account.getUser().getName());
         mNavDesc.setText(Account.getUser().getDesc());
         onTabSelected(0);
-
-        pressVideo();
-    }
-
-    private void pressVideo() {
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
-        final String fileName = formatter.format(curDate) + ".mp4";
-        final String DIR_PATH = Environment.getExternalStorageDirectory().getPath() + "/talker/ffmpeg/";
-        File dirFirstFolder = new File(DIR_PATH);
-        if (!dirFirstFolder.exists()) {
-            dirFirstFolder.mkdirs();
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                press();
-            }
-        }).start();
-    }
-
-    public void press() {
-        String dir = Environment.getExternalStorageDirectory().getPath() + "/ffmpegTest/";
-        //ffmpeg -i source_mp3.mp3 -ss 00:01:12 -t 00:01:42 -acodec copy output_mp3.mp3
-
-        String[] commands2 = (new String[]{"man", "ffmpeg",
-                "-i", dir + "video.mp4",
-                "-y",
-                "-c:v", "libx264",
-                "-c:a", "aac",
-                "-vf", "scale=480:-2",
-                "-preset", "ultrafast",
-                "-crf", "28",
-                "-b:a", "128k",
-                dir + "out.mp4"});
-
-        String[] commands = new String[12];
-        commands[0] = "ffmpeg";
-        commands[1] = "-i";
-        commands[2] = dir + "paomo.mp3";
-        commands[3] = "-filter_complex";
-        commands[4] = "adelay=20000|20000";
-        commands[5] = "-ac"; //声道数
-        commands[6] = "1";
-        commands[7] = "-ar"; //采样率
-        commands[8] = "24k";
-        commands[9] = "-ab"; //比特率
-        commands[10] = "32k";
-        commands[11] = dir + "adelay_output5.mp3";
-
-        StringBuilder sb = new StringBuilder("ffmpeg");
-        sb.append(" -i");
-        sb.append(" " + dir + "video.mp4");
-        sb.append(" -vcodec libx264");
-        sb.append(" -preset");
-        sb.append(" ultrafast");
-        sb.append(" -crf");
-        sb.append(" " + 20);
-        sb.append(" " + dir + "press_put.mp4");
-
-//        String cmd = "ffmpeg -i " + path + "/test.mp4" + " -y -ab 32 -ar 22050 -qscale 10 -s 640*480 -r 15 " + path + "/test_out.flv";
-
-        // 压缩视频
-        String[] commands3 = (new String[]{"ffmpeg", "-i",
-                                            dir + "video.mp4",
-                                            "-y","-ab",
-                                            "32", "-ar",
-                                            "22050", "-q:a",
-                                            "10", "-s",
-                                            "640*480","-r",
-                                            "30",
-                                            dir + "test_out.mp4"});
-
-        String[] commands4 = (new String[]{});
-
-        final int result = FFmpegJni.run(commands3);
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "命令行执行完成 result=" + result, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @OnClick(R.id.im_portrait)
