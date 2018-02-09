@@ -10,11 +10,13 @@ import net.sunny.talker.factory.model.api.group.GroupMemberAddModel;
 import net.sunny.talker.factory.model.api.message.MsgCreateModel;
 import net.sunny.talker.factory.model.api.track.CommentModel;
 import net.sunny.talker.factory.model.api.track.TrackCreateModel;
+import net.sunny.talker.factory.model.api.user.UserLocationModel;
 import net.sunny.talker.factory.model.api.user.UserUpdateModel;
 import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.model.card.GroupMemberCard;
 import net.sunny.talker.factory.model.card.MessageCard;
 import net.sunny.talker.factory.model.card.UserCard;
+import net.sunny.talker.factory.model.card.UserLocationCard;
 import net.sunny.talker.factory.model.card.track.TrackCard;
 import net.sunny.talker.factory.model.card.track.comment.CommentCard;
 
@@ -135,7 +137,11 @@ public interface RemoteService {
     @PUT("track/comment")
     Call<RspModel<CommentCard>> sendComment(@Body CommentModel model);
 
+    // 朋友圈评论
     @PUT("feedback/put")
     Call<RspModel<String>> putFeedback(@Body FeedbackModel model);
+
+    @POST("location/update")
+    Call<RspModel<UserLocationCard>> updateLocation(@Body UserLocationModel model);
 }
 

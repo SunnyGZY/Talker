@@ -33,4 +33,6 @@
     <string name="label_function_introduction">功能介绍</string>
     <string name="please_input_content">分享新鲜事…</string>
     <string name="uploading">正在上传</string>
+    <string name="hint">提示</string>
+    <string name="request_local_msg">点击确认查看附近的人，这将获取你的位置信息，并且以后不再询问，你可以在本软件的设置里清除你的位置信息并取消授权。</string>
 </resources>

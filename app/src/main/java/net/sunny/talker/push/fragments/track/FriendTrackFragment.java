@@ -2,6 +2,7 @@ package net.sunny.talker.push.fragments.track;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +54,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.Presenter>
         implements FriendTrackContract.View, Function {
 

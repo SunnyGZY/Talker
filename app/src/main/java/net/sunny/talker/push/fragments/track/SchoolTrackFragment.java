@@ -2,6 +2,7 @@ package net.sunny.talker.push.fragments.track;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -96,6 +97,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     private RecyclerAdapter<Track> mAdapter;
     private int loadType = 0;
 
+    @SuppressLint("ValidFragment")
     public SchoolTrackFragment(TrackFragment trackFragment) {
         onPagerChangeListener = trackFragment;
     }

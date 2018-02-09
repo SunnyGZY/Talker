@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
 
+import com.igexin.sdk.PushManager;
+
 import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.sunny.talker.common.app.Activity;
@@ -21,6 +23,11 @@ import net.sunny.talker.push.fragments.assist.PermissionsFragment;
 public class LaunchActivity extends Activity {
 
     private ColorDrawable mBgDrawable;
+
+    @Override
+    protected void initBefore() {
+        super.initBefore();
+    }
 
     @Override
     protected int getContentLayoutId() {

@@ -3,22 +3,22 @@ package net.sunny.talker.push.activities;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -44,6 +44,7 @@ import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
+import net.sunny.talker.utils.SpUtils;
 
 import java.util.Objects;
 
@@ -195,6 +196,7 @@ public class MainActivity extends Activity
         onTabSelected(0);
     }
 
+
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -327,7 +329,7 @@ public class MainActivity extends Activity
         } else if (id == R.id.nav_look_look) {
             LookLookActivity.show(this);
         } else if (id == R.id.nav_near_people) {
-            App.showToast("功能正在开发，请耐心等待");
+            showNearbyPerson();
         } else if (id == R.id.nav_settings) {
             SettingActivity.show(this);
         }
@@ -335,6 +337,34 @@ public class MainActivity extends Activity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showNearbyPerson() {
+
+        boolean isUpLocation = SpUtils.getBoolean(this, SpUtils.IS_UP_LOCATION, false);
+
+        if (!isUpLocation) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.hint)
+                    .setMessage(R.string.request_local_msg)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SpUtils.putBoolean(MainActivity.this, SpUtils.IS_UP_LOCATION, true);
+                            ((App) App.getInstance()).uploadLocation();
+                            NearbyPersonActivity.show(MainActivity.this);
+                        }
+                    })
+                    .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create();
+            alertDialog.show();
+        } else {
+            NearbyPersonActivity.show(MainActivity.this);
+        }
     }
 
     @Override
