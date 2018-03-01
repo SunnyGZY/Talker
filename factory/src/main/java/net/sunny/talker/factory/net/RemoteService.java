@@ -141,7 +141,11 @@ public interface RemoteService {
     @PUT("feedback/put")
     Call<RspModel<String>> putFeedback(@Body FeedbackModel model);
 
+    // 上传用户地理经纬度
     @POST("location/update")
     Call<RspModel<UserLocationCard>> updateLocation(@Body UserLocationModel model);
+
+    @GET("nearby_person/longitude={longitude}&latitude={latitude}&distance={distance}")
+    Call<RspModel<UserCard>> nearbyPerson(@Path("longitude") double longitude, @Path("latitude") double latitude, @Path("distance") double distance);
 }
 

@@ -54,19 +54,17 @@ public class NearbyPersonActivity extends ToolbarActivity
         // 自定义系统定位小蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory
-                .fromResource(R.drawable.arrow_down));// 设置小蓝点的图标
-        myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-        myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));// 设置圆形的填充颜色
+                .fromResource(R.drawable.location_marker));// 设置小蓝点的图标
+//        myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
+//        myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));// 设置圆形的填充颜色
         // myLocationStyle.anchor(int,int)//设置小蓝点的锚点
-        myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
+//        myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
         aMap.setMyLocationStyle(myLocationStyle);
 
         aMap.setLocationSource(this);// 设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.moveCamera(CameraUpdateFactory.zoomBy(6));
-        LatLng latLng = new LatLng(31.9798155120, 118.7286610819);
-        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("雨润集团").snippet("DefaultMarker"));
     }
 
     @Override

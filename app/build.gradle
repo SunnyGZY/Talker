@@ -22,10 +22,9 @@ android {
                 PACKAGE_NAME    : applicationId
         ]
 
-//        ndk {
-//            // 设置支持的SO库架构
-//            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-//        }
+        ndk {
+            abiFilters "x86", "x86_64", "arm64-v8a", "armeabi-v7a", 'armeabi'
+        }
 
         multiDexEnabled true
     }
