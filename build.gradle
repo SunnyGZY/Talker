@@ -45,7 +45,7 @@ ext {
     retrofitVersion = '2.1.0'
 
     getuiVersion = '2.11.1.0'
-    dbflowVersion = "4.0.0-beta7"
+    dbflowVersion = "4.2.4"
     airpanelVersion = "1.1.0"
     lameVersion = "1.2.0"
 

@@ -15,6 +15,7 @@ import net.sunny.talker.factory.model.api.user.UserUpdateModel;
 import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.model.card.GroupMemberCard;
 import net.sunny.talker.factory.model.card.MessageCard;
+import net.sunny.talker.factory.model.card.NearbyPersonCard;
 import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.card.UserLocationCard;
 import net.sunny.talker.factory.model.card.track.TrackCard;
@@ -145,7 +146,7 @@ public interface RemoteService {
     @POST("location/update")
     Call<RspModel<UserLocationCard>> updateLocation(@Body UserLocationModel model);
 
-    @GET("nearby_person/longitude={longitude}&latitude={latitude}&distance={distance}")
-    Call<RspModel<UserCard>> nearbyPerson(@Path("longitude") double longitude, @Path("latitude") double latitude, @Path("distance") double distance);
+    @GET("location/nearby_person/longitude={longitude}&latitude={latitude}&distance={distance}")
+    Call<RspModel<List<NearbyPersonCard>>> nearbyPerson(@Path("longitude") double longitude, @Path("latitude") double latitude, @Path("distance") double distance);
 }
 

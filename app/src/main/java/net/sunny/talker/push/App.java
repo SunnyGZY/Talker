@@ -4,8 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.multidex.MultiDex;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -41,6 +39,7 @@ public class App extends Application {
     AMapLocationClient locationClient = null; // 高德定位
 
     private static final String TAG = "App";
+    private static boolean isLocated = false; // 判断是否定位成功
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -162,6 +161,8 @@ public class App extends Application {
                 if (isUpLocation) {
                     uploadLocation();
                 }
+
+                isLocated = true;
             }
         });
         locationClient.startLocation();
@@ -169,8 +170,8 @@ public class App extends Application {
 
     public void uploadLocation() {
 
-        String latitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LATITUDE, null); // 31.980409
-        String longitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LONGITUDE, null); // 118.728908;
+        String longitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LONGITUDE, null); // 经度
+        String latitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LATITUDE, null); // 纬度
         String locationDsc = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_DESCRIBE, null);
 
         if (latitude != null && longitude != null && !locationDsc.isEmpty()) {
@@ -198,5 +199,9 @@ public class App extends Application {
         if (null != locationClient) {
             locationClient.onDestroy();
         }
+    }
+
+    public static boolean getLocated() {
+        return isLocated;
     }
 }

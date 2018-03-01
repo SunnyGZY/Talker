@@ -53,7 +53,8 @@ import butterknife.OnClick;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
-public class CommentActivity extends PresenterToolbarActivity<CommentContract.Presenter> implements CommentContract.View, PanelFragment.PanelCallback {
+public class CommentActivity extends PresenterToolbarActivity<CommentContract.Presenter>
+        implements CommentContract.View, PanelFragment.PanelCallback {
 
     public static final String TRACK_KEY = "TRACK_KEY";
 

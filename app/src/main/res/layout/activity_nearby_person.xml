@@ -18,8 +18,20 @@
         android:paddingTop="@dimen/statusBarSize"
         tools:targetApi="lollipop" />
 
-    <com.amap.api.maps2d.MapView
-        android:id="@+id/map"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_main_recycler"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:outlineProvider="bounds"
+        android:padding="@dimen/len_4"
+        android:visibility="gone"
+        tools:targetApi="lollipop" />
+
+    <net.sunny.talker.common.widget.EmptyView
+        android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
