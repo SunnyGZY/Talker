@@ -26,6 +26,7 @@ import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
+import net.sunny.talker.view.ResizableImageView;
 import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
@@ -174,7 +175,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     class PhotoHolder extends RecyclerAdapter.ViewHolder<String> {
 
         @BindView(R.id.iv_photo)
-        ImageView photo;
+        ResizableImageView photo;
 
         PhotoHolder(View itemView) {
             super(itemView);
@@ -183,6 +184,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         @Override
         protected void onBind(String string) {
             if (string.equals("")) { // 如果不是照片
+                photo.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 photo.setPadding(36, 36, 36, 36);
                 // TODO: 17-8-29 需要优化
                 Glide.with(TrackWriteActivity.this)
@@ -190,6 +192,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         .fitCenter()
                         .into(photo);
             } else {
+                photo.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(TrackWriteActivity.this)
                         .load(string)
                         .fitCenter()

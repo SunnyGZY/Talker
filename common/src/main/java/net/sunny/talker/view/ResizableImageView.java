@@ -19,9 +19,7 @@ public class ResizableImageView extends android.support.v7.widget.AppCompatImage
         Drawable drawable = getDrawable();
         if (drawable != null) {
             int width = MeasureSpec.getSize(widthMeasureSpec);
-            // 高度根据使得图片的宽度充满屏幕计算而得
-            int height = (int) Math.ceil((float) width * (float) drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth());
-            setMeasuredDimension(width, height);
+            setMeasuredDimension(width, width);
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
