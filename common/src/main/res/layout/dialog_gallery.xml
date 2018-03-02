@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorDark">
 
     <net.sunny.talker.view.ViewPager
         android:id="@+id/view_pager"
@@ -17,4 +18,16 @@
         android:contentDescription="@string/app_name"
         android:padding="18dp"
         android:src="@drawable/ic_download" />
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/im_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_back" />
+    </android.support.v7.widget.Toolbar>
 </FrameLayout>

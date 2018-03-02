@@ -35,7 +35,11 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         implements PersonalContract.View {
 
     private static final String BOUND_KEY_ID = "BOUND_KEY_ID";
+    private static final String FROM_PAGE_ID = "FROM_PAGE_ID";
+    public static final String NEARBYP_ERSON_ACTIVITY = "NEARBYP_ERSON_ACTIVITY";
+
     private String userId;
+    private String fromPageId;
 
     @BindView(R.id.im_header)
     ImageView mHeader;
@@ -63,6 +67,13 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         context.startActivity(intent);
     }
 
+    public static void show(Context context, String userId, String pageId) {
+        Intent intent = new Intent(context, PersonalActivity.class);
+        intent.putExtra(BOUND_KEY_ID, userId);
+        intent.putExtra(FROM_PAGE_ID, pageId);
+        context.startActivity(intent);
+    }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_personal;
@@ -71,6 +82,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     @Override
     protected boolean initArgs(Bundle bundle) {
         userId = bundle.getString(BOUND_KEY_ID);
+        fromPageId = bundle.getString(FROM_PAGE_ID);
         return !TextUtils.isEmpty(userId);
     }
 
@@ -153,7 +165,8 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
 
     @Override
     public void allowSayHello(boolean isAllow) {
-        mSayHello.setVisibility(isAllow ? View.VISIBLE : View.GONE);
+        mSayHello.setVisibility(fromPageId != null && fromPageId.equals(NEARBYP_ERSON_ACTIVITY)
+                || isAllow ? View.VISIBLE : View.GONE);
     }
 
     @Override

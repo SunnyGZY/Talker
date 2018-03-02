@@ -35,6 +35,7 @@ public class GalleryDialog extends Dialog {
     private List<String> imageUrls;
     private int clickPosition;
     private View downLoad;
+    private View mBack;
 
     /**
      * 指定显示第几张图片
@@ -90,6 +91,13 @@ public class GalleryDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 downImage(mViewPager);
+            }
+        });
+        mBack = findViewById(R.id.im_back);
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
     }

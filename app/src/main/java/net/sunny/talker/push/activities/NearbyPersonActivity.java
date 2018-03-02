@@ -6,32 +6,24 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.model.card.NearbyPersonCard;
-import net.sunny.talker.factory.presenter.group.GroupCreateContract;
 import net.sunny.talker.factory.presenter.nearby.NearbyPersonsContract;
 import net.sunny.talker.factory.presenter.nearby.NearbyPersonsPresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.utils.SpUtils;
-
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 
 public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersonsContract.Presenter>
         implements NearbyPersonsContract.View {
@@ -58,9 +50,6 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
     protected void initWidget() {
         super.initWidget();
 
-        mEmptyView.bind(mRecycler);
-        setPlaceHolderView(mEmptyView);
-
         mAdapter = new RecyclerAdapter() {
             @Override
             protected int getItemView(int position, Object o) {
@@ -72,12 +61,14 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
                 return new NearbyPersonActivity.ViewHolder(root);
             }
         };
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mRecycler.setAdapter(mAdapter);
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<NearbyPersonCard>() {
 
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, NearbyPersonCard nearbyPersonCard) {
                 super.onItemClick(holder, nearbyPersonCard);
-                PersonalActivity.show(NearbyPersonActivity.this, nearbyPersonCard.getUserId());
+                PersonalActivity.show(NearbyPersonActivity.this, nearbyPersonCard.getUserId(), PersonalActivity.NEARBYP_ERSON_ACTIVITY);
             }
         });
     }
@@ -87,6 +78,8 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
         super.initData();
         if (mPresenter != null) {
             if (App.getLocated()) {
+                mPresenter.start();
+
                 double longitude = Double.valueOf(SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LONGITUDE, null)); // 经度
                 double latitude = Double.valueOf(SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LATITUDE, null)); // 纬度
                 mPresenter.getNearbyPersons(longitude, latitude);
@@ -102,17 +95,16 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
     @Override
     public void onLoadDone(List<NearbyPersonCard> nearbyPersonCardList) {
 
-        mPlaceHolderView.triggerOkOrEmpty(nearbyPersonCardList.size() > 0);
+        hideLoading();
 
-        for (NearbyPersonCard nearbyPersonCard : nearbyPersonCardList) {
-            Log.e(getLocalClassName(), nearbyPersonCard.toString());
+        if (nearbyPersonCardList.size() > 0) {
+            mRecycler.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+            mAdapter.add(nearbyPersonCardList);
+        } else {
+            mRecycler.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
         }
-
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-
-        mRecycler.setAdapter(mAdapter);
-        mAdapter.add(nearbyPersonCardList);
     }
 
     class ViewHolder extends RecyclerAdapter.ViewHolder<NearbyPersonCard> {

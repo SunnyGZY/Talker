@@ -24,7 +24,7 @@ public class NearbyPersonsPresenter extends BasePresenter<NearbyPersonsContract.
 
     @Override
     public void start() {
-
+        super.start();
     }
 
     @Override

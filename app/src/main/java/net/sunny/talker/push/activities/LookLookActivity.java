@@ -43,6 +43,6 @@ public class LookLookActivity extends ToolbarActivity {
             }
         });
 
-        mWebView.loadUrl("https://www.zhihu.com/");
+        mWebView.loadUrl("https://xw.qq.com/");
     }
 }

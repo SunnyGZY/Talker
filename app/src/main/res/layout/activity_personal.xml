@@ -5,23 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="net.sunny.talker.push.activities.PersonalActivity">
+    tools:context="net.qiujuer.italker.push.activities.PersonalActivity">
 
     <ImageView
         android:id="@+id/im_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/len_48"
-        android:background="@drawable/cell_group_bg"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         android:src="@drawable/default_portrait"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -40,8 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/len_16"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="13dp"
         android:ellipsize="end"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -52,6 +47,7 @@
         android:id="@+id/im_portrait"
         android:layout_width="96dp"
         android:layout_height="96dp"
+        android:layout_gravity="bottom"
         android:layout_marginStart="@dimen/len_16"
         android:background="@drawable/portrait_bg"
         android:elevation="@dimen/len_2"
@@ -81,6 +77,7 @@
             android:layout_margin="@dimen/len_8"
             android:text="@string/label_follows"
             android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@color/textPrimary" />
 
@@ -90,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/len_8"
             android:text="@string/label_following"
+            android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@color/textPrimary" />

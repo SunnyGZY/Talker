@@ -20,7 +20,7 @@ import java.util.List;
 
 // TODO: 17-7-26 here
 public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDataSource, ContactContract.View>
-        implements ContactContract.Presenter{
+        implements ContactContract.Presenter {
 
     public ContactPresenter(ContactContract.View view) {
         super(new ContactRepository(), view);
@@ -41,7 +41,7 @@ public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDat
      */
     @Override
     public void onDataLoaded(List<User> users) {
-        final ContactContract.View view = (ContactContract.View) getView();
+        final ContactContract.View view = getView();
         if (view == null)
             return;
 
