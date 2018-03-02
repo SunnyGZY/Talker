@@ -7,8 +7,9 @@ package net.sunny.talker.factory.model.card;
 public class NearbyPersonCard {
     private String userId;
     private String portrait;
-    private String distance;
+    private double distance;
     private String userName;
+    private int sex;
 
     public String getUserId() {
         return userId;
@@ -26,11 +27,11 @@ public class NearbyPersonCard {
         this.portrait = portrait;
     }
 
-    public String getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -42,6 +43,14 @@ public class NearbyPersonCard {
         this.userName = userName;
     }
 
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     @Override
     public String toString() {
         return "NearbyPersonCard{" +
@@ -49,6 +58,7 @@ public class NearbyPersonCard {
                 ", portrait='" + portrait + '\'' +
                 ", distance='" + distance + '\'' +
                 ", userName='" + userName + '\'' +
+                ", sex=" + sex +
                 '}';
     }
 }

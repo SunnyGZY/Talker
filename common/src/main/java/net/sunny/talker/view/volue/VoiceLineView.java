@@ -93,7 +93,7 @@ public class VoiceLineView extends View {
         drawMiddleLine(canvas);
         drawVoiceLine(canvas);
 
-        invalidate();
+        postInvalidateDelayed(1/60);
     }
 
     /**

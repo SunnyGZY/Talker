@@ -2,12 +2,26 @@ package net.sunny.talker.push.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.EmptyView;
+import net.sunny.talker.common.widget.PortraitView;
+import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.model.card.NearbyPersonCard;
+import net.sunny.talker.factory.presenter.group.GroupCreateContract;
 import net.sunny.talker.factory.presenter.nearby.NearbyPersonsContract;
 import net.sunny.talker.factory.presenter.nearby.NearbyPersonsPresenter;
 import net.sunny.talker.push.App;
@@ -17,6 +31,7 @@ import net.sunny.talker.utils.SpUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 
 public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersonsContract.Presenter>
         implements NearbyPersonsContract.View {
@@ -26,6 +41,8 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
 
     @BindView(R.id.empty)
     EmptyView mEmptyView;
+
+    private RecyclerAdapter<NearbyPersonCard> mAdapter;
 
     public static void show(Context context) {
         Intent intent = new Intent(context, NearbyPersonActivity.class);
@@ -43,6 +60,26 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
 
         mEmptyView.bind(mRecycler);
         setPlaceHolderView(mEmptyView);
+
+        mAdapter = new RecyclerAdapter() {
+            @Override
+            protected int getItemView(int position, Object o) {
+                return R.layout.cell_nearby_person;
+            }
+
+            @Override
+            protected ViewHolder onCreateViewHolder(View root, int viewType) {
+                return new NearbyPersonActivity.ViewHolder(root);
+            }
+        };
+        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<NearbyPersonCard>() {
+
+            @Override
+            public void onItemClick(RecyclerAdapter.ViewHolder holder, NearbyPersonCard nearbyPersonCard) {
+                super.onItemClick(holder, nearbyPersonCard);
+                PersonalActivity.show(NearbyPersonActivity.this, nearbyPersonCard.getUserId());
+            }
+        });
     }
 
     @Override
@@ -64,8 +101,46 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
 
     @Override
     public void onLoadDone(List<NearbyPersonCard> nearbyPersonCardList) {
+
+        mPlaceHolderView.triggerOkOrEmpty(nearbyPersonCardList.size() > 0);
+
         for (NearbyPersonCard nearbyPersonCard : nearbyPersonCardList) {
             Log.e(getLocalClassName(), nearbyPersonCard.toString());
+        }
+
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+
+        mRecycler.setAdapter(mAdapter);
+        mAdapter.add(nearbyPersonCardList);
+    }
+
+    class ViewHolder extends RecyclerAdapter.ViewHolder<NearbyPersonCard> {
+
+        @BindView(R.id.im_portrait)
+        PortraitView mPortrait;
+        @BindView(R.id.txt_name)
+        TextView mName;
+        @BindView(R.id.txt_dist)
+        TextView mDistance;
+        @BindView(R.id.im_sex)
+        ImageView mSex;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void onBind(NearbyPersonCard nearbyPersonCard) {
+            Glide.with(NearbyPersonActivity.this).load(nearbyPersonCard.getPortrait()).into(mPortrait);
+            mName.setText(nearbyPersonCard.getUserName());
+            mDistance.setText(String.valueOf((int) nearbyPersonCard.getDistance()) + "米之内");
+            Drawable drawable = ContextCompat.getDrawable(Factory.app(),
+                    nearbyPersonCard.getSex() == 1 ? R.drawable.ic_sex_man : R.drawable.ic_sex_woman);
+
+            mSex.setImageDrawable(drawable);
+            // 设置背景的层级
+            mSex.getBackground().setLevel(nearbyPersonCard.getSex() == 1 ? 0 : 1);
         }
     }
 }

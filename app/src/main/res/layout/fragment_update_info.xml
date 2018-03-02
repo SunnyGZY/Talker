@@ -55,7 +55,7 @@
 
         <ImageView
             android:id="@+id/im_sex"
-            android:layout_width="26dp"
+            android:layout_width="@dimen/len_24"
             android:layout_height="@dimen/len_24"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="4dp"

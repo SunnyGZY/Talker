@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.sunny.talker.push.activities.NearbyPersonActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context="net.sunny.talker.push.activities.NearbyPersonActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,7 +24,8 @@
         android:clipToPadding="false"
         android:elevation="1dp"
         android:outlineProvider="bounds"
-        android:padding="@dimen/len_4"
+        android:paddingBottom="@dimen/len_12"
+        android:paddingTop="@dimen/len_12"
         android:visibility="gone"
         tools:targetApi="lollipop" />
 

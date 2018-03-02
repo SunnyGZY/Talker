@@ -150,12 +150,12 @@ public class App extends Application {
         locationClient.setLocationListener(new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
-                Double latitude = aMapLocation.getLatitude(); // 31.980409
                 Double longitude = aMapLocation.getLongitude(); // 118.728908
+                Double latitude = aMapLocation.getLatitude(); // 31.980409
                 String locationDsc = aMapLocation.getAddress();
 
-                SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LATITUDE, String.valueOf(latitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LONGITUDE, String.valueOf(longitude));
+                SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LATITUDE, String.valueOf(latitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_DESCRIBE, locationDsc);
                 boolean isUpLocation = SpUtils.getBoolean(App.this, SpUtils.IS_UP_LOCATION, false);
                 if (isUpLocation) {
@@ -176,7 +176,7 @@ public class App extends Application {
 
         if (latitude != null && longitude != null && !locationDsc.isEmpty()) {
 
-            UserLocationModel model = new UserLocationModel(latitude, longitude, locationDsc);
+            UserLocationModel model = new UserLocationModel(longitude, latitude, locationDsc);
             LocationHelper.update(model, new DataSource.Callback<UserLocationCard>() {
                 @Override
                 public void onDataNotAvailable(@StringRes int strRes) {

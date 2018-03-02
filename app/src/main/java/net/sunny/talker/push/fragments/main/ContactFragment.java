@@ -67,15 +67,10 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<User>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, User user) {
-                ViewHolder holder1 = (ViewHolder) holder;
                 Intent intent = new Intent(getContext(), MessageActivity.class);
                 intent.putExtra("KEY_RECEIVER_ID", user.getId());
 
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(getActivity(), holder1.mPortraitView, "Portrait");
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-
-//                MessageActivity.show(getContext(), user);
+                MessageActivity.show(getContext(), user);
             }
         });
 
