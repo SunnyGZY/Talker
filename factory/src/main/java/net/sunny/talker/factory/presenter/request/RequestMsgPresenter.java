@@ -31,7 +31,7 @@ public class RequestMsgPresenter extends BasePresenter<RequestMsgContact.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                RequestMsgContact.View view = (RequestMsgContact.View) getView();
+                RequestMsgContact.View view = getView();
                 if (view == null)
                     return;
 

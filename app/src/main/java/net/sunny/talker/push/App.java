@@ -13,6 +13,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 import com.igexin.sdk.PushManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import net.sunny.talker.common.app.Application;
@@ -21,6 +22,13 @@ import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.LocationHelper;
 import net.sunny.talker.factory.model.api.user.UserLocationModel;
 import net.sunny.talker.factory.model.card.UserLocationCard;
+import net.sunny.talker.factory.model.db.Group;
+import net.sunny.talker.factory.model.db.GroupMember;
+import net.sunny.talker.factory.model.db.Message;
+import net.sunny.talker.factory.model.db.Session;
+import net.sunny.talker.factory.model.db.User;
+import net.sunny.talker.factory.model.db.track.Photo;
+import net.sunny.talker.factory.model.db.track.Track;
 import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.push.activities.AccountActivity;
 import net.sunny.talker.utils.SoundManager;
@@ -131,12 +139,29 @@ public class App extends Application {
 
     @Override
     public void logout() {
+        // 清除SharedPreferences缓存
+        Account.clearUserCache(this);
+        // 清空数据库
+        clearDb();
+
         super.logout();
+    }
+
+    /**
+     * 清空数据库数据
+     */
+    private void clearDb() {
+        SQLite.delete().from(User.class).async().execute();
+        SQLite.delete().from(Photo.class).async().execute();
+        SQLite.delete().from(Track.class).async().execute();
+        SQLite.delete().from(Group.class).async().execute();
+        SQLite.delete().from(GroupMember.class).async().execute();
+        SQLite.delete().from(Message.class).async().execute();
+        SQLite.delete().from(Session.class).async().execute();
     }
 
     @Override
     protected void showAccountView(Context context) {
-        Account.clearUserCache(context);
 
         AccountActivity.showInNewTask(context);
     }
@@ -157,7 +182,7 @@ public class App extends Application {
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LONGITUDE, String.valueOf(longitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LATITUDE, String.valueOf(latitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_DESCRIBE, locationDsc);
-                boolean isUpLocation = SpUtils.getBoolean(App.this, SpUtils.IS_UP_LOCATION, false);
+                boolean isUpLocation = SpUtils.getBoolean(App.this, SpUtils.IS_PUB_LOCATION, false);
                 if (isUpLocation) {
                     uploadLocation();
                 }

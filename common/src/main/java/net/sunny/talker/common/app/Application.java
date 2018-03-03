@@ -69,6 +69,7 @@ public class Application extends android.app.Application {
     }
 
     public void logout() {
+
         for (Activity activity : activities) {
             activity.finish();
         }

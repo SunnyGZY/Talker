@@ -18,7 +18,6 @@ import java.util.List;
  * Description: ContactPresenter
  */
 
-// TODO: 17-7-26 here
 public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDataSource, ContactContract.View>
         implements ContactContract.Presenter {
 

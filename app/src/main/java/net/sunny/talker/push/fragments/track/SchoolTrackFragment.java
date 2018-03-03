@@ -71,7 +71,6 @@ import butterknife.OnClick;
 public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.Presenter>
         implements SchoolTrackContract.View, Function {
 
-    private static final String TAG = "SchoolTrackFragment";
     private static int LOAD_FRESH_DATA = 2;
     private static int LOAD_MORE_DATA = 1;
 
@@ -214,6 +213,8 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         if (mNewTrackCount.getVisibility() == View.VISIBLE) {
             mNewTrackCount.setVisibility(View.INVISIBLE);
         }
+
+        mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
     @Override

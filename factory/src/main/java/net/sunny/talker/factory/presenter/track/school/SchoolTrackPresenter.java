@@ -8,6 +8,8 @@ import android.util.Log;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
+import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
@@ -32,8 +34,6 @@ import retrofit2.Call;
 public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View>
         implements SchoolTrackContract.Presenter, QueryTransaction.QueryResultListCallback<Track> {
 
-    private static final String TAG = "SchoolTrackPresenter";
-
     private List<Track> trackList = new ArrayList<>();
     private Call dataCall;
     private boolean loadFromHead = false;
@@ -50,20 +50,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
             Factory.runOnAsync(new Runnable() {
                 @Override
                 public void run() {
-                    TrackHelper.getNewSchoolTrackCount(strTime, new DataSource.Callback<Integer>() {
-                        @Override
-                        public void onDataNotAvailable(@StringRes int strRes) {
-
-                        }
-
-                        @Override
-                        public void onDataLoaded(Integer count) {
-                            SchoolTrackContract.View view = getView();
-                            if (view != null) {
-                                view.showNewTrackCount(count);
-                            }
-                        }
-                    });
+                    TrackHelper.getNewSchoolTrackCount(strTime, integerCallback);
                 }
             });
         }
@@ -90,27 +77,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
             call.cancel();
         }
 
-        dataCall = TrackHelper.getSchoolTrack(pageNo, 10, date, new DataSource.Callback<List<Track>>() {
-            @Override
-            public void onDataNotAvailable(@StringRes int strRes) {
-
-            }
-
-            @Override
-            public void onDataLoaded(List<Track> tracks) {
-
-                trackList.addAll(tracks);
-
-                if (loadFromHead) {
-
-                    getNotUploadTrack();
-                    loadFromHead = false;
-                    return;
-                }
-
-                notifyDataChange();
-            }
-        });
+        dataCall = TrackHelper.getSchoolTrack(pageNo, 10, date, listCallback);
     }
 
     /**
@@ -166,4 +133,57 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
 
         view.onAdapterDataChanged();
     }
+
+    // 查询服务器动态的接口回调
+    private DataSource.Callback<List<Track>> listCallback = new DataSource.Callback<List<Track>>() {
+        @Override
+        public void onDataLoaded(List<Track> tracks) {
+            trackList.addAll(tracks);
+
+            if (loadFromHead) {
+                getNotUploadTrack();
+                loadFromHead = false;
+                return;
+            }
+
+            notifyDataChange();
+        }
+
+        @Override
+        public void onDataNotAvailable(@StringRes final int strRes) {
+            final SchoolTrackContract.View view = getView();
+            if (view != null) {
+                Run.onUiAsync(new Action() {
+                    @Override
+                    public void call() {
+                        view.showError(strRes);
+                    }
+                });
+            }
+        }
+    };
+
+    // 查询服务器新动态数量的接口回调
+    private DataSource.Callback<Integer> integerCallback = new DataSource.Callback<Integer>() {
+        @Override
+        public void onDataLoaded(Integer count) {
+            SchoolTrackContract.View view = getView();
+            if (view != null) {
+                view.showNewTrackCount(count);
+            }
+        }
+
+        @Override
+        public void onDataNotAvailable(@StringRes final int strRes) {
+            final SchoolTrackContract.View view = getView();
+            if (view != null) {
+                Run.onUiAsync(new Action() {
+                    @Override
+                    public void call() {
+                        view.showError(strRes);
+                    }
+                });
+            }
+        }
+    };
 }

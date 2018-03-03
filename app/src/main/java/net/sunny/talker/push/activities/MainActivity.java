@@ -341,7 +341,7 @@ public class MainActivity extends Activity
 
     private void showNearbyPerson() {
 
-        boolean isUpLocation = SpUtils.getBoolean(this, SpUtils.IS_UP_LOCATION, false);
+        boolean isUpLocation = SpUtils.getBoolean(this, SpUtils.IS_PUB_LOCATION, false);
 
         if (!isUpLocation) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -350,7 +350,7 @@ public class MainActivity extends Activity
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SpUtils.putBoolean(MainActivity.this, SpUtils.IS_UP_LOCATION, true);
+                            SpUtils.putBoolean(MainActivity.this, SpUtils.IS_PUB_LOCATION, true);
                             ((App) App.getInstance()).uploadLocation();
                             NearbyPersonActivity.show(MainActivity.this);
                         }

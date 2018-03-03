@@ -1,7 +1,5 @@
 package net.sunny.talker.factory.model.db.track;
 
-
-import net.sunny.talker.factory.model.card.track.PhotoCard;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.utils.DiffUiDataCallback;
 

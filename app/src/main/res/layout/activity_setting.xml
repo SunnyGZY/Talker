@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowsBackgroundDark"
-    android:orientation="vertical"
-    tools:context="net.sunny.talker.push.activities.SettingActivity">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
+        android:background="@color/colorPrimary"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
-        android:background="@color/colorPrimary"
         android:paddingTop="@dimen/statusBarSize"
         tools:targetApi="lollipop" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="@dimen/len_12"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_about_app"
@@ -34,10 +35,41 @@
             android:textSize="@dimen/font_16" />
 
         <View
-            android:id="@+id/line_1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@id/tv_about_app"
+            android:layout_marginLeft="@dimen/len_16"
+            android:layout_marginRight="@dimen/len_16"
+            android:background="@color/lineColor" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_clear_dir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="@drawable/ic_touch_fg"
+                android:padding="@dimen/len_16"
+                android:text="@string/label_clear_dir"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/font_16" />
+
+            <TextView
+                android:id="@+id/tv_lon_lat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/len_16"
+                android:textColor="@color/textLight"
+                android:textSize="@dimen/font_12"
+                android:text="经度:180.98 维度:31.25" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/len_16"
             android:layout_marginRight="@dimen/len_16"
             android:background="@color/lineColor" />
@@ -46,12 +78,11 @@
             android:id="@+id/tv_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/line_1"
             android:foreground="@drawable/ic_touch_fg"
             android:padding="@dimen/len_16"
             android:text="@string/label_log_out"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/font_16" />
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -14,7 +14,7 @@ public class SpUtils {
     public static final String PHONE_LOCATION_LONGITUDE = "PHONE_LOCATION_LONGITUDE";
     public static final String PHONE_LOCATION_DESCRIBE = "PHONE_LOCATION_DESCRIBE";
 
-    public static final String IS_UP_LOCATION = "is_Up_Location";
+    public static final String IS_PUB_LOCATION = "IS_PUB_LOCATION";
 
     private static final String TALKER_CONFIG = "TALKER_CONFIG";
 

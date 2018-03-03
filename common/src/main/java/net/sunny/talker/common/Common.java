@@ -16,6 +16,7 @@ public class Common {
          */
 //        String API_URL = "http://60.205.189.60:8080/api/"; // 阿里云地址
         String API_URL = "http://192.168.137.1:8080/api/"; // 本地测试
+//        String API_URL = "http://10.180.18.154:8080/api/"; // 本地测试
 
         // 最大上传大小860KB
         long MAX_UPLOAD_IMAGE_LENGTH = 860 * 1024;

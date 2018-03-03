@@ -40,8 +40,14 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
     @BindView(R.id.im_sex)
     ImageView mSex;
 
+    @BindView(R.id.edit_birthday)
+    EditText mBirthday;
+
     @BindView(R.id.edit_desc)
     EditText mDesc;
+
+    @BindView(R.id.edit_profession)
+    EditText mProfession;
 
     @BindView(R.id.im_portrait)
     PortraitView mPortrait;
@@ -61,7 +67,7 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.fragment_update_info;
+        return R.layout.fragment_update_info_design;
     }
 
     @OnClick(R.id.im_portrait)

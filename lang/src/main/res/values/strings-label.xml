@@ -22,6 +22,8 @@
     <string name="label_portrait_tips">选择你的专属头像</string>
     <string name="label_name">名字</string>
     <string name="label_desc_tips">用一句话介绍自己</string>
+    <string name="label_profession_tips">用一句话描述职业</string>
+    <string name="label_birthday_tips">选择你的生日</string>
     <string name="label_sex_man">男</string>
     <string name="label_sex_woman">女</string>
     <string name="label_go_register">没有账户？去注册</string>
@@ -44,6 +46,7 @@
     <string name="label_last_chat_time">上次会话: </string>
     <string name="label_new_friends">新朋友</string>
     <string name="label_log_out">退出</string>
+    <string name="label_clear_dir">清除位置</string>
     <string name="label_settings">设置</string>
     <string name="label_request_has_issued">请求已发出</string>
 

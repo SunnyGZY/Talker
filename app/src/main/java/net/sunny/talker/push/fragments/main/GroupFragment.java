@@ -90,6 +90,7 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
 
     @Override
     public void onAdapterDataChanged() {
+        // TODO: 2018/3/3  逻辑有问题，本地数据库或者服务器任意一个返回为空数据即停止了loading动画
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 

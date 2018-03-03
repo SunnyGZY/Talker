@@ -9,6 +9,7 @@ import android.widget.TextView;
 import net.sunny.talker.common.app.ToolbarActivity;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
+import net.sunny.talker.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -19,6 +20,8 @@ public class SettingActivity extends ToolbarActivity {
     TextView mAbout;
     @BindView(R.id.tv_logout)
     TextView mLogout;
+    @BindView(R.id.tv_lon_lat)
+    TextView mLonlat;
 
     public static void show(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -30,6 +33,15 @@ public class SettingActivity extends ToolbarActivity {
         return R.layout.activity_setting;
     }
 
+    @Override
+    protected void initData() {
+        super.initData();
+
+        String longitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LONGITUDE, null); // 经度
+        String latitude = SpUtils.getString(App.getInstance(), SpUtils.PHONE_LOCATION_LATITUDE, null); // 纬度
+        mLonlat.setText("经度:" + longitude + "维度:" + latitude);
+    }
+
     @OnClick(R.id.tv_about_app)
     public void about() {
         AboutActivity.show(this);
@@ -38,6 +50,14 @@ public class SettingActivity extends ToolbarActivity {
     @OnClick(R.id.tv_logout)
     public void logout() {
         showDialog();
+    }
+
+    @OnClick(R.id.tv_clear_dir)
+    public void clearDirData() {
+        SpUtils.putBoolean(this, SpUtils.IS_PUB_LOCATION, false);
+
+        // TODO: 2018/3/3 将清除用户数据命令上传到服务器
+        mLonlat.setText("清空");
     }
 
     private void showDialog() {
