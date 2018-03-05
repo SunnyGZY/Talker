@@ -81,7 +81,7 @@ public class AccountHelper {
 
         @Override
         public void onResponse(Call<RspModel<AccountRspModel>> call,
-                                   Response<RspModel<AccountRspModel>> response) {
+                               Response<RspModel<AccountRspModel>> response) {
             // 请求成功返回
             // 从返回中得到我们的全局Model，内部是使用的Gson进行解析
             RspModel<AccountRspModel> rspModel = response.body();

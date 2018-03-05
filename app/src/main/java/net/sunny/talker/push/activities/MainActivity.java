@@ -341,16 +341,14 @@ public class MainActivity extends Activity
 
     private void showNearbyPerson() {
 
-        boolean isUpLocation = SpUtils.getBoolean(this, SpUtils.IS_PUB_LOCATION, false);
-
-        if (!isUpLocation) {
+        if (!Account.isPubLoca()) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.hint)
                     .setMessage(R.string.request_local_msg)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SpUtils.putBoolean(MainActivity.this, SpUtils.IS_PUB_LOCATION, true);
+                            Account.setIsPubLoca(true);
                             ((App) App.getInstance()).uploadLocation();
                             NearbyPersonActivity.show(MainActivity.this);
                         }

@@ -7,9 +7,12 @@ import android.text.TextUtils;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import net.sunny.talker.factory.Factory;
+import net.sunny.talker.factory.data.helper.DbHelper;
+import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.api.account.AccountRspModel;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.model.db.User_Table;
+import net.sunny.talker.utils.SpUtils;
 
 /**
  * Created by Sunny on 2017/5/27.
@@ -23,6 +26,7 @@ public class Account {
     private static final String KEY_TOKEN = "KEY_TOKEN";
     private static final String KEY_USER_ID = "KEY_USER_ID";
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
+    private static final String KEY_IS_PUB_LOCATION = "KEY_IS_PUB_LOCATION";
 
     // 设备的推送Id
     private static String pushId;
@@ -34,7 +38,8 @@ public class Account {
     private static String userId;
     // 登录的账户
     private static String account;
-
+    // 是否公开位置
+    private static boolean isPubLoca;
 
     /**
      * 存储数据到XML文件，持久化
@@ -50,6 +55,7 @@ public class Account {
                 .putString(KEY_TOKEN, token)
                 .putString(KEY_USER_ID, userId)
                 .putString(KEY_ACCOUNT, account)
+                .putBoolean(KEY_IS_PUB_LOCATION, isPubLoca)
                 .apply();
     }
 
@@ -64,6 +70,7 @@ public class Account {
         token = sp.getString(KEY_TOKEN, "");
         userId = sp.getString(KEY_USER_ID, "");
         account = sp.getString(KEY_ACCOUNT, "");
+        isPubLoca = sp.getBoolean(KEY_IS_PUB_LOCATION, false);
     }
 
 
@@ -141,6 +148,7 @@ public class Account {
         Account.token = model.getToken();
         Account.account = model.getAccount();
         Account.userId = model.getUser().getId();
+        Account.isPubLoca = model.getUser().isPubLoca();
         save(Factory.app());
     }
 
@@ -173,6 +181,20 @@ public class Account {
         return token;
     }
 
+    public static boolean isPubLoca() {
+        return isPubLoca;
+    }
+
+    public static void setIsPubLoca(boolean isPubLoca) {
+        Account.isPubLoca = isPubLoca;
+
+        User self = UserHelper.findFromLocal(userId);
+        self.setPubLoca(isPubLoca);
+        DbHelper.save(User.class, self);
+
+        save(Factory.app());
+    }
+
     public static void clearUserCache(Context context) {
         // 获取数据持久化的SP
         SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
@@ -183,11 +205,15 @@ public class Account {
                 .putString(KEY_TOKEN, "")
                 .putString(KEY_USER_ID, "")
                 .putString(KEY_ACCOUNT, "")
+                .putBoolean(KEY_IS_PUB_LOCATION, false)
                 .apply();
+
+        SpUtils.putBoolean(context, SpUtils.IS_PUB_LOCATION, false); // TODO: 2018/3/5
 
         isBind = false;
         token = null;
         userId = null;
         account = null;
+        isPubLoca = false;
     }
 }

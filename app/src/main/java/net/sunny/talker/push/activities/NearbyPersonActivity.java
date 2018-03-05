@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
@@ -21,6 +23,7 @@ import net.sunny.talker.factory.presenter.nearby.NearbyPersonsPresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.utils.SpUtils;
+
 import java.util.List;
 
 import butterknife.BindView;

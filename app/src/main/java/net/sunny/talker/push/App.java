@@ -46,7 +46,6 @@ public class App extends Application {
 
     AMapLocationClient locationClient = null; // 高德定位
 
-    private static final String TAG = "App";
     private static boolean isLocated = false; // 判断是否定位成功
 
     @Override
@@ -182,8 +181,7 @@ public class App extends Application {
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LONGITUDE, String.valueOf(longitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_LATITUDE, String.valueOf(latitude));
                 SpUtils.putString(App.this, SpUtils.PHONE_LOCATION_DESCRIBE, locationDsc);
-                boolean isUpLocation = SpUtils.getBoolean(App.this, SpUtils.IS_PUB_LOCATION, false);
-                if (isUpLocation) {
+                if (Account.isPubLoca()) {
                     uploadLocation();
                 }
 

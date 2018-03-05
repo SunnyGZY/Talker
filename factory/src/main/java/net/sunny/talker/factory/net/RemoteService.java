@@ -148,5 +148,8 @@ public interface RemoteService {
 
     @GET("location/nearby_person/longitude={longitude}&latitude={latitude}&distance={distance}")
     Call<RspModel<List<NearbyPersonCard>>> nearbyPerson(@Path("longitude") double longitude, @Path("latitude") double latitude, @Path("distance") double distance);
+
+    @POST("location/alert_juri_dir/isPubDir={isPubDir}")
+    Call<RspModel> alertJuriDir(@Path("isPubDir") int isPubDir);
 }
 

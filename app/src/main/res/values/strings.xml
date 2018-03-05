@@ -35,4 +35,6 @@
     <string name="uploading">正在上传</string>
     <string name="hint">提示</string>
     <string name="request_local_msg">点击确认查看附近的人，这将获取你的位置信息，并且以后不再询问，你可以在本软件的设置里清除你的位置信息并取消授权。</string>
+    <string name="already_clear">已清除</string>
+    <string name="lon_lat">经度:%1$s 维度:%2$s</string>
 </resources>

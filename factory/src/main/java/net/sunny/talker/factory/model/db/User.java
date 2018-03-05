@@ -48,6 +48,8 @@ public class User extends BaseDbModel<User> implements Author{
     private int followState;
     @Column
     private Date modifyAt;
+    @Column
+    private boolean isPubLoca;
 
     public String getId() {
         return id;
@@ -137,6 +139,14 @@ public class User extends BaseDbModel<User> implements Author{
         this.modifyAt = modifyAt;
     }
 
+    public boolean isPubLoca() {
+        return isPubLoca;
+    }
+
+    public void setPubLoca(boolean pubLoca) {
+        isPubLoca = pubLoca;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -190,6 +200,7 @@ public class User extends BaseDbModel<User> implements Author{
                 ", following=" + following +
                 ", followState=" + followState +
                 ", modifyAt=" + modifyAt +
+                ", isPubLoca=" + isPubLoca +
                 '}';
     }
 }

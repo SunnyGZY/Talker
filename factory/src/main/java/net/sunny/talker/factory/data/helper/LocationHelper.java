@@ -72,4 +72,29 @@ public class LocationHelper {
 
         return call;
     }
+
+    public static Call alertJuriDir(int isPubDir, final DataSource.Callback callback) {
+
+        RemoteService service = Network.remote();
+        Call<RspModel> call = service.alertJuriDir(isPubDir);
+        call.enqueue(new Callback<RspModel>() {
+            @Override
+            public void onResponse(Call<RspModel> call, Response<RspModel> response) {
+                RspModel rspModel = response.body();
+                if (rspModel.success()) {
+                    callback.onDataLoaded(true);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel> call, Throwable t) {
+                if (callback != null)
+                    callback.onDataNotAvailable(R.string.data_network_error);
+            }
+        });
+
+        return call;
+    }
 }

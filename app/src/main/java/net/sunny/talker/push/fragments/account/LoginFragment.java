@@ -15,27 +15,23 @@ import net.sunny.talker.push.activities.MainActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 /**
  * 登录的界面
  */
 public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
         implements LoginContract.View {
+
     private AccountTrigger mAccountTrigger;
 
     @BindView(R.id.edit_phone)
     EditText mPhone;
     @BindView(R.id.edit_password)
     EditText mPassword;
-
     @BindView(R.id.loading)
     Loading mLoading;
-
     @BindView(R.id.btn_submit)
     Button mSubmit;
-
 
     public LoginFragment() {
         // Required empty public constructor
