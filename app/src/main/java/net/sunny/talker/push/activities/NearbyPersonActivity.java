@@ -3,6 +3,7 @@ package net.sunny.talker.push.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -108,6 +109,13 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
             mRecycler.setVisibility(View.GONE);
             mEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void showError(@StringRes int str) {
+        super.showError(str);
+
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     class ViewHolder extends RecyclerAdapter.ViewHolder<NearbyPersonCard> {

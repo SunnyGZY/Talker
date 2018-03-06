@@ -171,7 +171,6 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
             @Override
             public void onMove() {
-
             }
         });
 
@@ -201,7 +200,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
 
     @Override
     public void onAdapterDataChanged() {
-        mEmptyView.triggerOk();
+//        mEmptyView.triggerOk();
 
         if (loadType == LOAD_FRESH_DATA) {
             mRecycler.setReFreshComplete();
@@ -213,6 +212,13 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         if (mNewTrackCount.getVisibility() == View.VISIBLE) {
             mNewTrackCount.setVisibility(View.INVISIBLE);
         }
+
+        mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
+    }
+
+    @Override
+    public void showError(@StringRes int str) {
+        super.showError(str);
 
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
@@ -488,6 +494,11 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         }
 
         @Override
+        public void showError(@StringRes int str) {
+            App.showToast(str);
+        }
+
+        @Override
         public void onDataLoaded(final User user) {
             Run.onUiSync(new Action() {
                 @Override
@@ -518,7 +529,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         if (mAdapter.getItemCount() > 0) {
             Date lastDate = mAdapter.getItems().get(0).getCreateAt();
             String lastStr = DateTimeUtil.getIntactData(lastDate);
-            SpUtils.putString(getContext(), "lastTime", lastStr);
+            SpUtils.putString(getContext(), SpUtils.TRACK_LAST_TIME, lastStr);
         }
 
         List<Track> trackList = mAdapter.getItems();

@@ -3,6 +3,7 @@ package net.sunny.talker.push.fragments.track;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import net.sunny.talker.factory.presenter.track.item.TrackItemContract;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 import net.sunny.talker.observe.Function;
 import net.sunny.talker.observe.ObservableManager;
+import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.activities.CommentActivity;
 import net.sunny.talker.push.fragments.main.TrackFragment;
@@ -232,6 +234,13 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         }
     }
 
+    @Override
+    public void showError(@StringRes int str) {
+        super.showError(str);
+
+        mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
+    }
+
     int count;
 
     @Override
@@ -386,6 +395,11 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         @Override
         public void uploadSuccess(Track track) {
 
+        }
+
+        @Override
+        public void showError(@StringRes int str) {
+            App.showToast(str);
         }
     }
 

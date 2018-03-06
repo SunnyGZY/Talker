@@ -10,13 +10,15 @@ import java.util.Set;
  */
 public class SpUtils {
 
+    private static final String TALKER_CONFIG = "TALKER_CONFIG";
+
     public static final String PHONE_LOCATION_LATITUDE = "PHONE_LOCATION_LATITUDE";
     public static final String PHONE_LOCATION_LONGITUDE = "PHONE_LOCATION_LONGITUDE";
     public static final String PHONE_LOCATION_DESCRIBE = "PHONE_LOCATION_DESCRIBE";
 
-    public static final String IS_PUB_LOCATION = "IS_PUB_LOCATION";
+//    public static final String IS_PUB_LOCATION = "IS_PUB_LOCATION";
 
-    private static final String TALKER_CONFIG = "TALKER_CONFIG";
+    public static final String TRACK_LAST_TIME = "TRACK_LAST_TIME"; // 请求到的最新朋友圈消息的时间
 
     /**
      * 存字符串

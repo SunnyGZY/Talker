@@ -42,7 +42,7 @@ public class SearchGroupPresenter extends BasePresenter<SearchContract.GroupView
 
     @Override
     public void onDataLoaded(final List<GroupCard> groupCards) {
-        final SearchContract.GroupView view = (SearchContract.GroupView) getView();
+        final SearchContract.GroupView view = getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
@@ -55,7 +55,7 @@ public class SearchGroupPresenter extends BasePresenter<SearchContract.GroupView
 
     @Override
     public void onDataNotAvailable(@StringRes final int strRes) {
-        final SearchContract.GroupView view = (SearchContract.GroupView) getView();
+        final SearchContract.GroupView view = getView();
         if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override

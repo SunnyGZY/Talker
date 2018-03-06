@@ -13,4 +13,6 @@
     <string name="minutes_ago">%d分钟前</string>
     <string name="just_now">刚刚</string>
     <string name="about_app">关于Talker</string>
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_refuse">拒绝</string>
 </resources>

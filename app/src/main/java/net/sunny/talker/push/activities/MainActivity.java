@@ -44,7 +44,6 @@ import net.sunny.talker.push.fragments.main.ContactFragment;
 import net.sunny.talker.push.fragments.main.GroupFragment;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
-import net.sunny.talker.utils.SpUtils;
 
 import java.util.Objects;
 
@@ -342,10 +341,10 @@ public class MainActivity extends Activity
     private void showNearbyPerson() {
 
         if (!Account.isPubLoca()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this)
                     .setTitle(R.string.hint)
                     .setMessage(R.string.request_local_msg)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Account.setIsPubLoca(true);
@@ -353,13 +352,12 @@ public class MainActivity extends Activity
                             NearbyPersonActivity.show(MainActivity.this);
                         }
                     })
-                    .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.dialog_refuse, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
-                    }).create();
-            alertDialog.show();
+                    }).create().show();
+
         } else {
             NearbyPersonActivity.show(MainActivity.this);
         }

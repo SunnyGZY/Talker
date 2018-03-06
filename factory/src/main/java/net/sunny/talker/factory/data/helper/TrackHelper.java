@@ -1,6 +1,8 @@
 package net.sunny.talker.factory.data.helper;
 
 import net.sunny.talker.common.app.Application;
+import net.sunny.talker.factory.Factory;
+import net.sunny.talker.factory.R;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.model.api.RspModel;
 import net.sunny.talker.factory.model.api.track.PhotoModel;
@@ -69,13 +71,13 @@ public class TrackHelper {
                     TrackCard trackCard = rspModel.getResult();
                     callback.onDataLoaded(trackCard);
                 } else {
-                    // 错误情况下进行错误分配
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<TrackCard>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
     }
@@ -107,7 +109,7 @@ public class TrackHelper {
 
             @Override
             public void pressFail() {
-
+                callback.onDataNotAvailable(R.string.data_compress_fail);
             }
         });
     }
@@ -132,13 +134,13 @@ public class TrackHelper {
                     TrackCard trackCard = rspModel.getResult();
                     callback.onDataLoaded(trackCard);
                 } else {
-                    // 错误情况下进行错误分配
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<TrackCard>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
     }
@@ -153,12 +155,14 @@ public class TrackHelper {
                 if (rspModel.success()) {
                     Integer newTrackCountCard = rspModel.getResult();
                     callback.onDataLoaded(newTrackCountCard);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<Integer>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
     }
@@ -173,12 +177,14 @@ public class TrackHelper {
                 if (rspModel.success()) {
                     Integer newTrackCountCard = rspModel.getResult();
                     callback.onDataLoaded(newTrackCountCard);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<Integer>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
     }
@@ -198,12 +204,14 @@ public class TrackHelper {
                         trackList.add(trackCard.buildTract());
                     }
                     callback.onDataLoaded(trackList);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<List<TrackCard>>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
 
@@ -224,12 +232,14 @@ public class TrackHelper {
                         trackList.add(trackCard.buildTract());
                     }
                     callback.onDataLoaded(trackList);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
             @Override
             public void onFailure(Call<RspModel<List<TrackCard>>> call, Throwable t) {
-
+                callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
 

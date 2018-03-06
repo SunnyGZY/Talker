@@ -7,6 +7,8 @@ import android.support.annotation.StringRes;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
+import net.qiujuer.genius.kit.handler.Run;
+import net.qiujuer.genius.kit.handler.runable.Action;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
@@ -14,6 +16,7 @@ import net.sunny.talker.factory.data.helper.TrackHelper;
 import net.sunny.talker.factory.model.db.track.Track;
 import net.sunny.talker.factory.model.db.track.Track_Table;
 import net.sunny.talker.factory.presenter.base.BasePresenter;
+import net.sunny.talker.factory.presenter.track.school.SchoolTrackContract;
 import net.sunny.talker.utils.DateTimeUtil;
 import net.sunny.talker.utils.SpUtils;
 
@@ -88,8 +91,16 @@ public class FriendTrackPresenter extends BasePresenter<FriendTrackContract.View
 
         dataCall = TrackHelper.getFriendTrack(pageNo, 10, date, new DataSource.Callback<List<Track>>() {
             @Override
-            public void onDataNotAvailable(@StringRes int strRes) {
-
+            public void onDataNotAvailable(@StringRes final int strRes) {
+                final FriendTrackContract.View view = getView();
+                if (view != null) {
+                    Run.onUiAsync(new Action() {
+                        @Override
+                        public void call() {
+                            view.showError(strRes);
+                        }
+                    });
+                }
             }
 
             @Override

@@ -25,4 +25,5 @@
     <string name="data_rsp_error_account_register">抱歉，注册失败! ^_^|||</string>
     <string name="data_rsp_error_account_no_permission">您越权啦!!!</string>
     <string name="data_rsp_error_user_not_find">用户未找到</string>
+    <string name="data_compress_fail">压缩失败</string>
 </resources>

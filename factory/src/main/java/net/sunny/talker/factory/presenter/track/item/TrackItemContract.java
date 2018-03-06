@@ -1,5 +1,7 @@
 package net.sunny.talker.factory.presenter.track.item;
 
+import android.support.annotation.StringRes;
+
 import net.sunny.talker.factory.model.db.track.Track;
 
 /**
@@ -18,6 +20,8 @@ public interface TrackItemContract {
         void tauntFail();
 
         void uploadSuccess(Track track);
+
+        void showError(@StringRes int str);
     }
 
     interface Presenter {

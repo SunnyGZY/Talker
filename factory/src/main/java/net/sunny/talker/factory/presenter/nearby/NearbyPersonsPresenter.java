@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Created by 67045 on 2018/3/1.
  */
-
 public class NearbyPersonsPresenter extends BasePresenter<NearbyPersonsContract.View>
         implements NearbyPersonsContract.Presenter {
 

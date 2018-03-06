@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class TrackItemPresenter implements TrackItemContract.Presenter, DataSource.Callback<TrackCard> {
 
-    private static final String TAG = "TrackItemPresenter";
 
     private TrackItemContract.View<TrackItemPresenter> mView;
 
@@ -88,8 +87,6 @@ public class TrackItemPresenter implements TrackItemContract.Presenter, DataSour
     @Override
     public void onDataLoaded(final TrackCard trackCard) {
 
-        Log.e(TAG, trackCard.toString());
-
         if (mView != null) {
             Run.onUiAsync(new Action() {
                 @Override
@@ -102,8 +99,15 @@ public class TrackItemPresenter implements TrackItemContract.Presenter, DataSour
     }
 
     @Override
-    public void onDataNotAvailable(@StringRes int strRes) {
-
+    public void onDataNotAvailable(@StringRes final int strRes) {
+        if (mView != null) {
+            Run.onUiAsync(new Action() {
+                @Override
+                public void call() {
+                    mView.showError(strRes);
+                }
+            });
+        }
     }
 
     public interface CallBack {

@@ -188,6 +188,7 @@ public class Account {
     public static void setIsPubLoca(boolean isPubLoca) {
         Account.isPubLoca = isPubLoca;
 
+        // 修改本地数据库的用户数据
         User self = UserHelper.findFromLocal(userId);
         self.setPubLoca(isPubLoca);
         DbHelper.save(User.class, self);
@@ -208,7 +209,7 @@ public class Account {
                 .putBoolean(KEY_IS_PUB_LOCATION, false)
                 .apply();
 
-        SpUtils.putBoolean(context, SpUtils.IS_PUB_LOCATION, false); // TODO: 2018/3/5
+//        SpUtils.putBoolean(context, SpUtils.IS_PUB_LOCATION, false); // TODO: 2018/3/5 无问题可删除
 
         isBind = false;
         token = null;

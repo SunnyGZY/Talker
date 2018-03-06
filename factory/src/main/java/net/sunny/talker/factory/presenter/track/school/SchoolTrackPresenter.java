@@ -44,7 +44,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
 
     @Override
     public void getNewTrackCount(Context context) {
-        final String strTime = SpUtils.getString(context, "lastTime", "1995-01-11 00:00:00.000");
+        final String strTime = SpUtils.getString(context, SpUtils.TRACK_LAST_TIME, "1995-01-11 00:00:00.000");
 
         if (strTime != null) {
             Factory.runOnAsync(new Runnable() {
@@ -175,15 +175,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
 
         @Override
         public void onDataNotAvailable(@StringRes final int strRes) {
-            final SchoolTrackContract.View view = getView();
-            if (view != null) {
-                Run.onUiAsync(new Action() {
-                    @Override
-                    public void call() {
-                        view.showError(strRes);
-                    }
-                });
-            }
+
         }
     };
 }
