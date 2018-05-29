@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/len_2"
     android:background="#F4F5F9"
     android:orientation="vertical">
 
-    <net.sunny.talker.view.ResizableImageView
+    <ImageView
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/default_portrait" />
 </FrameLayout>

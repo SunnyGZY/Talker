@@ -11,7 +11,7 @@
         android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:paddingTop="@dimen/statusBarSize"
         tools:targetApi="lollipop" />
 

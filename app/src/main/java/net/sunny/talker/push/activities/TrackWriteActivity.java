@@ -26,7 +26,6 @@ import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.media.GalleryFragment;
-import net.sunny.talker.view.ResizableImageView;
 import net.sunny.talker.view.SelectShotTypDialog;
 import net.sunny.talker.view.video.AdSDKSlot;
 
@@ -122,7 +121,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     protected void initData() {
         super.initData();
 
-        adapter.add("");
+        adapter.add("empty");
     }
 
     RecyclerAdapter<String> adapter = new RecyclerAdapter<String>() {
@@ -175,7 +174,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     class PhotoHolder extends RecyclerAdapter.ViewHolder<String> {
 
         @BindView(R.id.iv_photo)
-        ResizableImageView photo;
+        ImageView photo;
 
         PhotoHolder(View itemView) {
             super(itemView);
@@ -183,7 +182,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
 
         @Override
         protected void onBind(String string) {
-            if (string.equals("")) { // 如果不是照片
+            if (string.equals("empty")) { // 如果不是照片
                 photo.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 photo.setPadding(36, 36, 36, 36);
                 // TODO: 17-8-29 需要优化
@@ -202,7 +201,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
 
         @OnClick(R.id.iv_photo)
         void selectPhotos() {
-            if (mData.equals("")) {
+            if (mData.equals("empty")) {
                 showSelectDialog();
             }
         }

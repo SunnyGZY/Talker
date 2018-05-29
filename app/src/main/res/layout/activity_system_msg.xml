@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
         android:paddingTop="@dimen/statusBarSize"
