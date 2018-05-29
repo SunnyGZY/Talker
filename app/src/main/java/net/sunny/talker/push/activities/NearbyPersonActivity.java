@@ -54,14 +54,14 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
     protected void initWidget() {
         super.initWidget();
 
-        mAdapter = new RecyclerAdapter() {
+        mAdapter = new RecyclerAdapter<NearbyPersonCard>() {
             @Override
-            protected int getItemView(int position, Object o) {
+            protected int getItemView(int position, NearbyPersonCard nearbyPersonCard) {
                 return R.layout.cell_nearby_person;
             }
 
             @Override
-            protected ViewHolder onCreateViewHolder(View root, int viewType) {
+            protected ViewHolder<NearbyPersonCard> onCreateViewHolder(View root, int viewType) {
                 return new NearbyPersonActivity.ViewHolder(root);
             }
         };
@@ -137,7 +137,9 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
         protected void onBind(NearbyPersonCard nearbyPersonCard) {
             Glide.with(NearbyPersonActivity.this).load(nearbyPersonCard.getPortrait()).into(mPortrait);
             mName.setText(nearbyPersonCard.getUserName());
-            mDistance.setText(String.valueOf((int) nearbyPersonCard.getDistance()) + "米之内");
+            String text = String.valueOf((int) nearbyPersonCard.getDistance()) + "米之内";
+            mDistance.setText(text);
+
             Drawable drawable = ContextCompat.getDrawable(Factory.app(),
                     nearbyPersonCard.getSex() == 1 ? R.drawable.ic_sex_man : R.drawable.ic_sex_woman);
 

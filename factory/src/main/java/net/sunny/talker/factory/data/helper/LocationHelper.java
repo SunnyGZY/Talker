@@ -52,7 +52,7 @@ public class LocationHelper {
     public static Call nearbyPerson(double longitude, double latitude, final DataSource.Callback<List<NearbyPersonCard>> callback) {
 
         RemoteService service = Network.remote();
-        Call<RspModel<List<NearbyPersonCard>>> call = service.nearbyPerson(longitude, latitude, 500);
+        Call<RspModel<List<NearbyPersonCard>>> call = service.nearbyPerson(longitude, latitude, 1000);
         call.enqueue(new Callback<RspModel<List<NearbyPersonCard>>>() {
             @Override
             public void onResponse(Call<RspModel<List<NearbyPersonCard>>> call, Response<RspModel<List<NearbyPersonCard>>> response) {

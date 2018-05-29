@@ -1,7 +1,6 @@
 package net.sunny.talker.factory.net;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import net.sunny.talker.common.Common;
 import net.sunny.talker.factory.Factory;

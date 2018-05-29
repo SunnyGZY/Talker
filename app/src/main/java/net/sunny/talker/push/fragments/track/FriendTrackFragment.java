@@ -220,7 +220,7 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
 
     @Override
     public void onAdapterDataChanged() {
-        mEmptyView.triggerOk();
+//        mEmptyView.triggerOk();
 
         if (loadType == LOAD_FRESH_DATA) {
             mRecycler.setReFreshComplete();
@@ -232,6 +232,8 @@ public class FriendTrackFragment extends PresenterFragment<FriendTrackContract.P
         if (mNewTrackCount.getVisibility() == View.VISIBLE) {
             mNewTrackCount.setVisibility(View.INVISIBLE);
         }
+
+        mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
     @Override

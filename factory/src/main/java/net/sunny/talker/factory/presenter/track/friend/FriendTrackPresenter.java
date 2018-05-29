@@ -32,7 +32,7 @@ import retrofit2.Call;
  */
 
 public class FriendTrackPresenter extends BasePresenter<FriendTrackContract.View>
-        implements FriendTrackContract.Presenter, QueryTransaction.QueryResultListCallback<Track>{
+        implements FriendTrackContract.Presenter, QueryTransaction.QueryResultListCallback<Track> {
 
     private List<Track> trackList = new ArrayList<>();
     private Call dataCall;
@@ -44,26 +44,13 @@ public class FriendTrackPresenter extends BasePresenter<FriendTrackContract.View
 
     @Override
     public void getNewTrackCount(Context context) {
-        final String strTime = SpUtils.getString(context, "lastTime", "1995-01-11 00:00:00.000");
+        final String strTime = SpUtils.getString(context, SpUtils.TRACK_LAST_TIME, "1995-01-11 00:00:00.000");
 
         if (strTime != null) {
             Factory.runOnAsync(new Runnable() {
                 @Override
                 public void run() {
-                    TrackHelper.getNewFriendTrackCount(strTime, new DataSource.Callback<Integer>() {
-                        @Override
-                        public void onDataNotAvailable(@StringRes int strRes) {
-
-                        }
-
-                        @Override
-                        public void onDataLoaded(Integer count) {
-                            FriendTrackContract.View view = getView();
-                            if (view != null) {
-                                view.showNewTrackCount(count);
-                            }
-                        }
-                    });
+                    TrackHelper.getNewFriendTrackCount(strTime, integerCallback);
                 }
             });
         }
@@ -89,30 +76,7 @@ public class FriendTrackPresenter extends BasePresenter<FriendTrackContract.View
             call.cancel();
         }
 
-        dataCall = TrackHelper.getFriendTrack(pageNo, 10, date, new DataSource.Callback<List<Track>>() {
-            @Override
-            public void onDataNotAvailable(@StringRes final int strRes) {
-                final FriendTrackContract.View view = getView();
-                if (view != null) {
-                    Run.onUiAsync(new Action() {
-                        @Override
-                        public void call() {
-                            view.showError(strRes);
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onDataLoaded(List<Track> tracks) {
-                if (loadFromHead) {
-                    trackList.clear();
-                }
-                trackList.addAll(tracks);
-                loadFromHead = false;
-                notifyDataChange();
-            }
-        });
+        dataCall = TrackHelper.getFriendTrack(pageNo, 10, date, listCallback);
     }
 
     @Override
@@ -141,4 +105,44 @@ public class FriendTrackPresenter extends BasePresenter<FriendTrackContract.View
         adapter.replace(trackList);
         view.onAdapterDataChanged();
     }
+
+    private DataSource.Callback<List<Track>> listCallback = new DataSource.Callback<List<Track>>() {
+        @Override
+        public void onDataNotAvailable(@StringRes final int strRes) {
+            final FriendTrackContract.View view = getView();
+            if (view != null) {
+                Run.onUiAsync(new Action() {
+                    @Override
+                    public void call() {
+                        view.showError(strRes);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onDataLoaded(List<Track> tracks) {
+            if (loadFromHead) {
+                trackList.clear();
+            }
+            trackList.addAll(tracks);
+            loadFromHead = false;
+            notifyDataChange();
+        }
+    };
+
+    private DataSource.Callback<Integer> integerCallback = new DataSource.Callback<Integer>() {
+        @Override
+        public void onDataNotAvailable(@StringRes int strRes) {
+
+        }
+
+        @Override
+        public void onDataLoaded(Integer count) {
+            FriendTrackContract.View view = getView();
+            if (view != null) {
+                view.showNewTrackCount(count);
+            }
+        }
+    };
 }

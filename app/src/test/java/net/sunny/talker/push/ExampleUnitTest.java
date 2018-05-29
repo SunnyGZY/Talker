@@ -1,5 +1,7 @@
 package net.sunny.talker.push;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import redis.clients.jedis.Jedis;

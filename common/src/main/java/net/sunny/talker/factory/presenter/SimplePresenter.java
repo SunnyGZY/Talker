@@ -15,7 +15,7 @@ public class SimplePresenter<T extends SimpleContract.View> implements SimpleCon
 
     protected void setView(T view) {
         this.mView = view;
-        this.mView.setPresenter(this);
+        mView.setPresenter(this);
     }
 
     protected final T getView() {
@@ -30,9 +30,9 @@ public class SimplePresenter<T extends SimpleContract.View> implements SimpleCon
     @Override
     public void destroy() {
         T view = mView;
-        mView = null;
         if (view != null) {
             view.setPresenter(null);
         }
+        mView = null;
     }
 }

@@ -3,7 +3,6 @@ package net.sunny.talker.factory.presenter.track.school;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.util.Log;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;

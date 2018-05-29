@@ -100,7 +100,7 @@ public class App extends Application {
         } catch (FFmpegNotSupportedException ignored) {
         }
 
-        getLocation();
+        initLocation();
     }
 
     /**
@@ -165,7 +165,7 @@ public class App extends Application {
         AccountActivity.showInNewTask(context);
     }
 
-    public void getLocation() {
+    public void initLocation() {
         locationClient = new AMapLocationClient(this);
         AMapLocationClientOption option = new AMapLocationClientOption();
         option.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);

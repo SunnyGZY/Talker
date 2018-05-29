@@ -108,7 +108,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
      *
      * @param data
      */
-    protected void insertOrUpdate(Data data) { // 13 12 11 10 9
+    protected void insertOrUpdate(Data data) {
         int index = indexOf(data);
         if (index >= 0) {
             replace(index, data);
