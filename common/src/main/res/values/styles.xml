@@ -42,8 +42,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomDialog" parent="android:style/Theme.Dialog">`
-
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="SelectImgFromDialog" parent="android:style/Theme.Dialog">`
         <!-- 背景颜色及透明程度 -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <!-- 是否有标题 -->

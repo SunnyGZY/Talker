@@ -5,7 +5,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import net.sunny.talker.common.widget.GalleryView;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.push.R;
-import net.sunny.talker.view.volue.VoiceLineView;
 
 import java.io.File;
 import java.util.List;

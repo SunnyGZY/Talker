@@ -36,8 +36,8 @@
             android:gravity="top"
             android:hint="@string/please_input_content"
             android:inputType="textMultiLine"
-            android:maxLines="7"
-            android:minLines="5"
+            android:maxLines="9"
+            android:minLines="7"
             android:paddingLeft="@dimen/len_16"
             android:paddingRight="@dimen/len_16"
             android:paddingTop="@dimen/len_16"
@@ -54,12 +54,14 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_photos"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/len_10"
                 android:layout_marginLeft="@dimen/len_16"
                 android:layout_marginRight="@dimen/len_16"
-                android:layout_marginTop="@dimen/len_10" />
+                android:layout_marginTop="@dimen/len_10"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
 
             <FrameLayout
                 android:id="@+id/iv_video_preview"

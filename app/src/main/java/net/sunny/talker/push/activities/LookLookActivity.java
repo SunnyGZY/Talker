@@ -2,8 +2,6 @@ package net.sunny.talker.push.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 

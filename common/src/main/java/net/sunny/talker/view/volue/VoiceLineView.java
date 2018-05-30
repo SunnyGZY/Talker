@@ -6,17 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import net.sunny.talker.common.R;
-
-import static android.R.attr.mode;
 
 /**
  * Created by carlos on 2016/1/29.

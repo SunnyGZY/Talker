@@ -34,7 +34,6 @@ import net.sunny.talker.factory.presenter.track.friend.FriendTrackPresenter;
 import net.sunny.talker.factory.presenter.track.item.TrackItemContract;
 import net.sunny.talker.factory.presenter.track.item.TrackItemPresenter;
 import net.sunny.talker.observe.Function;
-import net.sunny.talker.observe.ObservableManager;
 import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.activities.CommentActivity;

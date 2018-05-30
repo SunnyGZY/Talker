@@ -36,6 +36,7 @@ import butterknife.OnClick;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
+// TODO: 2018/5/29 设置最大选择图片数量
 public class TrackWriteActivity extends ToolbarActivity implements TrackWriteContract.View {
 
     @BindView(R.id.et_content)
@@ -208,7 +209,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     }
 
     private void showSelectDialog() {
-        new SelectShotTypDialog(TrackWriteActivity.this, new SelectShotTypDialog.OnSelectTypeListener() {
+        SelectShotTypDialog selectShotTypDialog = new SelectShotTypDialog(TrackWriteActivity.this, new SelectShotTypDialog.OnSelectTypeListener() {
             @Override
             public void shotPhoto() {
                 if (mPresenter != null) {
@@ -240,7 +241,9 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         .setMaxImageCount(9)
                         .show(getSupportFragmentManager(), GalleryFragment.class.getName());
             }
-        }).show();
+        });
+
+        selectShotTypDialog.show();
     }
 
     @Override

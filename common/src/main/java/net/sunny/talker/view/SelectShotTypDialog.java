@@ -14,16 +14,17 @@ public class SelectShotTypDialog extends Dialog {
     private OnSelectTypeListener listener;
 
     /**
-     * 指定显示第几张图片
+     * 构造器
      *
      * @param context 上下文
+     * @param listener 监听器
      */
     public SelectShotTypDialog(Context context, OnSelectTypeListener listener) {
-        this(context, R.style.CustomDialog);
+        this(context, R.style.SelectImgFromDialog);
         this.listener = listener;
     }
 
-    public SelectShotTypDialog(@NonNull Context context, @StyleRes int themeResId) {
+    private SelectShotTypDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, themeResId);
     }
 
@@ -31,8 +32,6 @@ public class SelectShotTypDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_shot_type);
-        //按空白处不能取消动画  
-        setCanceledOnTouchOutside(false);
 
         initClick();
     }

@@ -1,87 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@drawable/bg_white_rectangle"
-    android:elevation="@dimen/len_2"
-    android:orientation="vertical"
-    android:outlineProvider="bounds"
     android:id="@+id/ll_parent"
-    tools:targetApi="lollipop">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_rectangle_5_corners_white_solid"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:gravity="bottom|left"
-        android:paddingBottom="@dimen/len_2"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:background="@drawable/shape_rectangle_5_top_corners_accent_solid"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/len_16"
         android:paddingRight="@dimen/len_16"
         android:text="@string/select_shot_type"
-        android:textColor="@color/textLight"
-        android:textSize="@dimen/font_14" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#C8C8C8" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_16" />
 
     <FrameLayout
         android:id="@+id/tv_shot_pic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="@drawable/cell_group_fg">
+        android:layout_width="300dp"
+        android:layout_height="42dp"
+        android:foreground="@drawable/ic_touch_fg">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:gravity="center|left"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
             android:paddingLeft="@dimen/len_16"
             android:paddingRight="@dimen/len_16"
             android:text="@string/shot_photo"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/lineColor" />
 
     <FrameLayout
         android:id="@+id/tv_shot_video"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="@drawable/cell_group_fg">
+        android:layout_width="300dp"
+        android:layout_height="42dp"
+        android:foreground="@drawable/ic_touch_fg">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:gravity="center|left"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
             android:paddingLeft="@dimen/len_16"
             android:paddingRight="@dimen/len_16"
             android:text="@string/shot_video"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#C8C8C8" />
 
     <FrameLayout
         android:id="@+id/tv_from_album"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="@drawable/cell_group_fg">
+        android:layout_width="300dp"
+        android:layout_height="42dp"
+        android:foreground="@drawable/ic_touch_fg">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:gravity="center|left"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
             android:paddingLeft="@dimen/len_16"
             android:paddingRight="@dimen/len_16"
             android:text="@string/select_from_album"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16" />
     </FrameLayout>
 </LinearLayout>
