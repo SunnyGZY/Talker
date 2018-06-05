@@ -1,7 +1,6 @@
 package net.sunny.talker.factory.presenter.track;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,10 +11,7 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import net.sunny.talker.common.app.Application;
-import net.sunny.talker.factory.Factory;
-import net.sunny.talker.factory.R;
 import net.sunny.talker.factory.data.DataSource;
-import net.sunny.talker.factory.data.helper.TrackHelper;
 import net.sunny.talker.factory.data.track.TrackDispatcher;
 import net.sunny.talker.factory.model.card.track.TrackCard;
 import net.sunny.talker.factory.model.db.track.Photo;
@@ -34,7 +30,8 @@ import java.util.List;
  * Created by sunny on 17-8-26.
  * TrackWritePresenter
  */
-public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> implements TrackWriteContract.Presenter, DataSource.Callback<TrackCard> {
+public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View>
+        implements TrackWriteContract.Presenter, DataSource.Callback<TrackCard> {
 
     private static final String TAG = "TrackWritePresenter";
 
@@ -136,9 +133,7 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setState(Track.UPLOADING);
         ObservableManager.newInstance().notify("OBSERVABLE_NEW_TRACK", track);
 
-        /**
-         * 先将确认待发送的数据保存在本地数据库
-         */
+        // 先将确认待发送的数据保存在本地数据库
         List<Track> trackList = new ArrayList<>();
         trackList.add(track);
         TrackDispatcher.instance().dispatch(trackList);
@@ -161,9 +156,7 @@ public class TrackWritePresenter extends BasePresenter<TrackWriteContract.View> 
         track.setState(Track.UPLOADING);
         ObservableManager.newInstance().notify("OBSERVABLE_NEW_TRACK", track);
 
-        /**
-         * 先将确认待发送的数据保存在本地数据库
-         */
+        // 先将确认待发送的数据保存在本地数据库
         List<Track> trackList = new ArrayList<>();
         trackList.add(track);
         TrackDispatcher.instance().dispatch(trackList);

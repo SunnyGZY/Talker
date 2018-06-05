@@ -16,7 +16,6 @@
         tools:targetApi="lollipop" />
 
     <RelativeLayout
-        android:id="@+id/rl_edit_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -102,14 +101,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:buttonTint="@color/colorAccent"
                 android:checked="false"
                 android:shadowColor="@color/colorPrimary"
                 tools:targetApi="lollipop" />
 
         </RelativeLayout>
-
     </RelativeLayout>
-
 </RelativeLayout>

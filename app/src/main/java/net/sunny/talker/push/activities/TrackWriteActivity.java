@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import net.sunny.talker.common.app.ToolbarActivity;
+import net.sunny.talker.common.widget.recycler.ImageListAdapter;
 import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.presenter.track.TrackWriteContract;
 import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
@@ -32,12 +31,11 @@ import net.sunny.talker.view.video.AdSDKSlot;
 import java.io.File;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 // TODO: 2018/5/29 设置最大选择图片数量
-public class TrackWriteActivity extends ToolbarActivity implements TrackWriteContract.View {
+public class TrackWriteActivity extends ToolbarActivity implements TrackWriteContract.View, ImageListAdapter.OnItemClickListener {
 
     @BindView(R.id.et_content)
     TextView mContent;
@@ -54,7 +52,9 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     private TrackWriteContract.Presenter mPresenter;
     private Boolean isPhotos = true; // 标记用户上传的是照片还是视频
 
-    String filePath = null;
+    private String filePath = null;
+
+    private ImageListAdapter imageListAdapter;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, TrackWriteActivity.class));
@@ -83,59 +83,55 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_put:
-                if (mPresenter != null) {
-                    if (isPhotos) { // 如果isPhotos为true，无法证明拍摄照片是否成功，但此时不需要用到filePath
-                        String content = mContent.getText().toString().trim().trim();
-                        if (!content.equals("")) {
-                            adapter.getItems().remove(adapter.getItems().size() - 1);
-                            mPresenter.put(content, adapter.getItems(), mJustFriend.isChecked());
-
-                            finish();
-                        } else {
-                            App.showToast(R.string.toast_comment_not_null);
-                        }
-                    } else { // 如果isPhotos为false，证明拍摄视频成功，此时filePath下的文件肯定存在
-                        String content = mContent.getText().toString().trim().trim();
-                        if (!content.equals("")) {
-                            mPresenter.put(content, filePath, mJustFriend.isChecked());
-
-                            finish();
-                        } else {
-                            App.showToast(R.string.toast_comment_not_null);
-                        }
-                    }
-                }
+                saveTrackToLocal();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 将动态信息保存在本地
+     */
+    private void saveTrackToLocal() {
+        if (mPresenter != null) {
+            if (isPhotos) { // 如果isPhotos为true，无法证明拍摄照片是否成功，但此时不需要用到filePath
+                String content = mContent.getText().toString().trim();
+                if (!TextUtils.isEmpty(content)) {
+                    imageListAdapter.getItems().remove(imageListAdapter.getItems().size() - 1);
+                    mPresenter.put(content, imageListAdapter.getItems(), mJustFriend.isChecked());
+
+                    finish();
+                } else {
+                    App.showToast(R.string.toast_comment_not_null);
+                }
+            } else { // 如果isPhotos为false，证明拍摄视频成功，此时filePath下的文件肯定存在
+                String content = mContent.getText().toString().trim().trim();
+                if (!TextUtils.isEmpty(content)) {
+                    mPresenter.put(content, filePath, mJustFriend.isChecked());
+
+                    finish();
+                } else {
+                    App.showToast(R.string.toast_comment_not_null);
+                }
+            }
+        }
     }
 
     @Override
     protected void initWidget() {
         super.initWidget();
 
-        mRvPhotos.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        mRvPhotos.setAdapter(adapter);
+        mRvPhotos.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        imageListAdapter = new ImageListAdapter(9, this);
+        mRvPhotos.setAdapter(imageListAdapter);
     }
 
     @Override
     protected void initData() {
         super.initData();
 
-        adapter.add("empty");
+        imageListAdapter.add("empty");
     }
-
-    RecyclerAdapter<String> adapter = new RecyclerAdapter<String>() {
-        @Override
-        protected int getItemView(int position, String o) {
-            return R.layout.cell_write_track_photo;
-        }
-
-        @Override
-        public ViewHolder<String> onCreateViewHolder(View root, int viewType) {
-            return new PhotoHolder(root);
-        }
-    };
 
     @Override
     public void showError(@StringRes int str) {
@@ -164,48 +160,12 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
 
     @Override
     public RecyclerAdapter<String> getRecyclerAdapter() {
-        return adapter;
+        return imageListAdapter;
     }
 
     @Override
     public void onAdapterDataChanged() {
 
-    }
-
-    class PhotoHolder extends RecyclerAdapter.ViewHolder<String> {
-
-        @BindView(R.id.iv_photo)
-        ImageView photo;
-
-        PhotoHolder(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        protected void onBind(String string) {
-            if (string.equals("empty")) { // 如果不是照片
-                photo.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                photo.setPadding(36, 36, 36, 36);
-                // TODO: 17-8-29 需要优化
-                Glide.with(TrackWriteActivity.this)
-                        .load(R.drawable.ic_default_photo)
-                        .fitCenter()
-                        .into(photo);
-            } else {
-                photo.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Glide.with(TrackWriteActivity.this)
-                        .load(string)
-                        .fitCenter()
-                        .into(photo);
-            }
-        }
-
-        @OnClick(R.id.iv_photo)
-        void selectPhotos() {
-            if (mData.equals("empty")) {
-                showSelectDialog();
-            }
-        }
     }
 
     private void showSelectDialog() {
@@ -230,7 +190,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
                         .setListener(new GalleryFragment.GalleryListenerImpl() {
                             @Override
                             public void onSelectedImage(String[] path) {
-                                adapter.addFromHead(path);
+                                imageListAdapter.add(path);
                             }
 
                             @Override
@@ -251,7 +211,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) { // 拍照
                 isPhotos = true;
-                adapter.addFromHead(filePath);
+                imageListAdapter.add(filePath);
 
                 Log.e("PhotoUrl", filePath);
 
@@ -280,5 +240,10 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
             }
         }
         return null;
+    }
+
+    @Override
+    public void onAddItemClick() {
+        showSelectDialog();
     }
 }

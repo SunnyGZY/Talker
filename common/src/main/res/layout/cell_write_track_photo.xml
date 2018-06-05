@@ -13,4 +13,14 @@
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         android:src="@drawable/default_portrait" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="end"
+        android:background="@color/black_alpha_32"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_fork"
+        android:tint="@color/grey700" />
 </net.sunny.talker.common.widget.SquareLayout>

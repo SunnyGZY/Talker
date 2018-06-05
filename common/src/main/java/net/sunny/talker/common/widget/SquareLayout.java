@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
  * Email：670453367@qq.com
  * Description: 正方形FrameLayout
  */
-
 public class SquareLayout extends FrameLayout {
 
     public SquareLayout(@NonNull Context context) {
