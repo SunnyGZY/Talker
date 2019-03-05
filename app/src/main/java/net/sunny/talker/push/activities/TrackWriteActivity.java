@@ -18,8 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.sunny.talker.common.app.ToolbarActivity;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.common.widget.recycler.ImageListAdapter;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
 import net.sunny.talker.factory.presenter.track.TrackWriteContract;
 import net.sunny.talker.factory.presenter.track.TrackWritePresenter;
 import net.sunny.talker.push.App;
@@ -159,7 +159,7 @@ public class TrackWriteActivity extends ToolbarActivity implements TrackWriteCon
     }
 
     @Override
-    public RecyclerAdapter<String> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<String> getRecyclerAdapter() {
         return imageListAdapter;
     }
 

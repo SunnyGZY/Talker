@@ -9,7 +9,7 @@ import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransacti
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.TrackHelper;
@@ -127,7 +127,7 @@ public class SchoolTrackPresenter extends BasePresenter<SchoolTrackContract.View
 
     private void notifyDataChange() {
         SchoolTrackContract.View view = getView();
-        RecyclerAdapter<Track> adapter = view.getRecyclerAdapter();
+        BaseRecyclerAdapter<Track> adapter = view.getRecyclerAdapter();
         adapter.replace(trackList);
 
         view.onAdapterDataChanged();

@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.Factory;
 import net.sunny.talker.factory.model.card.NearbyPersonCard;
 import net.sunny.talker.factory.presenter.nearby.NearbyPersonsContract;
@@ -38,7 +38,7 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
     @BindView(R.id.empty)
     EmptyView mEmptyView;
 
-    private RecyclerAdapter<NearbyPersonCard> mAdapter;
+    private BaseRecyclerAdapter<NearbyPersonCard> mAdapter;
 
     public static void show(Context context) {
         Intent intent = new Intent(context, NearbyPersonActivity.class);
@@ -54,23 +54,23 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
     protected void initWidget() {
         super.initWidget();
 
-        mAdapter = new RecyclerAdapter<NearbyPersonCard>() {
+        mAdapter = new BaseRecyclerAdapter<NearbyPersonCard>() {
             @Override
             protected int getItemView(int position, NearbyPersonCard nearbyPersonCard) {
                 return R.layout.cell_nearby_person;
             }
 
             @Override
-            protected ViewHolder<NearbyPersonCard> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<NearbyPersonCard> onCreateViewHolder(View root, int viewType) {
                 return new NearbyPersonActivity.ViewHolder(root);
             }
         };
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.setAdapter(mAdapter);
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<NearbyPersonCard>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<NearbyPersonCard>() {
 
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, NearbyPersonCard nearbyPersonCard) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, NearbyPersonCard nearbyPersonCard) {
                 super.onItemClick(holder, nearbyPersonCard);
                 PersonalActivity.show(NearbyPersonActivity.this, nearbyPersonCard.getUserId(), PersonalActivity.NEARBYP_ERSON_ACTIVITY);
             }
@@ -118,7 +118,7 @@ public class NearbyPersonActivity extends PresenterToolbarActivity<NearbyPersons
         mEmptyView.setVisibility(View.VISIBLE);
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<NearbyPersonCard> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<NearbyPersonCard> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortrait;

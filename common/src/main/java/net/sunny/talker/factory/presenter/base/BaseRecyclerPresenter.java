@@ -4,7 +4,7 @@ import android.support.v7.util.DiffUtil;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class BaseRecyclerPresenter<ViewMode, View extends BaseContract.RecyclerV
                 if (view == null)
                     return;
 
-                RecyclerAdapter<ViewMode> adapter = view.getRecyclerAdapter();
+                BaseRecyclerAdapter<ViewMode> adapter = view.getRecyclerAdapter();
                 adapter.replace(dataList);
                 view.onAdapterDataChanged();
             }
@@ -61,7 +61,7 @@ public class BaseRecyclerPresenter<ViewMode, View extends BaseContract.RecyclerV
         if (view == null)
             return;
 
-        RecyclerAdapter<ViewMode> adapter = view.getRecyclerAdapter();
+        BaseRecyclerAdapter<ViewMode> adapter = view.getRecyclerAdapter();
         adapter.getItems().clear();
         adapter.getItems().addAll(dataList);
         view.onAdapterDataChanged();

@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Sunny on 2018/5/31.
  * 动态编辑页面图片选择适配器
  */
-public class ImageListAdapter extends RecyclerAdapter<String> {
+public class ImageListAdapter extends BaseRecyclerAdapter<String> {
 
     private boolean isLock = false;
 
@@ -104,12 +104,12 @@ public class ImageListAdapter extends RecyclerAdapter<String> {
     }
 
     @Override
-    protected ViewHolder<String> onCreateViewHolder(View root, int viewType) {
+    protected BaseViewHolder<String> onCreateViewHolder(View root, int viewType) {
         return new PhotoHolder(root);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder<String> holder, int position) {
+    public void onBindViewHolder(BaseViewHolder<String> holder, int position) {
         if (!isLock && !"empty".equals(mDataList.get(position))) {
             PhotoHolder photoHolder = (PhotoHolder) holder;
             DeleteClickListener deleteClickListener = new DeleteClickListener();
@@ -120,7 +120,7 @@ public class ImageListAdapter extends RecyclerAdapter<String> {
         super.onBindViewHolder(holder, position);
     }
 
-    class PhotoHolder extends RecyclerAdapter.ViewHolder<String> {
+    class PhotoHolder extends BaseViewHolder<String> {
 
         private ImageView photo; // 图片展示
 

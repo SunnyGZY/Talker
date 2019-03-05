@@ -1,8 +1,6 @@
 package net.sunny.talker.push.fragments.main;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +12,7 @@ import com.bumptech.glide.Glide;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
-import net.sunny.talker.factory.model.db.Message;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.presenter.contact.ContactContract;
 import net.sunny.talker.factory.presenter.contact.ContactPresenter;
@@ -36,7 +33,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<User> mAdapter;
+    private BaseRecyclerAdapter<User> mAdapter;
 
     public ContactFragment() {
         // Required empty public constructor
@@ -52,21 +49,21 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         super.initWidget(root);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<User>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<User>() {
             @Override
             protected int getItemView(int position, User user) {
                 return R.layout.cell_contact_list;
             }
 
             @Override
-            protected ViewHolder<User> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<User> onCreateViewHolder(View root, int viewType) {
                 return new ContactFragment.ViewHolder(root);
             }
         });
 
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<User>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<User>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, User user) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, User user) {
                 Intent intent = new Intent(getContext(), MessageActivity.class);
                 intent.putExtra("KEY_RECEIVER_ID", user.getId());
 
@@ -90,7 +87,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
     }
 
     @Override
-    public RecyclerAdapter<User> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<User> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -100,7 +97,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<User> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<User> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.db.view.MemberUserModel;
 import net.sunny.talker.factory.presenter.group.GroupMembersContract;
 import net.sunny.talker.factory.presenter.group.GroupMembersPresenter;
@@ -34,7 +34,7 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMembersCo
 
     private String mGroupId;
     private boolean mIsAdmin;
-    private RecyclerAdapter<MemberUserModel> mAdapter;
+    private BaseRecyclerAdapter<MemberUserModel> mAdapter;
 
     public static void show(Context context, String groupId) {
         show(context, groupId, false);
@@ -73,14 +73,14 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMembersCo
         setTitle(R.string.title_member_list);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<MemberUserModel>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<MemberUserModel>() {
             @Override
             protected int getItemView(int position, MemberUserModel memberUserModel) {
                 return R.layout.cell_group_create_contact;
             }
 
             @Override
-            protected ViewHolder<MemberUserModel> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<MemberUserModel> onCreateViewHolder(View root, int viewType) {
                 return new GroupMemberActivity.ViewHolder(root);
             }
         });
@@ -94,7 +94,7 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMembersCo
     }
 
     @Override
-    public RecyclerAdapter<MemberUserModel> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<MemberUserModel> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -112,7 +112,7 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMembersCo
         return mGroupId;
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<MemberUserModel> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<MemberUserModel> {
         @BindView(R.id.im_portrait)
         PortraitView mPortrait;
         @BindView(R.id.txt_name)

@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.card.GroupCard;
 import net.sunny.talker.factory.presenter.contact.FollowContract;
 import net.sunny.talker.factory.presenter.search.SearchContract;
@@ -38,7 +38,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<GroupCard> mAdapter;
+    private BaseRecyclerAdapter<GroupCard> mAdapter;
 
     public SearchGroupFragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
         super.initWidget(root);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<GroupCard>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<GroupCard>() {
             @Override
             protected int getItemView(int position, GroupCard o) {
                 // 返回cell的布局id
@@ -62,7 +62,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
             }
 
             @Override
-            protected ViewHolder<GroupCard> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<GroupCard> onCreateViewHolder(View root, int viewType) {
                 return new SearchGroupFragment.ViewHolder(root);
             }
         });
@@ -93,7 +93,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
-    public class ViewHolder extends RecyclerAdapter.ViewHolder<GroupCard> {
+    public class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<GroupCard> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

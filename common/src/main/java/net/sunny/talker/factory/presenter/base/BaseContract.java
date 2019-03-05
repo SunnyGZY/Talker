@@ -2,7 +2,7 @@ package net.sunny.talker.factory.presenter.base;
 
 import android.support.annotation.StringRes;
 
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.presenter.SimpleContract;
 
 /**
@@ -24,7 +24,7 @@ public interface BaseContract {
     }
 
     interface RecyclerView<T extends Presenter, ViewMode> extends View<T> {
-        RecyclerAdapter<ViewMode> getRecyclerAdapter();
+        BaseRecyclerAdapter<ViewMode> getRecyclerAdapter();
 
         void onAdapterDataChanged();
     }

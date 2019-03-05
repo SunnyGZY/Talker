@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.sunny.talker.common.R;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,9 +58,9 @@ public class GalleryView extends RecyclerView {
     private void init() {
         setLayoutManager(new GridLayoutManager(getContext(), 4));
         setAdapter(mAdapter);
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Image>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Image>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Image image) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Image image) {
                 if (onItemSelectClick(image)) {
                     holder.updateData(image);
                 }
@@ -232,7 +232,7 @@ public class GalleryView extends RecyclerView {
         }
     }
 
-    private class Adapter extends RecyclerAdapter<Image> {
+    private class Adapter extends BaseRecyclerAdapter<Image> {
 
         @Override
         protected int getItemView(int position, Image image) {
@@ -240,12 +240,12 @@ public class GalleryView extends RecyclerView {
         }
 
         @Override
-        protected ViewHolder<Image> onCreateViewHolder(View root, int viewId) {
+        protected BaseViewHolder<Image> onCreateViewHolder(View root, int viewId) {
             return new GalleryView.ViewHolder(root);
         }
     }
 
-    private class ViewHolder extends RecyclerAdapter.ViewHolder<Image> {
+    private class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<Image> {
 
         private ImageView mPic;
         private View mShade;

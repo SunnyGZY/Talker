@@ -17,7 +17,7 @@ import net.sunny.talker.common.app.Application;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.presenter.contact.FollowContract;
@@ -46,7 +46,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<UserCard> mAdapter;
+    private BaseRecyclerAdapter<UserCard> mAdapter;
 
     public SearchUserFragment() {
 
@@ -62,7 +62,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
         super.initWidget(root);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<UserCard>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<UserCard>() {
             @Override
             protected int getItemView(int position, UserCard o) {
                 // 返回cell的布局id
@@ -70,7 +70,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
             }
 
             @Override
-            protected ViewHolder<UserCard> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<UserCard> onCreateViewHolder(View root, int viewType) {
                 return new SearchUserFragment.ViewHolder(root);
             }
         });
@@ -102,7 +102,7 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
         return new SearchUserPresenter(this);
     }
 
-    public class ViewHolder extends RecyclerAdapter.ViewHolder<UserCard> implements FollowContract.View {
+    public class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<UserCard> implements FollowContract.View {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

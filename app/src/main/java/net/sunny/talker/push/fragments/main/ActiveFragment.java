@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.factory.model.db.Session;
 import net.sunny.talker.factory.presenter.message.SessionContact;
@@ -36,7 +36,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<Session> mAdapter;
+    private BaseRecyclerAdapter<Session> mAdapter;
 
     public ActiveFragment() {
         // Required empty public constructor
@@ -52,12 +52,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
         super.initWidget(root);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<Session>() {
-
-            @Override
-            public void addHeader() {
-                super.addHeader();
-            }
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<Session>() {
 
             @Override
             protected int getItemView(int position, Session session) {
@@ -69,14 +64,14 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
             }
 
             @Override
-            protected ViewHolder<Session> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<Session> onCreateViewHolder(View root, int viewType) {
                 return new ActiveFragment.ViewHolder(root);
             }
         });
 
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Session>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Session>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Session session) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Session session) {
                 MessageActivity.show(getContext(), session);
             }
         });
@@ -97,7 +92,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
     }
 
     @Override
-    public RecyclerAdapter<Session> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<Session> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -106,7 +101,7 @@ public class ActiveFragment extends PresenterFragment<SessionContact.Presenter>
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<Session> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<Session> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

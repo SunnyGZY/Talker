@@ -19,7 +19,7 @@ import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.card.UserCard;
 import net.sunny.talker.factory.model.db.User;
 import net.sunny.talker.factory.presenter.base.BaseContract;
@@ -44,7 +44,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<User> mAdapter;
+    private BaseRecyclerAdapter<User> mAdapter;
 
     public static void show(Context context) {
         Intent intent = new Intent(context, RequestMgrActivity.class);
@@ -61,7 +61,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
         super.initWidget();
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<User>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<User>() {
 
             @Override
             protected int getItemView(int position, User user) {
@@ -72,7 +72,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
             }
 
             @Override
-            protected ViewHolder<User> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<User> onCreateViewHolder(View root, int viewType) {
                 if (viewType == R.layout.cell_request_send_list)
                     return new ViewHolderSend(root);
                 else
@@ -115,7 +115,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
-    class ViewHolderSend extends RecyclerAdapter.ViewHolder<User> {
+    class ViewHolderSend extends BaseRecyclerAdapter.BaseViewHolder<User> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;
@@ -151,7 +151,7 @@ public class RequestMgrActivity extends PresenterToolbarActivity implements Requ
         }
     }
 
-    class ViewHolderReceive extends RecyclerAdapter.ViewHolder<User> implements AcceptRequestContact.View {
+    class ViewHolderReceive extends BaseRecyclerAdapter.BaseViewHolder<User> implements AcceptRequestContact.View {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.model.db.Group;
 import net.sunny.talker.factory.presenter.group.GroupsContract;
 import net.sunny.talker.factory.presenter.group.GroupsPresenter;
@@ -32,7 +32,7 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
 
-    private RecyclerAdapter<Group> mAdapter;
+    private BaseRecyclerAdapter<Group> mAdapter;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -48,21 +48,21 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
         super.initWidget(root);
 
         mRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<Group>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<Group>() {
             @Override
             protected int getItemView(int position, Group group) {
                 return R.layout.cell_group_list;
             }
 
             @Override
-            protected ViewHolder<Group> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<Group> onCreateViewHolder(View root, int viewType) {
                 return new GroupFragment.ViewHolder(root);
             }
         });
 
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Group>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Group>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Group group) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Group group) {
                 MessageActivity.show(getContext(), group);
             }
         });
@@ -84,7 +84,7 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
     }
 
     @Override
-    public RecyclerAdapter<Group> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<Group> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -94,7 +94,7 @@ public class GroupFragment extends PresenterFragment<GroupsContract.Presenter>
         mPlaceHolderView.triggerOkOrEmpty(mAdapter.getItemCount() > 0);
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<Group> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<Group> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortraitView;

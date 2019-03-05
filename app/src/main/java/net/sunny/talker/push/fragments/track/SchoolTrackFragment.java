@@ -25,7 +25,7 @@ import net.qiujuer.genius.ui.drawable.LoadingDrawable;
 import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.widget.EmptyView;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.data.DataSource;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.data.track.TrackDispatcher;
@@ -88,7 +88,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     @BindView(R.id.iv_load)
     ImageView mLoading;
 
-    private RecyclerAdapter<Track> mAdapter;
+    private BaseRecyclerAdapter<Track> mAdapter;
     private int loadType = 0;
 
     @SuppressLint("ValidFragment")
@@ -126,14 +126,14 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         super.initWidget(root);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecycler.setLayoutManager(linearLayoutManager);
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<Track>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<Track>() {
             @Override
             protected int getItemView(int position, Track track) {
                 return R.layout.cell_track_school;
             }
 
             @Override
-            protected ViewHolder<Track> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<Track> onCreateViewHolder(View root, int viewType) {
                 return new SchoolTrackFragment.ViewHolder(root);
             }
         });
@@ -189,7 +189,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
     }
 
     @Override
-    public RecyclerAdapter<Track> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<Track> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -279,7 +279,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         return null;
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<Track>
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<Track>
             implements TrackItemContract.View<TrackItemPresenter>, DataSource.Callback<User> {
 
         @BindView(R.id.im_portrait)
@@ -375,7 +375,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
                     mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
                 }
 
-                RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
+                BaseRecyclerAdapter<Photo> adapter = getPhotoListAdapter();
                 mRecyclerPhoto.setAdapter(adapter);
                 adapter.replace(photoList);
             } else if (localTrack.getType() == 1) {
@@ -560,9 +560,9 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         super.onDestroy();
     }
 
-    private RecyclerAdapter<Photo> getPhotoListAdapter() {
+    private BaseRecyclerAdapter<Photo> getPhotoListAdapter() {
 
-        final RecyclerAdapter<Photo> photoRecyclerAdapter = new RecyclerAdapter<Photo>() {
+        final BaseRecyclerAdapter<Photo> photoRecyclerAdapter = new BaseRecyclerAdapter<Photo>() {
 
             @Override
             protected int getItemView(int position, Photo photo) {
@@ -570,15 +570,15 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
             }
 
             @Override
-            protected ViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
                 return new PhotoHolder(root);
             }
         };
 
 
-        photoRecyclerAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Photo>() {
+        photoRecyclerAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Photo>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Photo photo) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Photo photo) {
                 super.onItemClick(holder, photo);
 
                 List<Photo> photoList = photoRecyclerAdapter.getItems();
@@ -612,7 +612,7 @@ public class SchoolTrackFragment extends PresenterFragment<SchoolTrackContract.P
         galleryDialog.show();
     }
 
-    class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {
+    class PhotoHolder extends BaseRecyclerAdapter.BaseViewHolder<Photo> {
 
         @BindView(R.id.iv_photo)
         ResizableImageView mPhoto;

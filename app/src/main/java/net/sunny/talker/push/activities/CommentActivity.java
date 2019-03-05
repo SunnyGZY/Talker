@@ -27,7 +27,7 @@ import net.qiujuer.widget.airpanel.AirPanel;
 import net.qiujuer.widget.airpanel.Util;
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.model.card.track.comment.CommentCard;
@@ -92,7 +92,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
     FrameLayout mVideoView;
 
     private Track track = null;
-    private RecyclerAdapter<List<CommentCard>> mAdapter;
+    private BaseRecyclerAdapter<List<CommentCard>> mAdapter;
     private String commentId = null; // 记录评论的是那条消息
     private String receiverId = null; // 记录评论的有无其他接收者
 
@@ -161,7 +161,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
             } else if (photoList.size() % 3 == 0) {
                 mRecyclerPhoto.setLayoutManager(new GridLayoutManager(getContext(), 3));
             }
-            RecyclerAdapter<Photo> adapter = getPhotoListAdapter();
+            BaseRecyclerAdapter<Photo> adapter = getPhotoListAdapter();
             mRecyclerPhoto.setAdapter(adapter);
             adapter.replace(photoList);
         } else if (track.getType() == Track.BRING_VIDEO) {
@@ -184,7 +184,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
 
         // 显示评论,双层 RecyclerView 嵌套
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRecycler.setAdapter(mAdapter = new RecyclerAdapter<List<CommentCard>>() {
+        mRecycler.setAdapter(mAdapter = new BaseRecyclerAdapter<List<CommentCard>>() {
 
             @Override
             protected int getItemView(int position, List<CommentCard> commentCardList) {
@@ -192,7 +192,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
             }
 
             @Override
-            protected ViewHolder<List<CommentCard>> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<List<CommentCard>> onCreateViewHolder(View root, int viewType) {
                 return new CommentActivity.ViewHolder(root);
             }
         });
@@ -227,8 +227,8 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
         }
     }
 
-    private RecyclerAdapter<Photo> getPhotoListAdapter() {
-        final RecyclerAdapter<Photo> photoRecyclerAdapter = new RecyclerAdapter<Photo>() {
+    private BaseRecyclerAdapter<Photo> getPhotoListAdapter() {
+        final BaseRecyclerAdapter<Photo> photoRecyclerAdapter = new BaseRecyclerAdapter<Photo>() {
 
             @Override
             protected int getItemView(int position, Photo photo) {
@@ -236,14 +236,14 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
             }
 
             @Override
-            protected ViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
+            protected BaseViewHolder<Photo> onCreateViewHolder(View root, int viewType) {
                 return new PhotoHolder(root);
             }
         };
 
-        photoRecyclerAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Photo>() {
+        photoRecyclerAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Photo>() {
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Photo photo) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Photo photo) {
                 super.onItemClick(holder, photo);
 
                 List<Photo> photoList = photoRecyclerAdapter.getItems();
@@ -279,7 +279,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
     }
 
     @Override
-    public RecyclerAdapter<List<CommentCard>> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<List<CommentCard>> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -303,7 +303,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
 
     }
 
-    class PhotoHolder extends RecyclerAdapter.ViewHolder<Photo> {
+    class PhotoHolder extends BaseRecyclerAdapter.BaseViewHolder<Photo> {
 
         @BindView(R.id.iv_photo)
         ImageView mPhoto;
@@ -351,7 +351,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
     }
 
     // 具体每条评论显示的 item
-    class ViewHolder extends RecyclerAdapter.ViewHolder<List<CommentCard>> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<List<CommentCard>> {
 
         @BindView(R.id.ry_message)
         RecyclerView recyclerView;
@@ -363,10 +363,10 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
         @Override
         protected void onBind(List<CommentCard> commentCardList) {
 
-            RecyclerAdapter<CommentCard> adapter;
+            BaseRecyclerAdapter<CommentCard> adapter;
 
             recyclerView.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
-            recyclerView.setAdapter(adapter = new RecyclerAdapter<CommentCard>() {
+            recyclerView.setAdapter(adapter = new BaseRecyclerAdapter<CommentCard>() {
 
                 @Override
                 protected int getItemView(int position, CommentCard commentCard) {
@@ -377,7 +377,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
                 }
 
                 @Override
-                protected ViewHolder<CommentCard> onCreateViewHolder(View root, int viewType) {
+                protected BaseViewHolder<CommentCard> onCreateViewHolder(View root, int viewType) {
                     if (viewType == R.layout.cell_track_comment)
                         return new CommentHolder(root);
                     else
@@ -389,7 +389,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
         }
     }
 
-    private class CommentHolder extends RecyclerAdapter.ViewHolder<CommentCard> {
+    private class CommentHolder extends BaseRecyclerAdapter.BaseViewHolder<CommentCard> {
 
         TextView name;
         TextView content;
@@ -438,7 +438,7 @@ public class CommentActivity extends PresenterToolbarActivity<CommentContract.Pr
         }
     }
 
-    private class commentCommentHolder extends RecyclerAdapter.ViewHolder<CommentCard> {
+    private class commentCommentHolder extends BaseRecyclerAdapter.BaseViewHolder<CommentCard> {
 
         TextView commenter;
         TextView receiver;

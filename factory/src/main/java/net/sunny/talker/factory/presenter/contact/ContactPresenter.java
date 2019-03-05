@@ -2,7 +2,7 @@ package net.sunny.talker.factory.presenter.contact;
 
 import android.support.v7.util.DiffUtil;
 
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.data.helper.UserHelper;
 import net.sunny.talker.factory.data.user.ContactDataSource;
 import net.sunny.talker.factory.data.user.ContactRepository;
@@ -44,7 +44,7 @@ public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDat
         if (view == null)
             return;
 
-        RecyclerAdapter<User> adapter = view.getRecyclerAdapter();
+        BaseRecyclerAdapter<User> adapter = view.getRecyclerAdapter();
         List<User> old = adapter.getItems();
 
         DiffUtil.Callback callback = new DiffUiDataCallback<>(old, users);

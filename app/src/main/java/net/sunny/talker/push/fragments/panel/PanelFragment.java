@@ -19,7 +19,7 @@ import net.sunny.talker.common.tools.AudioRecordHelper;
 import net.sunny.talker.common.tools.UiTool;
 import net.sunny.talker.common.widget.AudioRecordView;
 import net.sunny.talker.common.widget.GalleryView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.push.R;
 
@@ -104,9 +104,9 @@ public class PanelFragment extends Fragment {
 
                 // 设置Adapter
                 List<Face.Bean> faces = Face.all(getContext()).get(position).faces;
-                FaceAdapter adapter = new FaceAdapter(faces, new RecyclerAdapter.AdapterListenerImpl<Face.Bean>() {
+                FaceAdapter adapter = new FaceAdapter(faces, new BaseRecyclerAdapter.AdapterListenerImpl<Face.Bean>() {
                     @Override
-                    public void onItemClick(RecyclerAdapter.ViewHolder holder, Face.Bean bean) {
+                    public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Face.Bean bean) {
                         if (mCallback == null)
                             return;
                         EditText editText = mCallback.getInputEditText();

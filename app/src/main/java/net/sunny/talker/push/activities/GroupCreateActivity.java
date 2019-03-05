@@ -21,7 +21,7 @@ import com.yalantis.ucrop.UCrop;
 import net.sunny.talker.common.app.Application;
 import net.sunny.talker.common.app.PresenterToolbarActivity;
 import net.sunny.talker.common.widget.PortraitView;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.factory.presenter.group.GroupCreateContract;
 import net.sunny.talker.factory.presenter.group.GroupCreatePresenter;
 import net.sunny.talker.push.R;
@@ -166,7 +166,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
     }
 
     @Override
-    public RecyclerAdapter<GroupCreateContract.ViewModel> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<GroupCreateContract.ViewModel> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -181,7 +181,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
     }
 
 
-    private class Adapter extends RecyclerAdapter<GroupCreateContract.ViewModel> {
+    private class Adapter extends BaseRecyclerAdapter<GroupCreateContract.ViewModel> {
 
         @Override
         protected int getItemView(int position, GroupCreateContract.ViewModel viewModel) {
@@ -189,12 +189,12 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
         }
 
         @Override
-        protected ViewHolder<GroupCreateContract.ViewModel> onCreateViewHolder(View root, int viewType) {
+        protected BaseViewHolder<GroupCreateContract.ViewModel> onCreateViewHolder(View root, int viewType) {
             return new GroupCreateActivity.ViewHolder(root);
         }
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<GroupCreateContract.ViewModel> {
+    class ViewHolder extends BaseRecyclerAdapter.BaseViewHolder<GroupCreateContract.ViewModel> {
         @BindView(R.id.im_portrait)
         PortraitView mPortrait;
         @BindView(R.id.txt_name)

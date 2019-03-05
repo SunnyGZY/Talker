@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.push.R;
 
@@ -16,7 +16,7 @@ import butterknife.BindView;
  * Created by sunny on 17-7-16.
  */
 
-public class FaceHolder extends RecyclerAdapter.ViewHolder<Face.Bean> {
+public class FaceHolder extends BaseRecyclerAdapter.BaseViewHolder<Face.Bean> {
 
     @BindView(R.id.im_face)
     ImageView mFace;

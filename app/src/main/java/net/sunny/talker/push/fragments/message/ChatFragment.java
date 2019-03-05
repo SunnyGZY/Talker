@@ -34,7 +34,7 @@ import net.sunny.talker.common.app.PresenterFragment;
 import net.sunny.talker.common.tools.AudioPlayHelper;
 import net.sunny.talker.common.widget.PortraitView;
 import net.sunny.talker.common.widget.adapter.TextWatcherAdapter;
-import net.sunny.talker.common.widget.recycler.RecyclerAdapter;
+import net.sunny.talker.common.widget.recycler.BaseRecyclerAdapter;
 import net.sunny.talker.face.Face;
 import net.sunny.talker.factory.model.db.Message;
 import net.sunny.talker.factory.model.db.User;
@@ -161,10 +161,10 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         mRecyclerView.setAdapter(mAdapter);
 
         // 添加适配器监听器
-        mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<Message>() {
+        mAdapter.setListener(new BaseRecyclerAdapter.AdapterListenerImpl<Message>() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onItemClick(RecyclerAdapter.ViewHolder holder, Message message) {
+            public void onItemClick(BaseRecyclerAdapter.BaseViewHolder holder, Message message) {
                 if (message.getType() == Message.TYPE_AUDIO && holder instanceof ChatFragment.AudioHolder) {
                     mAudioFileCache.download((AudioHolder) holder, message.getContent()); // 权限已经全局申请
                 } else if (message.getType() == Message.TYPE_PIC && holder instanceof ChatFragment.PicHolder) {
@@ -331,7 +331,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
     }
 
     @Override
-    public RecyclerAdapter<Message> getRecyclerAdapter() {
+    public BaseRecyclerAdapter<Message> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -357,7 +357,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         mPresenter.pushAudio(file.getAbsolutePath(), time);
     }
 
-    private class Adapter extends RecyclerAdapter<Message> {
+    private class Adapter extends BaseRecyclerAdapter<Message> {
 
         @Override
         protected int getItemView(int position, Message message) {
@@ -377,7 +377,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         }
 
         @Override
-        protected ViewHolder<Message> onCreateViewHolder(View root, int viewType) {
+        protected BaseViewHolder<Message> onCreateViewHolder(View root, int viewType) {
             switch (viewType) {
                 case R.layout.cell_chat_text_right:
                 case R.layout.cell_chat_text_left:
@@ -396,7 +396,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         }
     }
 
-    class BaseHolder extends RecyclerAdapter.ViewHolder<Message> {
+    class BaseHolder extends BaseRecyclerAdapter.BaseViewHolder<Message> {
 
         @BindView(R.id.im_portrait)
         PortraitView mPortrait;
@@ -533,7 +533,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
         }
     }
 
-    class FooterHolder extends RecyclerAdapter.ViewHolder<Message> {
+    class FooterHolder extends BaseRecyclerAdapter.BaseViewHolder<Message> {
 
         @BindView(R.id.footer)
         TextView mFooter;
