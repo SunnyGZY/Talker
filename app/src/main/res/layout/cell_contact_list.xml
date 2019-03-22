@@ -63,6 +63,6 @@
         android:padding="@dimen/len_6"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_chat_bubble"
-        android:tint="@color/textAccent" />
+        android:tint="@color/colorChat" />
 
 </FrameLayout>

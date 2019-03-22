@@ -13,12 +13,6 @@ import net.sunny.talker.factory.persistence.Account;
 import net.sunny.talker.factory.presenter.base.BasePresenter;
 
 /**
- * Created by Sunny on 2017/5/27.
- * Email：670453367@qq.com
- * Description: TOOD
- */
-
-/**
  * 登录的逻辑实现
  *
  * @author qiujuer Email:qiujuer@live.cn

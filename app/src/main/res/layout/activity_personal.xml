@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="net.qiujuer.italker.push.activities.PersonalActivity">
+    tools:context="net.sunny.talker.push.activities.PersonalActivity">
 
     <ImageView
         android:id="@+id/im_header"
@@ -14,7 +14,7 @@
         android:layout_marginBottom="@dimen/len_48"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
-        android:src="@drawable/default_portrait"
+        android:src="@color/grey_800"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -75,9 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/len_8"
+            android:gravity="center_horizontal"
             android:text="@string/label_follows"
             android:textAlignment="center"
-            android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@color/textPrimary" />
 
@@ -86,8 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/len_8"
-            android:text="@string/label_following"
             android:gravity="center_horizontal"
+            android:text="@string/label_following"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@color/textPrimary" />
@@ -107,7 +107,7 @@
 
     <net.qiujuer.genius.ui.widget.Button
         android:id="@+id/btn_say_hello"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="44dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/len_28"

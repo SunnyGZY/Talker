@@ -6,7 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -60,7 +60,6 @@ import butterknife.OnClick;
  * Email：670453367@qq.com
  * Description: 聊天的父类Fragment
  */
-
 public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatContract.Presenter>
         implements AppBarLayout.OnOffsetChangedListener, ChatContract.View<InitModel>, PanelFragment.PanelCallback {
 
@@ -80,10 +79,7 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
     EditText mContent;
 
     @BindView(R.id.btn_submit)
-    View mSubmit;
-
-    @BindView(R.id.collapsingToolbarLayout)
-    CollapsingToolbarLayout mCollapsingLayout;
+    ImageView mSubmit;
 
     // 控制地步面板与软件盘过渡的控件
     private AirPanel.Boss mPaneBoss;
@@ -292,7 +288,13 @@ public abstract class ChatFragment<InitModel> extends PresenterFragment<ChatCont
             public void afterTextChanged(Editable s) {
                 String content = s.toString().trim();
                 boolean needSendMsg = !TextUtils.isEmpty(content);
-                mSubmit.setActivated(needSendMsg);
+                if (needSendMsg) {
+                    mSubmit.setActivated(true);
+                    mSubmit.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorChat));
+                } else {
+                    mSubmit.setActivated(false);
+                    mSubmit.setColorFilter(ContextCompat.getColor(getContext(), R.color.textPrimary));
+                }
             }
         });
     }

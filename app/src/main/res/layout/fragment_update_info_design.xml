@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:background="@drawable/bg_src_tianjin"
     tools:context="net.sunny.talker.push.fragments.user.UpdateInfoFragment">
 
     <android.support.constraint.ConstraintLayout
@@ -136,23 +135,24 @@
 
     <Space
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_height="50dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/len_28">
+        android:layout_marginBottom="@dimen/len_28"
+        android:layout_marginEnd="@dimen/len_16"
+        android:layout_marginStart="@dimen/len_16">
 
         <net.qiujuer.genius.ui.widget.Button
             android:id="@+id/btn_submit"
-            android:layout_width="@dimen/len_172"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/len_44"
             android:layout_gravity="center"
             android:background="@drawable/sel_btn_bg_black_alpha_44"
             android:text="@string/label_submit"
             android:textColor="@color/white"
-            app:gTouchColor="@color/colorAccentAlpha"
+            app:gTouchColor="@color/colorChat"
             app:gTouchCornerRadius="22dp"
             app:gTouchEffect="ripple" />
 

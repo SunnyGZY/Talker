@@ -34,7 +34,7 @@
         android:layout_marginTop="@dimen/len_6"
         android:textColor="@color/textLight"
         android:textSize="@dimen/font_16"
-        tools:text="Talker 1.0.0" />
+        tools:text="Chat 1.0.0" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
 
-import com.igexin.sdk.PushManager;
-
 import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.sunny.talker.common.app.Activity;
@@ -114,7 +112,7 @@ public class LaunchActivity extends Activity {
         // 构建一个属性动画
         // 第一个参数为 view 对象，第二个参数为动画改变的类型，第三，第四个参数依次是动画改变的类型的开始值和结束值。
         ValueAnimator valueAnimator = ObjectAnimator.ofObject(this, property, evaluator, endColor);
-        valueAnimator.setDuration(2000);
+        valueAnimator.setDuration(1000);
         valueAnimator.setIntValues(mBgDrawable.getColor(), endColor);
         valueAnimator.addListener(new AnimatorListenerAdapter() {
             @Override

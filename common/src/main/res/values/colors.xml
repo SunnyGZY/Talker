@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorChat">#15B863</color>
     <!--基础主色-->
     <color name="colorPrimary">#31373d</color>
     <color name="colorPrimaryDark">#3b424a</color>

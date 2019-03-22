@@ -24,9 +24,6 @@ import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
@@ -41,7 +38,6 @@ import net.sunny.talker.push.App;
 import net.sunny.talker.push.R;
 import net.sunny.talker.push.fragments.main.ActiveFragment;
 import net.sunny.talker.push.fragments.main.ContactFragment;
-import net.sunny.talker.push.fragments.main.GroupFragment;
 import net.sunny.talker.push.fragments.main.TrackFragment;
 import net.sunny.talker.push.helper.NavHelper;
 
@@ -153,8 +149,6 @@ public class MainActivity extends Activity
                 getResources().getString(R.string.action_home)).setActiveColorResource(R.color.text_nav).setBadgeItem(numberBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.ic_contact,
                         getResources().getString(R.string.action_contact)).setActiveColorResource(R.color.text_nav))
-                .addItem(new BottomNavigationItem(R.drawable.ic_group,
-                        getResources().getString(R.string.action_group)).setActiveColorResource(R.color.text_nav))
                 .addItem(new BottomNavigationItem(R.drawable.ic_track,
                         getResources().getString(R.string.action_circle)).setActiveColorResource(R.color.text_nav));
         mNavigation.initialise();
@@ -167,21 +161,10 @@ public class MainActivity extends Activity
         mNavHelper = new NavHelper<>(this, R.id.lay_container, getSupportFragmentManager(), this);
         mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
                 .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
-                .add(R.id.action_group, new NavHelper.Tab<>(GroupFragment.class, R.string.title_group))
                 .add(R.id.action_circle, new NavHelper.Tab<>(TrackFragment.class, R.string.title_track));
         navNewFriendReq = (TextView) navigationView.getMenu().findItem(R.id.nav_new_friend)
                 .getActionView().findViewById(msg);
         navNewFriendReq.setVisibility(View.INVISIBLE);
-
-        Glide.with(this)
-                .load(R.drawable.bg_src_morning)
-                .centerCrop()
-                .into(new ViewTarget<View, GlideDrawable>(mLayAppbar) {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        this.view.setBackground(resource.getCurrent());
-                    }
-                });
     }
 
     @Override
@@ -238,50 +221,24 @@ public class MainActivity extends Activity
             float rotation;
             long duration;
 
-            if (Objects.equals(newTab.extra, R.string.title_home)) { // 点击Home
-                rotation = 0;
-                transFromY = 0;
-                transToY = Ui.dipToPx(getResources(), 76);
-                duration = 400;
-            } else if (Objects.equals(newTab.extra, R.string.title_contact)) {
-                mAction.setImageResource(R.drawable.ic_contact_add);
-                if (Objects.equals(oldTab.extra, R.string.title_home)) {  // 点击Contact,且上一个Tab是Home
+            if (Objects.equals(newTab.extra, R.string.title_home) || Objects.equals(newTab.extra, R.string.title_contact)) { // 点击Home
+                if (Objects.equals(oldTab.extra, R.string.title_track)) {
+                    rotation = 0;
+                    transFromY = 0;
+                    transToY = Ui.dipToPx(getResources(), 76);
+                    duration = 400;
+                } else {
                     rotation = 0;
                     transFromY = Ui.dipToPx(getResources(), 76);
-                    transToY = 0;
-                    duration = 400;
-                } else { // 点击Contact,且上一个Tab不是Home
-                    rotation = 360;
-                    transFromY = 0;
-                    transToY = 0;
-                    duration = 480;
-                }
-            } else if (Objects.equals(newTab.extra, R.string.title_group)) {
-                mAction.setImageResource(R.drawable.ic_group_add);
-                if (Objects.equals(oldTab.extra, R.string.title_home)) { // 点击Group,且上一个Tab是Home
-                    rotation = 0;
-                    transFromY = Ui.dipToPx(getResources(), 76);
-                    transToY = 0;
-                    duration = 400;
-                } else { // 点击Group,且上一个Tab不是Home
-                    rotation = 360;
-                    transFromY = 0;
-                    transToY = 0;
-                    duration = 480;
+                    transToY = Ui.dipToPx(getResources(), 76);
+                    duration = 0;
                 }
             } else {
                 mAction.setImageResource(R.drawable.ic_track_write);
-                if (Objects.equals(oldTab.extra, R.string.title_home)) {
-                    rotation = 0;
-                    transFromY = Ui.dipToPx(getResources(), 76);
-                    transToY = 0;
-                    duration = 400;
-                } else {
-                    rotation = 360;
-                    transFromY = 0;
-                    transToY = 0;
-                    duration = 480;
-                }
+                rotation = 360;
+                transFromY = Ui.dipToPx(getResources(), 76);
+                transToY = 0;
+                duration = 480;
             }
 
             ObjectAnimator translationY = ObjectAnimator.ofFloat(mAction, "translationY", transFromY, transToY);

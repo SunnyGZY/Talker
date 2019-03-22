@@ -77,7 +77,6 @@ public class ChatGroupFragment extends ChatFragment<Group>
 
     @Override
     public void onInit(Group group) {
-        mCollapsingLayout.setTitle(group.getName());
         Glide.with(this)
                 .load(group.getPicture())
                 .centerCrop()
